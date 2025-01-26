@@ -383,7 +383,7 @@ var hsr_data = [
 
 var table = new Tabulator("#main-table", {
     // data: {{ hst_data| safe }}, 
-     data:hsr_data,          //load row data from array
+    data:[],          //load row data from array
     layout:"fitdata",      //fit columns to width of table
     rowHeight:45,
     responsiveLayout:false,  //hide columns that don't fit on the table
@@ -402,6 +402,8 @@ var table = new Tabulator("#main-table", {
     movableColumns:true, 
     initialSort:[ {column:"DATE", dir:"asc"},],
     columnDefaults:{tooltip:true,},
+    placeholder: "<div style='font-size: 32px; font-weight: bold; text-align: center; padding: 50px; color: gray;'>Coming Soon</div>",
+
     columns:[
 
     {formatter:"rowSelection", titleFormatter:"rowSelection", titleFormatterParams:{
