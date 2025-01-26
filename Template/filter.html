@@ -1,0 +1,136 @@
+<!-- right side filter -->
+<nav class="col-md-2 d-none d-md-block sidebar filt disable side-nav-bar" style="background: #F8F8F8; position: absolute; left:78%; top: 26%; z-index: 5; width: 20vw; height: 61vh; overflow-x: hidden; overflow-y:scroll;">
+    <div class="sidebar-sticky">
+      <input style="width: 92%; margin: 4% 4% 4% 4%;" type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+        <div class="accordion" id="accordionExample">
+    <ul class="nav flex-column mb-2" id="myMenu">
+  
+  {% if filters %}
+    {% for filter in filters.string_filter %}
+    <li>
+    <div class="accordion-item" >
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ forloop.counter }} " aria-expanded="false" aria-controls="collapseOne{{ forloop.counter }}" style="margin: 0;">
+          {{ filter }}
+        </button>
+      </h2>
+      <div id="collapseOne{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <Select style="width: 80%; margin: 2% 10% 2% 10%; font-size: small;">
+            <option value="Contains">Contains</option>
+            <option value="Not contains">Not contains</option>
+            <option value="Equals">Equals</option>
+            <option value="Not equal">Not equal</option>
+            <option value="Starts with">Starts with</option>
+            <option value="Ends with">Ends with</option>
+            <option value="Blank">Blank</option>
+            <option value="Not blank">Not blank</option>
+          </Select>
+          <input id="jinx" type="text" onkeyup="" placeholder="Filter" style=" font-size: small;width: 80%; margin: 2% 10% 2% 10%">
+    
+  
+          <div class="disable" style="width: 80%; margin: 2% 10% 2% 10%; justify-content: center; align-content: center; justify-self: center; display: flex;" class="d-grid gap-2 d-md-block" >
+  
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; color:#000000">
+                AND
+              </label>
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; color: #000000;">
+                OR
+              </label>
+               <Select style="width: 80%; margin: 2% 10% 2% 10%; font-size: small;">
+            <option value="Contains">Contains</option>
+            <option value="Not contains">Not contains</option>
+            <option value="Equals">Equals</option>
+            <option value="Not equal">Not equal</option>
+            <option value="Starts with">Starts with</option>
+            <option value="Ends with">Ends with</option>
+            <option value="Blank">Blank</option>
+            <option value="Not blank">Not blank</option>
+          </Select>
+          <input type="text" placeholder="Filter" style=" font-size: small;width: 80%; margin: 2% 10% 2% 10%">
+            </div>
+  
+          <div style="width: 80%; margin: 2% 10% 2% 10%; justify-content: center; align-content: center; justify-self: center; display: flex;" class="d-grid gap-2 d-md-block" >
+              <button type="button" style=" font-size: small;height: 25px; width: 50px; padding: 2px ; margin: 0px; justify-items: center; background-color: white; border: thin solid#0e88ff; color: #0e88ff;">Reset</button>
+              <button type="button" onclick="stringfilter('{{ forloop.counter }}')" style="font-size: small;height: 25px; width: 50px; padding: 2px; margin:0%;background-color: white; justify-content: space-between; border: thin solid #0e88ff; color: #0e88ff;">Apply</button>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+  
+  
+  {% for filter in filters.metrics_filter %}
+    <li>
+    <div class="accordion-item" >
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo{{ forloop.counter }} " aria-expanded="false" aria-controls="collapseTwo{{ forloop.counter }}" style="margin: 0;">
+          {{ filter }}
+        </button>
+      </h2>
+      <div id="collapseTwo{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <Select style="width: 80%; margin: 2% 10% 2% 10%; font-size: small;">
+            <option value="Equals">Equals</option>
+            <option value="Not equal">Not equal</option>
+            <option value="Greater than">Greater than</option>
+            <option value="Greater than or equals">Greater than or equals</option>
+            <option value="Less than">Less than</option>
+            <option value="Less than or equals">Less than or equals</option>
+            <option value="In range">In range</option>
+            <option value="Increased by %">Increased by %</option>
+            <option value="IDecreased by %">Decreased by %</option>
+          </Select>
+  
+          <input id="jinx" type="text" onkeyup="" placeholder="Filter" style=" font-size: small;width: 80%; margin: 2% 10% 2% 10%">
+    
+  
+          <div class="disable" style="width: 80%; margin: 2% 10% 2% 10%; justify-content: center; align-content: center; justify-self: center; display: flex;" class="d-grid gap-2 d-md-block" >
+  
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; color:#000000">
+                AND
+              </label>
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; color: #000000;">
+                OR
+              </label>
+          <Select style="width: 80%; margin: 2% 10% 2% 10%; font-size: small;">
+            <option value="Equals">Equals</option>
+            <option value="Not equal">Not equal</option>
+            <option value="Greater than">Greater than</option>
+            <option value="Greater than or equals ">Greater than or equals</option>
+            <option value="Less than">Less than</option>
+            <option value="Less than or equals">Less than or equals</option>
+            <option value="In range">In range</option>
+            <option value="Increased by %">Increased by %</option>
+            <option value="IDecreased by %">Decreased by %</option>
+          </Select>
+          <input type="text" placeholder="Filter" style=" font-size: small;width: 80%; margin: 2% 10% 2% 10%">
+            </div>
+  
+          <div style="width: 80%; margin: 2% 10% 2% 10%; justify-content: center; align-content: center; justify-self: center; display: flex;" class="d-grid gap-2 d-md-block" >
+              <button type="button" style=" font-size: small;height: 25px; width: 50px; padding: 2px ; margin: 0px; justify-items: center; background-color: white; border: thin solid#0e88ff; color: #0e88ff;">Reset</button>
+              <button type="button" onclick="metricfilter('{{ forloop.counter }}')" style="font-size: small;height: 25px; width: 50px; padding: 2px; margin:0%;background-color: white; justify-content: space-between; border: thin solid #0e88ff; color: #0e88ff;">Apply</button>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+  
+  
+  {% endif %}
+  
+  </ul>
+    </div>
+  </nav>
+  
+  </div>

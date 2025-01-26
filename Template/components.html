@@ -1,0 +1,18 @@
+<!-- components -->
+<div class="tabs-exportbtn__container " style="margin-left: 16vw; margin-top:10px;  margin-bottom: 5px;">
+  
+    
+    {% if pf_op == 'Blinkit' %}
+
+    <a id="overview-tab" class="tabs " href="{% url 'blnkthome' %}"><span>Overview&nbsp;</span></a>
+
+    <a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">{{ nums.campagins_c }}</span></span></span></a>
+
+    <a id="keywords-tab" class=" tabs" href="{% url 'key' %}"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">{{ nums.keyword_c }}</span></span></span></a>
+  
+    
+    {% endif %}
+  
+  </div>
+  
+

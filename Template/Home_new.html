@@ -1,0 +1,597 @@
+{% extends 'overviewHome.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* Internal CSS styles */
+
+  #example-table,
+  #example-table-2,
+  #category_table  {
+    width: 100%;
+    border-radius: 25px;
+    background-color: transparent;
+    width: 100%;
+    padding: 1%;
+  }
+
+  #example-table .tabulator-paginator>button,
+  #example-table-2 .tabulator-paginator>button,
+  #category_table .tabulator-paginator>button{
+    opacity: 1;
+    width: 50px;
+  }
+.tabulator-tableholder{
+  overflow: scroll;
+}
+  .tabulator-table{
+    width: 100%;
+    background-color: transparent;
+  }
+
+  /* .tabulator .tabulator-footer .tabulator {
+     padding-top: 3%;
+  } */
+  /* .tabulator .tabulator-footer .tabulator-page.active:hover{
+    border: 2px solid black;
+  } */
+  #example-table .tabulator-header,
+  #example-table-2 .tabulator-header,
+  #category_table .tabulator-header{
+    color: black;
+    background-color: rgb(218, 225, 243, 1.0);;
+
+  }
+
+
+  #example-table .tabulator-col,
+  #example-table-2 .tabulator-col, 
+  #category_table  .tabulator-col{
+    margin-top: 0%;
+    margin-bottom: 3%;
+    background-color: rgb(218, 225, 243, 1.0);
+    width:fit-content;
+  }
+
+  #example-table .tabulator-tableholder .tabulator-row:nth-child(odd),
+  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(odd),
+  #category_table .tabulator-tableholder .tabulator-row:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 1);
+  
+  }
+
+
+  #example-table .tabulator-tableholder .tabulator-row:nth-child(even),
+  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(even),
+  #category_table .tabulator-tableholder .tabulator-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 1);
+    
+
+  }
+
+  .tabulator-cell>div>div {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  #example-table .tabulator-row,
+  #example-table-2 .tabulator-row,
+  #category_table .tabulator-row{
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(197, 197, 197);
+    /* padding: 1.5% 2% 1.5% 0%; */
+    font-weight: 500;
+    width: 100%;
+  }
+
+  #example-table .tabulator-tableholder .tabulator-row:hover,
+  #example-table-2 .tabulator-tableholder .tabulator-row:hover,
+  #category_table .tabulator-tableholder .tabulator-row:hover {
+    background-color: rgba(113, 113, 113, 0.1);
+    box-shadow: none;
+  }
+
+
+
+
+
+
+
+
+
+
+  /* 
+  .tabulator-row{
+    
+  } */
+  .card {
+    border-radius: 20px;
+    box-shadow: 1px 1px 20px rgb(215, 215, 215);
+    padding: 1%;
+  }
+  .card h4{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+  }
+
+  /* .tabulator-header{
+    
+  } */
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    padding-left: 2%;
+/*    border: none;*/
+  }
+
+  /* .tabulator-col-sorter-element{
+    border: none;
+  } */
+
+  .tabulator .tabulator-footer,
+  .tabulator .tabulator-header {
+    background-color: rgb(218, 225, 243, 1.0);
+    /* padding: 2% 0% 2% 0%; */
+/*    border: none;*/
+  }
+
+  /* .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
+    width:fit-content;
+  } */
+
+  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-sorter {
+    visibility: hidden;
+    margin: 0%;
+    padding: 0%;
+/*    background-color: rgb(218, 225, 243, 1.0);*/
+
+  }
+
+  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title-holder{
+    background-color: inherit;
+    
+    position: relative;
+    width:100%;
+  }
+
+  .tabulator {
+    border-radius: 5%;
+    border: none;
+    background-color: rgb(218, 225, 243, 1.0);
+
+  }
+  .tabulator-footer{
+    border: none;
+    background-color: rgb(218, 225, 243, 1.0);
+  }
+
+  .wrapper {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  padding: 16px;
+}
+.card-s {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: 100px;
+  max-height: 200px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+/*  border: 1px solid hsl(240 100% 75%);*/
+  box-shadow: 1px 1px 20px rgb(215, 215, 215);
+}
+.card-s img {
+  width: 64px;
+  aspect-ratio: 1:4;
+}
+
+.part{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  gap: 8px !important;
+
+}
+
+
+.card-s{
+  transition: transform .3s ease, rotate .3s ease;
+  transition-delay: .15s;
+}
+
+
+.card-link:is(:hover, :focus) .card-s{
+  transform: translateY(-20px);
+  rotate: 2deg;
+  transition-delay: 0s;
+}
+
+
+@keyframes popUp{
+  to{
+    transform: translateY(-70px);
+  }
+}
+
+
+.anim{
+  transition: transform .3s ease, rotate .3s ease;
+  transition-delay: .15s;
+}
+
+
+.anim:is(:hover, :focus) path{
+  transition: transform .3s ease, rotate .3s ease;
+  transform: translateY(-60px);
+}
+
+
+.special-grade{
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+</style>
+
+
+
+<main style="min-width:70vw; width: 90vw; padding-left: 8vw; margin-left:10vh ;">
+
+    <div class="container-fluid  p-2 mx-5 ">
+
+        <div class="row row-cols-1 row-cols-sm-2 g-3 my-3" id="main-table" style="border:solid; border-color: ghostwhite;  border-radius: 20px; box-shadow: 1px 1px 20px rgb(215, 215, 215);">
+            <!-- Impression clicks spends value-->
+            <div>
+                <?xml version="1.0" encoding="UTF-8"?>
+            <svg class="svg-container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height='500' width='400'  viewBox="300 700 2096 2096">
+    
+                <g id="impression_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
+
+                    <path fill-rule="nonzero" fill="rgb(184, 172, 212)" fill-opacity="1" d="M 724.320312 334.949219 L 859.058594 696.359375 L 859.066406 696.359375 C 859.066406 723.578125 1100.359375 745.648438 1398 745.648438 C 1695.648438 745.648438 1936.941406 723.578125 1936.941406 696.359375 L 2071.679688 334.949219 L 724.320312 334.949219 "/>
+                    
+                    <path fill-rule="nonzero" fill="rgba(55, 28, 75)" fill-opacity="1" d="M 2071.679688 334.949219 C 2071.679688 368.980469 1770.070312 396.558594 1398 396.558594 C 1025.941406 396.558594 724.328125 368.980469 724.328125 334.949219 C 724.328125 300.921875 1025.941406 273.339844 1398 273.339844 C 1770.070312 273.339844 2071.679688 300.921875 2071.679688 334.949219 "/>
+                    <text text-anchor="middle" x="1400" y="500" fill="#222" font-size="80" font-family="Noto Sans, sans-serif">
+                        Impressions
+                    </text>
+                    <text text-anchor="middle" x="1400" y="600" fill="#222" font-size="80" font-family="Noto Sans, sans-serif">{{ data.totals.2 }}
+                    </text>
+                </g>
+
+
+                <g id="click_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
+                    <path fill-rule="nonzero" fill="rgb(209, 206, 237)" fill-opacity="1" d="M 1128.53125 1725.480469 L 1263.269531 2086.878906 C 1263.269531 2093.691406 1323.589844 2099.210938 1398 2099.210938 C 1472.410156 2099.210938 1532.738281 2093.691406 1532.738281 2086.878906 L 1667.480469 1725.480469 L 1128.53125 1725.480469 "/>
+                    <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1667.480469 1725.480469 C 1667.480469 1739.089844 1546.828125 1750.121094 1398 1750.121094 C 1249.179688 1750.121094 1128.53125 1739.089844 1128.53125 1725.480469 C 1128.53125 1711.859375 1249.179688 1700.828125 1398 1700.828125 C 1546.828125 1700.828125 1667.480469 1711.859375 1667.480469 1725.480469 "/>
+                    <text text-anchor="middle" x="1400" y="1830" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">
+                    Clicks
+                    </text>
+                    <text text-anchor="middle" x="1400" y="1930" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">{{ data.totals.0 }}
+                </text>
+                </g>
+
+
+                <g id="spend_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
+                    <path fill-rule="nonzero" fill="rgb(217, 213, 246)" fill-opacity="1" d="M 993.792969 1286.609375 L 1128.53125 1648.019531 C 1128.53125 1661.628906 1249.179688 1672.660156 1398 1672.660156 C 1546.828125 1672.660156 1667.480469 1661.628906 1667.480469 1648.019531 L 1802.210938 1286.609375 L 993.792969 1286.609375 "/>
+                    <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1802.210938 1286.609375 C 1802.210938 1307.03125 1621.238281 1323.578125 1398 1323.578125 C 1174.769531 1323.578125 993.800781 1307.03125 993.800781 1286.609375 C 993.800781 1266.191406 1174.769531 1249.640625 1398 1249.640625 C 1621.238281 1249.640625 1802.210938 1266.191406 1802.210938 1286.609375 "/>
+                    <text text-anchor="middle" x="1400" y="1410" fill="#222" font-size="60" font-family="Noto Sans, sans-serif">
+                    Ad Spends
+                    </text>
+                    <text text-anchor="middle" x="1400" y="1510" fill="#222" font-size="60" font-family="Noto Sans, sans-serif">{{ data.totals.1 }}
+                </text>
+                </g>
+
+
+                <g id="sale_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
+                    <path fill-rule="nonzero" fill="rgb(225, 222, 253)" fill-opacity="1" d="M 859.058594 823.109375 L 993.792969 1184.511719 L 993.800781 1184.511719 C 993.800781 1204.921875 1174.769531 1221.46875 1398 1221.46875 C 1621.238281 1221.46875 1802.210938 1204.921875 1802.210938 1184.511719 L 1936.941406 823.109375 L 859.058594 823.109375 "/>
+                    <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1936.941406 823.109375 C 1936.941406 850.328125 1695.648438 872.390625 1398 872.390625 C 1100.359375 872.390625 859.066406 850.328125 859.066406 823.109375 C 859.066406 795.878906 1100.359375 773.820312 1398 773.820312 C 1695.648438 773.820312 1936.941406 795.878906 1936.941406 823.109375 "/>
+                    <text text-anchor="middle" x="1400" y="970" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">
+                    Ad Sales
+                    </text>
+                    <text text-anchor="middle" x="1400" y="1070" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">{{ data.totals.4 }}
+                </text>
+                </g>
+    
+    
+                <g id="order_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
+                    <path fill-rule="nonzero" fill="rgb(237, 234, 255)" fill-opacity="1" d="M 1532.738281 2139.699219 L 1398 2501.101562 L 1263.269531 2139.699219 Z M 1532.738281 2139.699219 "/>
+                    <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1532.738281 2139.699219 C 1532.738281 2146.5 1472.410156 2152.019531 1398 2152.019531 C 1323.589844 2152.019531 1263.269531 2146.5 1263.269531 2139.699219 C 1263.269531 2132.890625 1323.589844 2127.371094 1398 2127.371094 C 1472.410156 2127.371094 1532.738281 2132.890625 1532.738281 2139.699219 "/>
+                    <text text-anchor="middle" x="1400" y="2250" fill="#222" font-size="50" font-family="Noto Sans, sans-serif">
+                    Orders
+                    </text>
+                    <text text-anchor="middle" x="1400" y="2350" fill="#222" font-size="50" font-family="Noto Sans, sans-serif">{{ data.totals.3 }}
+                    </text>
+                    </g>
+        
+            </svg>
+
+            </div>
+
+    <!-- These are the 3 cards  -->
+
+            <div class="col" style="margin-bottom: 16px;">
+
+
+            <div class="wrapper" style="margin-left: -160px;">
+            
+                <a href="#" id="ctr_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                    <article class="card-s">
+                    <h8 style="text-align: left;"> CTR</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0); margin: 10px; font-weight:600; font-size: 1.1rem; ">{{ data.totals.9 }}%</h6>
+
+                    </article>
+                </a>
+            
+                <a href="#" id="cvr_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                    <article class="card-s special-grade">
+                    <span class="">
+                    <h8> Conversion Rate</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0); margin:10px; font-weight: 600; font-size:1.1rem;">{{data.totals.10}}%</h6>
+                    </span>
+                    <span class="">
+                    <h8 style="color: rgba(255, 158, 37, 1);"> Units</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0);  font-weight: 600; margin-top: 10px; font-size:1.1rem;">{{data.totals.3}}</h6>
+                    </span>
+
+                    </article>
+                </a>
+            
+                <a href="#" id="acos_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                    <article class="card-s special-grade">
+                    <span class="">
+                    <h8> Total Spends</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0); margin:10px; font-weight: 600; font-size:1.1rem;">{{data.totals.1}}</h6>
+                    </span>
+                    <span class="" style="float: right;">
+                    <h8 style="color: rgba(255, 158, 37, 1);"> ROAS</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0);  font-weight: 600; margin-top:10px ; font-size:1.1rem;">{{data.totals.5}}</h6>
+                    </span>
+                    </article>
+                </a>
+            </div>
+
+
+            <div class="card" style="margin-left: -150px;" >
+    <!-- <h4 class="title" style="background: rgb(252, 229, 215, 1.0);">Category Metrics</h4> -->
+                <div id="category_table">
+                </div>
+            </div>
+    </div>
+        </div>
+
+
+
+
+
+
+        <div class="row  " id="main-table" style="border:solid; border-color: ghostwhite;  border-radius: 20px; box-shadow: 1px 1px 20px rgb(215, 215, 215);">
+        <header style="background: rgb(238, 244, 253); width: 100%; height:40%; border:solid;  border-color:rgb(238, 244, 253); letter-spacing: 1.4; padding: 10px; "><b>Metric Comparison</b></header>
+        <p style="position:relative; font-size:.8rem;">Compared to {{ O_date.2 }} days ago. ({{ O_date.0 }} - {{ O_date.1 }} )</p>
+            
+            <div class="col" style="position: relative;  width:100%; padding-top:10px; ">
+            <canvas id="bar"></canvas>
+            </div>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-sm-2 my-5" id="sub-table">
+            <div class="col">
+                <div class="card">
+                <h4 class="title">Alerts</h4>
+                <div id="example-table"></div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h4 class="title">Active Rules</h4>
+                    <form action="." method="POST" id="post_data" hidden>
+                    <input type="text" name="para1">
+                    <input type="submit" name="sending_data">
+                    {% csrf_token %}
+                    </form>
+                <div id="example-table-2"></div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+
+</main>
+
+
+<script type="text/javascript">
+
+
+function num_st(cell, formatterParams, onRendered) {
+var value1 = cell.getRow().getData()[formatterParams.column1];
+
+var value = Math.ceil(value1)
+    if (value >= 1000) {
+        var suffixes = ["", "K", "M", "B","T"];
+        var suffixNum = Math.floor( (""+value).length/3 );
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+            if (dotLessShortValue.length <= 2) { break; }
+        }
+        if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+        newValue = shortValue+suffixes[suffixNum];
+    } 
+
+return newValue;
+}
+
+
+var tabledata = [
+{'date':'2024-08-01', 'sku':'SNRESYYXPXRFP2YD', 'title':'NIVEA Sunscreen - SPF 30 PA++ Sun Moisturising Lotion', 'type':'price', 'from':270, 'to':252},
+{'date':'2024-08-01', 'sku':'FCWFBHQ6S6ZZZSWT', 'title':'NIVEA Men Dark Spot Reduction Face Wash', 'type':'buybox', 'from':'SURICYBCOMBazaar', 'to':'LuckyHeaven'},
+{'date':'2024-08-01', 'sku':'BWSESTHHKNW5MGXG', 'title':'NIVEA Body Wash, Fresh Powerfruit Shower Gel, with Antioxidants & Blueberry Scent', 'type':'price', 'from':222, 'to':250},
+{'date':'2024-08-01', 'sku':'BWSESTMUYGXGQYPB', 'title':'NIVEA MEN Active Clean Shower Gel', 'type':'price', 'from':222, 'to':233},
+{'date':'2024-08-01', 'sku':'BWSF4N4ZVFHNGWRG', 'title':'NIVEA Body Wash, Deep Impact, 3 in 1 Shower Gel for Body, Face & Hair, with Microfine Clay', 'type':'price', 'from':179, 'to':199},
+{'date':'2024-08-01', 'sku':'BWSF6Y87WFCACRS2', 'title':'NIVEA Water lily & Oil Shower Gel - Pack of 3', 'type':'price', 'from':437, 'to':549},
+{'date':'2024-08-01', 'sku':'BWSF6Y87WFCACRS2', 'title':'NIVEA Water lily & Oil Shower Gel - Pack of 3', 'type':'price', 'from':437, 'to':549},
+];
+
+var table = new Tabulator("#example-table", {
+    data: [],           //load row data from array
+    layout: "fitCOlumns",      //fit columns to width of table
+    minHeight:200,
+    rowHeight: 40,
+    // responsiveLayout: "scroll",  //hide columns that don't fit on the table
+    addRowPos: "top",          //when adding a new row, add it to the top of the table
+    history: true,             //allow undo and redo actions on the table
+    pagination: "local",       //paginate the data
+    paginationSize: 5,         //allow 7 rows per page of data
+    paginationCounter: "rows", //display count of paginated rows in footer
+    movableColumns: true,      //allow column order to be changed
+    initialSort: [             //set the initial sort order of the data
+    { column: "date", dir: "asc" },
+    ],
+    columnDefaults: {
+    tooltip: true,         //show tool tips on cells
+    },
+    placeholder: "<div style='font-size: 32px; font-weight: bold; text-align: center; padding: 50px; color: gray;'>Coming Soon</div>",
+
+    columns: [                 //define the table columns
+    { title: "DATE", field: "date",width: 100, scope: 'col'},
+    { title: "SKU",width:100, field: "sku", hozAlign: "left",  scope: 'col' },
+    { title: "TITLE", field: "title", width: 100, hozAlign:"left", scope: 'col' },
+    { title: "TYPE", field: "type", width:100, hozAlign: "left", width: 100, scope: 'col'},
+    { title: "FROM", field: "from", width: 80, editor: "input", scope: 'col' },
+    { title: "TO", field: "to", width: 80, hozAlign: "left", scope: 'col' },
+
+    ],
+
+});
+
+
+console.log({{ fk_rule_data|safe }});
+
+var view_button= function(cell, formatterParams, onRendered){
+var data = cell.getRow().getData();
+console.log(data.rule_id)
+if(data.rule_id){
+var url = "{% url 'key' %}" + '?f1=150gt&f2=1lt'; 
+return '<div class="view_button"> <a href="' + url + '"><button type="button" class="btn btn-primary btn-rounded btn-sm" id="view-rule-btn" style="margin: 0">View</button></a> </div>';
+}
+}
+
+
+var tabledata2 = [
+// { id: '', date: '', rule_nm:"", module: "", type: "", col: "", sched:"", vr:"" }
+{ rule_id: "", rule_name: "<span style='font-size: 24px; font-weight: bold; text-align: center; display: block;'>Coming Soon</span>", module: "", rule_type: "", schedule: "", view: "" }
+    //  { id: 1035, date: '2024-03-15', rule_nm:"TRIPLE", module: "Trailytics DYNAMITT", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+    //  { id: 1036, date: '2024-03-16', rule_nm:"TRIPLE", module: "Trailytics G-30", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+    //  { id: 1037, date: '2024-03-17', rule_nm:"TRIPLE", module: "Trailytics OPERATOR", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+    //  { id: 1038, date: '2024-03-18', rule_nm:"TRIPLE", module: "Trailytics VANDAL", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+]
+
+
+var table2 = new Tabulator("#example-table-2", {
+// data: tabledata2,           //load row data from rule
+data: [],  // Keep it empty to show "Coming Soon"
+layout: "fitColumns",      //fit columns to width of table
+rowHeight: 40,
+minHeight:200,
+// responsiveLayout: "scroll",  //hide columns that don't fit on the table
+addRowPos: "top",          //when adding a new row, add it to the top of the table
+history: true,             //allow undo and redo actions on the table
+pagination: "local",       //paginate the data
+paginationSize: 5,         //allow 7 rows per page of data
+paginationCounter: "rows", //display count of paginated rows in footer
+movableColumns: true,      //allow column order to be changed
+Columns: true,
+initialSort: [             //set the initial sort order of the data
+{ column: "Keyword", dir: "asc" },
+],
+columnDefaults: {
+tooltip: true,         //show tool tips on cells
+},
+placeholder: "<div style='font-size: 32px; font-weight: bold; text-align: center; padding: 50px; color: gray;'>Coming Soon</div>",
+
+columns: [                 //define the table columns
+{title:"#", field:"rule_id", width:60, hozAlign:"left", editor:false, frozen:true},
+
+{title:"Name", field:"rule_name", width:170, hozAlign:"left", editor:false, cellClick:function(e, cell){
+    window.location.href ="{% url 'key' %}" + '?f1=150gt&f2=1lt';
+}},
+
+{title:"Module", field:"module", width:100, hozAlign:"left", editor:false},
+
+{title:"Type", field:"rule_type", width:80, hozAlign:"left", editor:false},
+
+{title:"<span style='white-space: normal;'>Schedule</span>", field:"frequency", width:110, hozAlign:"left", editor:false},
+
+{title:"View", width:80, hozAlign:"left", editor:false, formatter: view_button}, 
+// cellClick:function(e, cell){ 
+//     const forms = document.querySelector('#post_data');
+//     var rowd = cell.getRow().getData();
+//     forms[0].value = rowd["rule_id"]
+//     forms[4].click();
+    
+//     }
+// },
+
+],
+
+});
+
+
+
+
+
+var Categorydata = [
+
+{category:'Body Lotion', Spends:392016, Sales:1460426, CVR:28.23, CPC: 19.3, ROI:4.267306229 },
+    {category:'Body Lotion', Spends:392016, Sales:1460426, CVR:28.23, CPC: 19.3, ROI:4.267306229 },
+    {category:'Body Lotion', Spends:392016, Sales:1460426, CVR:28.23, CPC: 19.3, ROI:4.267306229 },
+    {category:'Body Lotion', Spends:392016, Sales:1460426, CVR:28.23, CPC: 19.3, ROI:4.267306229 },
+    {category:'Body Lotion', Spends:392016, Sales:1460426, CVR:28.23, CPC: 19.3, ROI:4.267306229 },
+
+];
+
+var table = new Tabulator("#category_table", {
+data: {{ cat_data|safe}},           //load row data from array
+layout: "fitDatatable",      //fit columns to width of table
+minHeight: 250,
+// responsiveLayout: "scroll",  //hide columns that don't fit on the table
+addRowPos: "top",          //when adding a new row, add it to the top of the table
+history: true,             //allow undo and redo actions on the table
+pagination: "local",       //paginate the data
+paginationSize: 9,         //allow 7 rows per page of data
+paginationCounter: "rows", //display count of paginated rows in footer
+movableColumns: true,      //allow column order to be changed
+initialSort: [             //set the initial sort order of the data
+{ column: "name", dir: "asc" },
+],
+columnDefaults: {
+tooltip: true,         //show tool tips on cells
+},
+columns: [                 //define the table columns
+{ title: "Sub Category", field: "category",width: 160, scope: 'col', },
+{ title: "Spends",width:140, field: "Spends", hozAlign: "left",  scope: 'col',},
+// { title: "Spends",width:140, formatter: num_st, formatterParams: { column1: "Spends"}, field: "Spends", hozAlign: "left",  scope: 'col',},
+// { title: "Sales", field: "Sales", width: 110, formatter: num_st, formatterParams: { column1: "Sales"}, hozAlign:"left", scope: 'col',},
+{ title: "Sales", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
+{ title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
+{ title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
+{ title: "ROAS", field: "ROAS", width: 100, hozAlign: "left", scope: 'col',  },
+
+],
+
+});
+
+</script>
+
+{% endblock %}
+
+

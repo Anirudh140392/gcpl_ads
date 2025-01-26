@@ -1,0 +1,653 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <script type="text/javascript" src="{% static 'draw.js' %}" defer></script>
+  <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+  <link href="https://unpkg.com/tabulator-tables@5.6.1/dist/css/tabulator.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.6.1/dist/js/tabulator.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="{% static 'filter.js' %}" defer></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <script type="text/javascript">
+    const datamapping = {{ data|safe }} ?? {'msg': 'No data'} ;
+    // const dates = {{ data.date|safe }};
+    // const views = {{ data.impressions|safe }};
+    // const clicks = {{ data.clicks|safe }};
+    // const ad_spend = {{ data.ads_spend|safe }};
+    // const ad_revenue = {{ data.cdcr|safe }};
+    // const orders = {{ data.cdcu|safe }};
+   </script> 
+
+
+   <style type="text/css">
+     
+main-header {
+    box-shadow: none;
+    border-bottom: 1px solid rgba(30,40,53,.06);
+    min-height: 50px;
+    z-index: 4;
+    }
+
+#membership{
+  padding: 5px;
+  background: transparent;
+  border-radius: 5px;
+  height: 30px;
+  text-align: center;
+  font-size: .8rem;
+  margin: 0 10px;
+}
+
+.one{
+  width: 150px;
+}
+
+.two{
+  background: grey !important;
+  opacity: .3;
+  width: 180px;
+  text-align: initial !important;
+  pointer-events: none;
+}
+
+.three{
+  width: 160px;
+  margin-right: 20px;
+  background: #E5F2FF !important;
+  color:#4992FD;
+
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+button{
+  border:none;
+  border-radius:5px;
+  padding:0.2vh 40px;
+  margin: 0 30px;
+  font-size:.8rem;
+  cursor:pointer;
+}
+
+button:hover{
+  background-color:#ddd;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  overflow: auto;
+  background-color:#fff;
+  border-radius:5px;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+
+.dropdown:hover .dropdown-options {
+  display: block;
+}
+
+.dropdown-options a {
+  display: block;
+  color: #000000;
+  text-decoration: none;
+  padding: 0.2vh 30px;
+  font-size: 0.85rem;
+}
+
+.dropdown-options a:hover {
+  color: #0a0a23;
+  background-color: #ddd;
+  border-radius:5px;
+}
+
+
+
+.tabs{
+  background: white;
+  border:solid;
+  border-width: 2px;
+  border-color: white;
+  padding: 1pt;
+  color: black;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.tabs:hover{
+  color: rgba(18,126,218,255);
+  border-bottom: 3px solid rgba(18,126,218,255);
+  padding-bottom: 0.5%;
+  border-radius: 0px;
+  transition: ease-in-out;
+  transition-delay: 1ms;
+}
+
+#reportrange{
+ cursor: pointer;
+ border: 1px solid #e2e8ee;
+ border-radius:5px;
+ width: 100%;
+ background: #e5f2ff;
+ color:#0e88ff;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+#reportrange:hover{
+  background: #0081ff;
+  color:#f9fcff;
+  #reportrange>i.fa.fa-calendar> g{
+    fill: #f9fcff !important;
+  }
+
+  .accordion-item .accordion-header button{
+  height: 22px !important;
+  font-size: small !important;
+  font-weight: 700 !important;
+  margin: 0px !important;
+  color: black !important;
+}
+
+
+/* Targeting WebKit browsers (such as Chrome, Safari) */
+.side-nav-bar::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+}
+
+/* Track */
+.side-nav-bar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+}
+
+/* Handle */
+.side-nav-bar::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar handle */
+}
+
+/* Handle on hover */
+.side-nav-bar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar handle on hover */
+}
+  
+}
+
+
+
+/*  frozen column boarder */
+  
+#main-table > div.tabulator-header > div > div.tabulator-calcs-holder > div > div.tabulator-cell.tabulator-frozen.tabulator-frozen-left,
+  #main-table > div.tabulator-tableholder > div > div > div.tabulator-cell.tabulator-frozen.tabulator-frozen-left,
+  #main-table > div.tabulator-header > div > div.tabulator-headers > div.tabulator-col.tabulator-sortable.tabulator-col-sorter-element.tabulator-frozen.tabulator-frozen-left{
+    border-right: thin solid gray !important;
+  }
+
+  /* topCalc css */
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div>div {
+    height: 45px !important;
+    align-content: center;
+  }
+
+  
+  .accordion-button{    
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    color: #212529;
+    text-align: left;
+    font-weight: 700;
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+    overflow-anchor: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;
+}
+
+
+
+body > nav > div > ul.nav.flex-column.mb-2 > li > a{
+    color: rgb(50, 50, 50) !important;
+    
+  }
+  
+  body > nav > div > ul.nav.flex-column.mb-2 > li > a:hover{
+    color: rgba(42, 121, 241, 1.0)  !important;
+    background: rgba(238, 244, 253, 1.0) !important;
+        
+  }
+  
+
+  /* loader */
+  /* .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+      margin-top: 28vh;
+      transition: display 0.3s ease-in-out;
+    } */
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+
+   </style>
+</head>
+<body>
+
+<!--    Side Nav bar     -->
+<nav class="col-md-2 d-none d-md-block bg-dark sidebar " style="position:fixed; height: 100vh; z-index: 5; width: 15vw; border-right: solid grey 1px; background-color: rgb(255, 255, 255);">
+  <div class="sidebar-sticky" style="background-color: rgb(255, 255, 255);  height: inherit;">
+    <ul class="nav flex-column " style="border-bottom: solid; border-width: 2px; border-color: black;">
+      <li class="nav-item  ">
+        <a class="nav-link active text-white fs-5 fw-bolder" href="#" >
+          <img src="{% static 'icon.png' %}" width="100%" alt="Trailytics AI">
+          <!-- <span data-feather="home"> TRAILYTICS</span> -->
+        </a>
+      </li>
+    </ul>
+
+    <ul class="nav flex-column" style="border-bottom: solid; border-width: 1px; border-color: grey;">
+      <li class="nav-item text-white" style="text-align: center;">
+        
+      <a class="nav-link text-secondary" href="">
+        <div style="position: absolute;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+          </svg>
+        </div>
+         <b> {{ username }}</b>  </br>
+        <a href="{% url 'logout' %}" style="text-decoration: none;">
+        <span style="color: grey; font-size: small;">
+          <?xml version="1.0" ?>
+            <svg fill="none" height="18" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 16L21 12M21 12L17 8M21 12L7 12M13 16V17C13 18.6569 11.6569 20 10 20H6C4.34315 20 3 18.6569 3 17V7C3 5.34315 4.34315 4 6 4H10C11.6569 4 13 5.34315 13 7V8" stroke="rgb(44, 255, 44)" style="color: rgb(44, 255, 44);" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+          Logout<a href="{% url 'logout' %}"></a>
+        </span>
+      </a>
+      </li>
+     
+    </ul>
+
+    <ul class="nav flex-column p-2"  style="border-bottom: solid; border-width: 1px; border-color: grey; align-items: center;">
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center" style="text-align: center;">
+        <span style="left: 1.2vw; position: absolute;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16" strock="currentColor" strock-width="2">
+            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+            <path d="M11 10a1 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+          </svg>
+        </span>
+      <span><b>Wallet Balance</b></span>
+      <h5 id="formattedBalance" class="text-black"><b> {{ balance }}</b></h5>
+        <span data-feather="plus-circle"></span>
+      </a>
+    </h6>
+    </ul>
+    
+    <ul class="nav flex-column mb-2" style="font-weight: 400;" >
+      
+      <!--Campaign-->
+      <li class="nav-item p-1" style="list-style: outside;">
+        <span data-feather="file-text"></span>
+        <a class="nav-link text-white fs-6 " href="{% url 'blnkthome' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+          </svg>
+          
+          Campaign Compass
+        </a>
+      </li>
+
+      <!--Smart Controls-->
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'rules' %}">
+          <span data-feather="file-text"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+            <path d="M7 8a3.5 3.5 0 0 1 3.5 3.555.5.5 0 0 0 .625.492A1.503 1.503 0 0 1 13 13.5a1.5 1.5 0 0 1-1.5 1.5H3a2 2 0 1 1 .1-3.998.5.5 0 0 0 .509-.375A3.5 3.5 0 0 1 7 8m4.473 3a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5z"/>
+            <path d="M11.286 1.778a.5.5 0 0 0-.565-.755 4.595 4.595 0 0 0-3.18 5.003 5.5 5.5 0 0 1 1.055.209A3.6 3.6 0 0 1 9.83 2.617a4.593 4.593 0 0 0 4.31 5.744 3.58 3.58 0 0 1-2.241.634q.244.477.394 1a4.59 4.59 0 0 0 3.624-2.04.5.5 0 0 0-.565-.755 3.593 3.593 0 0 1-4.065-5.422z"/>
+          
+          </svg>
+          Smart controls
+        </a>
+      </li>
+      
+      <!--Search Term Insights-->
+
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'keywrd_analytics' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            
+            
+          </svg>
+          
+         Search Term Insights
+        </a>
+
+      </li>
+
+      <!--Product Intelligence Centre-->  
+      
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'product_analytics' %}">
+          <span data-feather="file-text"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
+          </svg>
+          Product Intelligence Center
+        </a>
+      </li>
+
+      <!--Blockers-->
+
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'negative_keyword' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+            <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+            <path fill-rule="evenodd" d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+          </svg>
+          Blockers
+        </a>
+      </li>
+
+      
+      <!--Recommendatiion-->
+      {% if pf_op == 'Amazon' %}
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'recomm' %}">
+          <span data-feather="file-text"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" id="Layer_5" data-name="Layer 5" width="16" height="16" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+            <path d="M9,15.25h4A1.2511,1.2511,0,0,0,14.25,14V10A1.2511,1.2511,0,0,0,13,8.75H9A1.2511,1.2511,0,0,0,7.75,10v2a.25.25,0,0,0,.5,0V10a.7455.7455,0,0,1,.5-.6993v.9483a1,1,0,0,0,1.834.5518.5124.5124,0,0,1,.834.0029.98.98,0,0,0,.82.4473,1.0428,1.0428,0,0,0,.3008-.0449.9832.9832,0,0,0,.7109-.9571V9.3007a.7455.7455,0,0,1,.5.6993v4a.7514.7514,0,0,1-.75.75H9A.7514.7514,0,0,1,8.25,14V13a.25.25,0,0,0-.5,0v1A1.2511,1.2511,0,0,0,9,15.25Zm3.3945-4.5225a.4906.4906,0,0,1-.5625-.2041,1.0344,1.0344,0,0,0-1.666.003.5.5,0,0,1-.916-.2774V9.25h3.5v.999A.4867.4867,0,0,1,12.3945,10.7275Z"/><path d="M22,7.75H17A1.2511,1.2511,0,0,0,15.75,9v2A1.2511,1.2511,0,0,0,17,12.25h3.7637a.7543.7543,0,0,1,.3359.0791l.3418.1709A1.2507,1.2507,0,0,0,23.25,11.3818V9A1.2511,1.2511,0,0,0,22,7.75Zm.75,3.6318a.75.75,0,0,1-1.0859.6709l-.3418-.1709a1.257,1.257,0,0,0-.5586-.1318H17a.7514.7514,0,0,1-.75-.75V9A.7514.7514,0,0,1,17,8.25h5a.7514.7514,0,0,1,.75.75Z"/><path d="M21,9.75H17a.25.25,0,0,0,0,.5h4a.25.25,0,0,0,0-.5Z"/><path d="M20,14.75a3.2556,3.2556,0,0,0-3.0645,2.167.25.25,0,0,0,.4708.166A2.7506,2.7506,0,0,1,22.75,18a2.7276,2.7276,0,0,1-.1932.995,3.2663,3.2663,0,0,0-1.6688-1.118,1.25,1.25,0,1,0-1.776,0,3.2663,3.2663,0,0,0-1.6688,1.118A2.7276,2.7276,0,0,1,17.25,18a.25.25,0,0,0-.5,0A3.25,3.25,0,1,0,20,14.75ZM19.25,17a.75.75,0,1,1,.75.75A.7514.7514,0,0,1,19.25,17ZM20,20.75a2.747,2.747,0,0,1-2.2943-1.24,2.7189,2.7189,0,0,1,4.5886,0A2.747,2.747,0,0,1,20,20.75Z"/><path d="M4.8408,18.5166l-1.1845-.1719L3.127,17.2715a.26.26,0,0,0-.4493,0l-.5293,1.0732-1.1845.1719a.25.25,0,0,0-.1387.4258l.8574.8359-.2021,1.18a.2477.2477,0,0,0,.1.2441.25.25,0,0,0,.2627.02l1.06-.5576,1.06.5576a.2558.2558,0,0,0,.1162.0283.2431.2431,0,0,0,.1465-.0479.2477.2477,0,0,0,.1-.2441l-.2021-1.18.8574-.8359a.25.25,0,0,0-.1387-.4258Zm-1.1621.9961a.2476.2476,0,0,0-.0713.2207l.1387.81L3.0186,20.16a.2521.2521,0,0,0-.2325,0l-.7275.3828.1387-.81a.2476.2476,0,0,0-.0713-.2207l-.5889-.5742.8135-.1182a.251.251,0,0,0,.1885-.1367l.3632-.7363.3633.7363a.2508.2508,0,0,0,.1885.1367l.8135.1182Z"/><path d="M9.9385,18.5166l-1.1846-.1719-.5293-1.0732a.26.26,0,0,0-.4492,0l-.5293,1.0732-1.1846.1719a.25.25,0,0,0-.1386.4258l.8574.8359-.2022,1.18a.2479.2479,0,0,0,.1.2441.2506.2506,0,0,0,.2627.02L8,20.6641l1.06.5576a.2555.2555,0,0,0,.1162.0283.2433.2433,0,0,0,.1465-.0479.2479.2479,0,0,0,.1-.2441l-.2022-1.18.8574-.8359a.25.25,0,0,0-.1386-.4258Zm-1.1621.9961a.2474.2474,0,0,0-.0713.2207l.1387.81L8.1162,20.16a.2519.2519,0,0,0-.2324,0l-.7275.3828.1386-.81a.2474.2474,0,0,0-.0713-.2207l-.5888-.5742.8134-.1182a.2508.2508,0,0,0,.1885-.1367L8,17.9473l.3633.7363a.2508.2508,0,0,0,.1885.1367l.8134.1182Z"/><path d="M15.0361,18.5166l-1.1845-.1719-.5293-1.0732a.26.26,0,0,0-.4493,0l-.5292,1.0732-1.1846.1719a.25.25,0,0,0-.1387.4258l.8574.8359-.2021,1.18a.2477.2477,0,0,0,.1.2441.25.25,0,0,0,.2627.02l1.06-.5576,1.06.5576a.2561.2561,0,0,0,.1162.0283.2429.2429,0,0,0,.1465-.0479.2477.2477,0,0,0,.1-.2441l-.2021-1.18.8574-.8359a.25.25,0,0,0-.1387-.4258Zm-1.1621.9961a.2476.2476,0,0,0-.0713.2207l.1387.81-.7275-.3828a.2521.2521,0,0,0-.2325,0l-.7275.3828.1387-.81a.2476.2476,0,0,0-.0713-.2207l-.5889-.5742.8135-.1182a.2508.2508,0,0,0,.1885-.1367l.3633-.7363.3632.7363a.251.251,0,0,0,.1885.1367l.8135.1182Z"/><path d="M9.3428,7.4443A1.2405,1.2405,0,0,0,10.5586,7.5L10.9,7.3291a.7543.7543,0,0,1,.3359-.0791H15A1.2511,1.2511,0,0,0,16.25,6V4A1.2511,1.2511,0,0,0,15,2.75H14a.25.25,0,0,0,0,.5h1a.7514.7514,0,0,1,.75.75V6a.7514.7514,0,0,1-.75.75H11.2363a1.257,1.257,0,0,0-.5586.1318l-.3418.1709A.75.75,0,0,1,9.25,6.3818V4A.7514.7514,0,0,1,10,3.25h3a.25.25,0,0,0,0-.5H10A1.2511,1.2511,0,0,0,8.75,4V6.3818A1.2408,1.2408,0,0,0,9.3428,7.4443Z"/><path d="M10.75,5a.25.25,0,0,0,.25.25h4a.25.25,0,0,0,0-.5H11A.25.25,0,0,0,10.75,5Z"/><path d="M1,10.25H3a.25.25,0,0,0,0-.5H1a.25.25,0,0,0,0,.5Z"/><path d="M1,12.25H6a.25.25,0,0,0,0-.5H1a.25.25,0,0,0,0,.5Z"/><path d="M1,14.25H4a.25.25,0,0,0,0-.5H1a.25.25,0,0,0,0,.5Z"/>
+          </svg>
+          Recommendations
+        </a>
+      </li>
+      {% endif %}
+
+      
+      <!--Go To Insights-->
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'insight' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-intersect" viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2zm5 10v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2v5a2 2 0 0 1-2 2zm6-8V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2V6a2 2 0 0 1 2-2z"/>
+          </svg>
+          Go-to Insights
+        </a>
+      </li>
+
+      <!-- History-->
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="{% url 'historia' %}">
+          <span data-feather="file-text"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+            <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/>
+            <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
+            <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
+          </svg>
+          History
+        </a>
+      </li>
+
+
+
+      <!--Integrations-->
+      <!-- {% if pf_op == 'Amazon' %}
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-easel" viewBox="0 0 16 16">
+            <path d="M8.5 6a.5.5 0 1 0-1 0h-2A1.5 1.5 0 0 0 4 7.5v2A1.5 1.5 0 0 0 5.5 11h.473l-.447 1.342a.5.5 0 1 0 .948.316L7.027 11H7.5v1a.5.5 0 0 0 1 0v-1h.473l.553 1.658a.5.5 0 1 0 .948-.316L10.027 11h.473A1.5 1.5 0 0 0 12 9.5v-2A1.5 1.5 0 0 0 10.5 6zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5z"/>
+            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+          </svg>
+          Integrations
+        </a>
+      </li>
+      {% endif %} -->
+
+    </ul>
+    <h6 style="color:grey;" class="p-3 text-center">Version - 1.8.0</h6>
+  </div>
+</nav>
+<!-- Side Nav bar Ends Here  -->
+
+<div style="min-width: 80vw; margin-left: 15vw; border-bottom: solid; border-width: 1px;">
+<form action="." method="POST" id="frm">
+{% csrf_token %}
+<div class="main-header p-2 px-3 d-sm-flex flex-row justify-content-between align-items-center" style="border-bottom:solid; border-color: #f2f2f2;">
+
+  <!-- page heading -->
+<h4 class="flex-grow-1 mb-md-0" data-testid="title">{% block page_heading %} {% endblock %} </h4>
+
+<button type="button" class="ant-btn css-1jr9qlj ant-btn-default card ms-1 mx-2" style="display: unset; padding: 3px 8.5px; border-radius: 6px;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" style="font-size: 16px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg></button>
+<button type="button" class="ant-btn css-1jr9qlj ant-btn-default btn btn-primary me-2" style="display: none;"><span>Rules Summary</span></button>
+<div class="dropdown"  >
+
+
+<!--         <select name="platf" id="platf">
+            <option value="0">Amazon</option>
+            <option value="1">Flipkart</option>
+        </select>
+ -->
+  <button>
+  
+  {% if pf_op == 'Blinkit' %} <span><img style="width: 25px; height: 25px; margin-right: 0.1vw;" src="{% static 'blnkt.png' %}" alt="Blinkit"></span>
+  
+  {% endif %}   {{ pf_op }}</button>
+
+  <div class="dropdown-options" style="left: 2.5vw;">
+  
+    <a href="{% url 'blnkthome' %}"><span><img style="width: 25px; height: 25px; margin-right: 0.4vw;" src="{% static 'blnkt.png' %}" alt="Blinkit"></span>Blinkit</a>
+  
+  </div>
+</div>
+
+<div class="dropdown">
+<select name="membership" id="membership" class="two">
+  <option value="Godrej">Godrej</option>
+</select>
+</div>
+<button type="submit" name="Submit" id="submitBtn" style="padding: 0px; width: 44px; height: 30px;background-color: #e5f2ff; color: #0e88ff; margin-left: 5px; margin-right: 5px; border: thin solid rgb(192, 192, 192);" >
+  Submit
+</button>
+
+<div class="dropdown">
+<div id="reportrange" class="ant-btn css-1jr9qlj ant-btn-default ms-1 mx-2" >
+    <i class="fa fa-calendar">
+      <svg width="16.000000pt" height="16.000000pt" viewBox="0 0 16.000000 18.000000">
+        <g transform="translate(0.000000,16.000000) scale(0.100000,-0.100000)"fill="#0e88ff" stroke="none">
+          <path d="M20 142 c-6 -2 -10 -30 -10 -63 l0 -59 65 0 65 0 0 60 c0 33 -3 60
+          -7 61 -37 3 -105 3 -113 1z m110 -23 c0 -5 -25 -9 -55 -9 -30 0 -55 4 -55 9 0
+          5 25 9 55 9 30 0 55 -4 55 -9z m0 -54 l0 -35 -55 0 -55 0 0 35 0 35 55 0 55 0
+          0 -35z"/>
+        </g>
+      </svg>
+    </i>&nbsp;
+    <span style=""></span>
+    <i class="fa fa-caret-down"></i>
+    <input type="text" name="dates" onkeydown="return false"  style="padding:5px;" hidden /> 
+  </div>
+
+<script type="text/javascript">
+  $(function() {
+
+    // var start = moment().subtract(7, 'days');
+    // var end = moment().subtract(1, 'days');
+
+
+    var start = moment("{{ DATE.0 }}") ;
+    var end = moment("{{ DATE.1 }}") ;
+    console.log(start, end)
+
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $('#reportrange input').val(start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'));
+        $('#submitBtn').html(dateRangeText);
+
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+          //  'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 14 Days': [moment().subtract(13, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+
+    $('#submitBtn').click(function(e) {
+      // e.preventDefault(); 
+      $('#frm').submit(); 
+      
+    });
+});
+  
+</script>
+</div>
+</div>
+</form>
+
+
+<!-- report 7 days -->
+{% block report_7_days %}
+
+{% endblock %}
+  
+
+</div>
+
+<!-- components -->
+{% block components %}
+
+{% endblock %}
+
+<!-- right side filter -->
+{% block filter %}
+  
+{% endblock %}
+
+</div>
+
+
+  {% block content %}
+
+  {% endblock %}
+
+  <script>
+    var balanceValue = {{ balance }};  
+    var formattedBalance = balanceValue.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    document.getElementById('formattedBalance').textContent = ' ₹' + formattedBalance;
+  </script>
+
+  {% if nums %}
+
+<div style=" position:absolute; bottom:45.6%; left:83%; height: 28px; width: 480px; display: block; background: white; border-bottom:solid; border-width: 1px; border-left: solid; border-color:#E0E0E0; z-index: 1; transform: rotate(90deg); padding: 1pt;"> 
+<ul style=" position: relative; display:inline-flex; align-items: center; justify-content: space-around; list-style-type: none; overflow: hidden; ">
+  <li ><button id="filter_menu" style="background: transparent; padding: 0; color: inherit;">Filters</button></li>
+  <li ><button id="colums_menu" style="background:transparent; padding: 0; color:inherit;">columns</button></li>  
+</ul>
+
+<script type="text/javascript">
+  
+
+  //  for filter
+  const filter_toggler = document.querySelector('#filter_menu');
+  const columns_toggler = document.querySelector('#colums_menu');
+  const navi = document.querySelector(".filt");
+  filter_toggler.addEventListener("click", ()=>{
+    console.log("click");
+    if(navi.classList.contains("disable")){
+    navi.classList.remove('disable');
+    }
+    else{
+      navi.classList.add('disable');
+    }
+
+  });
+
+  function myFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("mySearch");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myMenu");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+
+{% endif %}
+
+<script>
+  // for spinner
+  var loaderHTML = '<div id="loader" class="loader" style="display: none; border: 8px solid #f3f3f3; border-top: 8px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; transition: display 0.3s ease-in-out; z-index: 100; left: 50%; top: 50%; transform: translate(-50%, -50%); position:absolute; "></div>';
+document.getElementById('main-table').insertAdjacentHTML('beforebegin', loaderHTML);
+ 
+window.addEventListener("unload", function(event) {
+    document.getElementById("loader").style.display = "";
+    document.getElementById("main-table").style.display = "none";
+  });
+  window.addEventListener("beforeunload", function(event) {
+    document.getElementById("loader").style.display = "";
+    document.getElementById("main-table").style.display = "none";
+  });
+  window.addEventListener("afterunload", function(event) {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("main-table").style.display = "";
+    document.getElementById("popupForm").style.display = "none";
+    
+  });
+</script>
+
+
+</div>
+
+<footer class="footer p-1 d-flex justify-content-between align-items-center flex-wrap border-top fixed-bottom bg-white" style="z-index: 1;" id="footer"><div class="container-fluid text-end text-muted font-xxs">| All rights reserved © Trailytics</div></footer>
+</body>
+</html>

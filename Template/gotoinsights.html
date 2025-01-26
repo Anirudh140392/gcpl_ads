@@ -1,0 +1,329 @@
+{% extends 'index.html' %}
+
+{% block page_heading %} INSIGHTS {% endblock %}
+
+{% block report_7_days %}
+  {% include 'report7days.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+<style type="text/css">
+  #editor {
+    padding: 5px 5px;
+    margin: 2px;
+    background-color: transparent;
+    border: solid;
+    border-color: #ccc;
+    border-width: .3px;
+  }
+
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .toggle-switch {
+    display: inline-block;
+    background: #ccc;
+    border-radius: 16px;
+    width: 38px;
+    height: 16px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+  }
+
+  .toggle-switch:before,
+  .toggle-switch:after {
+    content: "";
+  }
+
+  .toggle-switch:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s;
+  }
+
+  .toggle:hover .toggle-switch:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: #56c080;
+  }
+
+  .toggle-checkbox:checked+.toggle-switch:before {
+    left: 25px;
+  }
+
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .toggle-label {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
+
+
+
+  .centeric {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brothers {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    background: transparent;
+    border-color: #ccc;
+    border-width: .3px;
+    margin: 5px;
+
+  }
+
+  .brothers>svg {
+    padding-bottom: 4px;
+  }
+
+  .disable {
+    display: none !important;
+  }
+
+  /* --------------------------------------01---------------------------------------------- */
+
+  main {
+    font-family: "Open Sans", Arial, sans-serif;
+  }
+
+  #main-table {
+    width: 100%;
+    background-color: transparent;
+    width: 100%;
+  }
+
+
+  #main-table .tabulator-col,
+  #main-table > div.tabulator-header > div > div.tabulator-calcs-holder > div {
+    padding: 0.5% 0% 0.5% 0%;
+    background-color:  rgb(218, 225, 243, 1.0);
+    width: fit-content;
+    color: black;
+    font-size: small ;
+    font-weight: 1000 !important;
+    border-top: 1px solid rgb(224, 224, 224);
+  }
+
+  #main-table > div.tabulator-header > div > div.tabulator-headers > div >div{
+    padding-right: 3%;
+  }
+
+  /* #main-table>div.tabulator-tableholder>div>div>div:nth-child(11),
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(11) {
+    border-right: 1px solid rgb(224, 224, 224);
+  } */
+
+
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left{
+    border-right: thin solid gray;
+  }
+  
+
+
+
+  #centric>div:nth-child(1)>input[type="date"]:active {
+    border: 1.2px solid rgba(52, 133, 253, 255) !important;
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+  }
+
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    border: none;
+  }
+
+  .tabulator,
+  /* .tabulator .tabulator-header, */
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div>div {
+    background-color: rgb(241, 241, 241);
+    border: none !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div:nth-child(1)>div:nth-child(1)>a {
+    color: rgba(52, 133, 253, 255);
+  }
+
+  .tabulator .tabulator-header {
+    border-bottom: 1.5px solid rgb(183, 183, 183) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    background-color: #efefef;
+    
+  }
+
+  /* ! remove all border of the table */
+  #main-table>div.tabulator-tableholder>div>div {
+    border: none !important;
+  }
+
+  #main-table > div.tabulator-tableholder > div > div{
+    padding-top: 0.3% !important;
+  }
+  /* add thin line on between the column  date and com... id */
+  #main-table>div.tabulator-tableholder>div>div {
+    border-bottom: 1px solid rgb(222, 222, 222) !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(even) {
+    background-color: rgba(252, 252, 252, 255) !important;
+
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:hover {
+    background-color: rgba(232, 244, 254, 255) !important;
+
+
+  }
+
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: rgba(52, 133, 253, 255);
+  }
+
+  #centric>div {
+    text-align: left;
+    justify-content: left;
+  }
+
+
+  #centric>div:nth-child(1)>input.start {
+    border-radius: 6px;
+    border: 0.1px solid rgb(199, 199, 199);
+
+    height: 28px;
+  }
+
+  #centric>div:nth-child(2)>span {
+    font-size: 0.7rem !important;
+  }
+
+
+  #centric>div:nth-child(1)>input[type=number] {
+    border: 1px solid rgba(52, 133, 253, 255);
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+    border-radius: 2px;
+    height: 28px;
+
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    text-overflow: ellipsis;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    border: 1px solid rgba(32,121,253,255) !important;
+    /* Firefox */
+  }
+
+  
+
+  /* #main-table>div.tabulator-tableholder>div>div>div.tabulator-cell.tabulator-editable {
+    text-align: left !important;
+    display: inline-flex !important;
+    justify-content: left !important;
+    width: 161px;
+    height: 59px;
+    align-items: center !important;
+    color: rgba(52, 133, 253, 255);
+    font-weight: 400;
+  } */
+
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(7)>div>div>div.tabulator-col-sorter>div,
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(3)>div>div>div.tabulator-col-sorter>div {
+    visibility: hidden;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(2),
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(3) {
+    margin: 0px 0px 0px 10px;
+  }
+/* 
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(1) {
+    width: 300px !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(3) {
+    justify-content: left;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(5) {
+    width: 225px !important;
+   
+  } */
+
+  .del-add-btn{
+    display: inline-flex;
+    background-color: rgba(248,249,250,255);
+  }
+
+  .del-add-btn > span:nth-child(1){
+    
+  }
+
+  #centric>div:nth-child(1)>button>svg {}
+
+
+  #main-table > div.tabulator-tableholder > div > div{
+    height: auto !important;;
+  }
+  
+
+  /* for adding hover effect on the tabs */
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left>a:hover{
+    border-bottom: 2px solid blue;
+    transition: ease-in;
+    color: blue;
+    background-color: red;
+  }
+
+</style>
+
+
+
+
+
+<!-- <main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh">
+  <iframe style="margin-left:5vw; height: 100vh; width:80vw;" 
+  src="https://app.powerbi.com/reportEmbed?reportId=4332b6bd-a75a-435b-ab80-f5278d63a215&appId=bdf1e0b7-5f29-4a8a-94fd-f86a34516e28&autoAuth=true&ctid=28368757-e89a-4ec8-a4ef-50dc80e6ffd1">
+  </iframe>
+</main> -->
+
+<main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh; text-align: center; display: flex; justify-content: center; align-items: center; height: 80vh;">
+  <h1 style="font-size: 2.5rem; color: #555;">🚀 Coming Soon! 🚀</h1>
+</main>
+
+
+
+
+{% endblock %}

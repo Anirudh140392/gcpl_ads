@@ -1,0 +1,600 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block page_heading %} Performance Overview {% endblock %}
+
+{% block report_7_days %}
+  {% include 'report7days.html' %}
+{% endblock %}
+
+{% block components %}
+  {% include 'components.html' %}
+{% endblock %}
+
+{% block filter %}
+  {% include 'filter.html' %}
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+
+  #editor {
+    padding: 5px 5px;
+    margin: 2px;
+    background-color: transparent;
+    border: solid;
+    border-color: #ccc;
+    border-width: .3px;
+  }
+
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .toggle-switch {
+    display: inline-block;
+    background: #ccc;
+    border-radius: 16px;
+    width: 38px;
+    height: 16px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+  }
+
+  .toggle-switch:before,
+  .toggle-switch:after {
+    content: "";
+  }
+
+  .toggle-switch:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s;
+  }
+
+  .toggle:hover .toggle-switch:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: #56c080;
+  }
+
+  .toggle-checkbox:checked+.toggle-switch:before {
+    left: 25px;
+  }
+
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .toggle-label {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
+
+
+
+  .centeric {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brothers {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    background: transparent;
+    border-color: #ccc;
+    border-width: .3px;
+    margin: 5px;
+
+  }
+
+  .brothers>svg {
+    padding-bottom: 4px;
+  }
+
+  .disable {
+    display: none !important;
+  }
+
+  /* --------------------------------------01---------------------------------------------- */
+
+  main {
+    font-family: "Open Sans", Arial, sans-serif;
+  }
+
+  #main-table {
+    width: 100%;
+    background-color: transparent;
+    width: 100%;
+  }
+
+
+  #main-table .tabulator-col,
+  #main-table > div.tabulator-header > div > div.tabulator-calcs-holder > div {
+    background-color:  rgb(218, 225, 243, 1.0);
+    width: fit-content;
+    color: black;
+    font-size: small ;
+    font-weight: 1000 !important;
+    border-top: 1px solid rgb(224, 224, 224);
+  }
+
+  #main-table > div.tabulator-header > div > div.tabulator-headers > div >div{
+    padding-right: 3%;
+  }
+
+  /* #main-table>div.tabulator-tableholder>div>div>div:nth-child(11),
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(11) {
+    border-right: 1px solid rgb(224, 224, 224);
+  } */
+
+  
+
+  #centric>div:nth-child(1)>input[type="date"]:active {
+    border: 1.2px solid rgba(52, 133, 253, 255) !important;
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+  }
+
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    border: none;
+  }
+
+  .tabulator,
+  /* .tabulator .tabulator-header, */
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div>div {
+    background-color: rgb(241, 241, 241);
+    border: none !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div:nth-child(1)>div:nth-child(1)>a {
+    color: rgba(52, 133, 253, 255);
+  }
+
+  .tabulator .tabulator-header {
+    border-bottom: 1.5px solid rgb(183, 183, 183) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    background-color: #efefef;
+    
+  }
+
+  /* ! remove all border of the table */
+  #main-table>div.tabulator-tableholder>div>div {
+    border: none !important;
+  }
+
+  #main-table > div.tabulator-tableholder > div > div{
+  }
+  /* add thin line on between the column  date and com... id */
+  #main-table>div.tabulator-tableholder>div>div {
+    border-bottom: 1px solid rgb(222, 222, 222) !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(even) {
+    background-color: rgba(252, 252, 252, 255) !important;
+
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:hover {
+    background-color: rgba(232, 244, 254, 255) !important;
+
+
+  }
+
+  #centric>div:nth-child(1)>button:nth-child(3)>svg>g {
+    fill: black;
+  }
+
+  #centric>div:nth-child(1)>button:nth-child(2)>svg>g {
+    fill: rgba(52, 133, 253, 255);
+
+  }
+
+  #centric>div:nth-child(1)>button:nth-child(4)>svg>g>g {
+    fill: rgb(152, 152, 152);
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: rgba(52, 133, 253, 255);
+  }
+
+  #centric>div {
+    text-align: left;
+    justify-content: left;
+  }
+
+
+  #centric>div:nth-child(1)>input.start {
+    border-radius: 6px;
+    border: 0.1px solid rgb(199, 199, 199);
+
+    height: 28px;
+  }
+
+  #centric>div:nth-child(2)>span {
+    font-size: 0.7rem !important;
+  }
+
+
+  #centric>div:nth-child(1)>input[type=number] {
+    border: 1px solid rgba(52, 133, 253, 255);
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+    ;
+    border-radius: 2px;
+    height: 28px;
+
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    text-overflow: ellipsis;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    border: 1px solid rgba(32,121,253,255) !important;
+    /* Firefox */
+  }
+
+  
+
+  #main-table>div.tabulator-tableholder>div>div>div.tabulator-cell.tabulator-editable {
+    text-align: left !important;
+    display: inline-flex !important;
+    justify-content: left !important;
+    width: 161px;
+    height: 49px;
+    align-items: center !important;
+    color: rgba(52, 133, 253, 255);
+    font-weight: 400;
+  }
+
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(7)>div>div>div.tabulator-col-sorter>div,
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(3)>div>div>div.tabulator-col-sorter>div {
+    visibility: hidden;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(2),
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(3) {
+    margin: 0px 0px 0px 10px;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div:nth-child(1) {
+  }
+
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(1) {
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(3) {
+    justify-content: left;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(5) {
+   
+  }
+
+  #centric>div:nth-child(1)>button>svg {}
+
+
+  .tabulator-table{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* .tabulator-col-title {
+	font-size: 0.8rem !important;
+} */
+  
+</style>
+
+
+
+<main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh ; margin-top: 10px; ">
+    <div class="container-xl mx-5 ">
+    <form action="." method="POST" id="post_data" hidden >
+
+        <input type="text" name="para1">
+        <input type="text" name="para2">
+        <input type="text" name="para3">
+        <input type="text" name="para4">
+        <input type="submit" name="sending_data">
+    
+        {% csrf_token %}
+    </form>
+    <div class="row row-cols-1 row-cols-sm-1 " >
+    <div id="main-table" >
+    </div>
+
+    </div>
+  </div>
+    
+</main>
+
+<script type="text/javascript">
+  console.log({{ campaign|safe }});
+
+
+
+
+
+
+
+var Editbut = function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    var campaignName = data.campaign_name.length > 20 ? data.campaign_name.substring(0, 20) + '...' : data.campaign_name;
+
+    var weirdo = '<div class=" disable" style="display:flex;"><input id="" name="name-change-input" style="font-size: 0.875rem; width: 320px;" class="ant-input css-1jr9qlj border border-primary" type="text" value="'+ data.campaign_name+ '"><button id="" class="btn-sm btn-light p-2" style="padding: 4px 8px; border: 1px solid rgb(178, 178, 178); border-radius: 6px; display: flex; align-items: center; background:#fff;"><svg stroke="currentColor" fill="#00f" stroke-width="0" viewBox="0 0 512 512" class="text-primary" style="font-size: 15px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg></button><button class="btn-sm btn-light p-2" style="padding: 4px 9px; border: 1px solid rgb(178, 178, 178); border-radius: 6px; display: flex; align-items: center; background:#fff;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 352 512" style="font-size: 15px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></button></div>'
+    
+    if(data.campaign_status === 'LIVE'){
+      var liveText = '<span style="border: 1.5px solid green; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Live</span>'
+    }
+    else if(data.campaign_status === 'TOTAL_BUDGET_MET'){
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Total Budget Met</span>'
+    }
+    else if(data.campaign_status === 'PAUSED'){
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Paused</span>'
+    }
+    else{
+      var liveText = '<span style="border: 1.5px solid red; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Archived</span>'
+    }
+
+    return "<div class='' style='display:flex; justify-content: space-between;' ><a style=' width:100px;'>"+campaignName+"</a> <button id='editor'> <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='20' height='20' viewBox='0 0 24 24'><path d='M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L14.076172 5.9238281 z'></path></svg></button></div> <div style= ></div>" + weirdo + liveText;
+};
+
+var datefield = function(cell, formatterParams, onRendered){
+    return '<div id="centric"><div><input disabled type="date" class="start" name="trip-start" value="" min="" max="" /></div> <div><input class="editable" type="checkbox"  checked/> <span style="font-size:.9rem;">till budget ends </span> </div></div> ';
+    
+};
+
+
+var statusfield =function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    if(data.campaign_status == "ENABLED" || data.campaign_status == "enabled" || data.campaign_status=='ACTIVE'){
+    return '<label class="toggle"><input class="toggle-checkbox" type="checkbox" checked><div class="toggle-switch"></div></label>';
+    }
+    else{
+        return '<label class="toggle"><input class="toggle-checkbox" type="checkbox"><div class="toggle-switch"></div></label>';
+    }
+};
+
+
+var optizens =function(cell, formatterParams, onRendered){ 
+    var data = cell.getRow().getData();
+    console.log(data);
+    return '<div id="centric" ><div><input type="number" value='+data.campaign_budget+' placeholder="00000.00" style="width:75px;" /><button class="brothers" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"><g fill-opacity="0" fill="#4a3b3b" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,256v-256h256v256z" id="bgRectangle"></path></g><g fill="#20c997" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8.53333,8.53333)"><path d="M26.98047,5.99023c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-15.29297,15.29297l-6.29297,-6.29297c-0.25082,-0.26124 -0.62327,-0.36647 -0.97371,-0.27511c-0.35044,0.09136 -0.62411,0.36503 -0.71547,0.71547c-0.09136,0.35044 0.01388,0.72289 0.27511,0.97371l7,7c0.39053,0.39037 1.02353,0.39037 1.41406,0l16,-16c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988z"></path></g></g></svg></button><button class="brothers" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"><g fill="#339af0" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M10,2l-1,1h-4c-0.6,0 -1,0.4 -1,1c0,0.6 0.4,1 1,1h2h10h2c0.6,0 1,-0.4 1,-1c0,-0.6 -0.4,-1 -1,-1h-4l-1,-1zM5,7v13c0,1.1 0.9,2 2,2h10c1.1,0 2,-0.9 2,-2v-13zM9,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1zM15,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1z"></path></g></g></svg></button><button class="brothers" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"><g fill="#fa5252" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M12,2c-5.523,0 -10,4.477 -10,10c0,5.523 4.477,10 10,10c5.523,0 10,-4.477 10,-10c0,-5.523 -4.477,-10 -10,-10zM17,13h-4v4h-2v-4h-4v-2h4v-4h2v4h4z"></path></g></g></svg></button></div><div><input class="editable" type="checkbox" /> <span style="font-size:.7rem;">Equally devide budget for all days </span></div></div>';
+
+};
+
+
+function mergeColumnsFormatter(cell, formatterParams, onRendered) {
+  var value1 = cell.getRow().getData()[formatterParams.column1];
+  var value2 = cell.getRow().getData()[formatterParams.column2];
+
+  var roundedValue1 = Math.floor(value1 * 10) / 10;
+  var roundedValue2 = Math.floor(value2 * 10) / 10;
+
+  var mergedColumnWidth = cell.getColumn().getWidth() - 20; // Adjust the value as needed
+
+  var percentageKeywords=['ctr','impressions','spends','clicks','sales','orders','roas','cpm'];
+  var isPercentageColumn1 = formatterParams.column1.includes('ctr');
+  var isPercentageColumn2 = percentageKeywords.some(keyword=>formatterParams.column2.includes(keyword));
+  
+  var formattedValue1 = isPercentageColumn1 ? roundedValue1 + '%' : roundedValue1;
+  var formattedValue2 = isPercentageColumn2 ? roundedValue2 + '%' : roundedValue2;
+
+  if (roundedValue2 < 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 10px;">' + formattedValue1 + '<span style="color: red; font-size:.75rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></div>';
+  } else if (roundedValue2 > 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 10px;">' + formattedValue1 + '<span style="color: green; font-size:.75rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-caret-up-fill" viewBox="0 0 16 16"><path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/></svg></span></div>';
+  } else {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 10px;">' + formattedValue1 + '</div>';
+  }
+
+  return mergedValue;
+}
+
+
+
+
+  var tabledata = [
+    {id:1, name:"Oli Bob", progress:12, gender:"male", rating:1, col:"red", dob:"19/02/1984", car:1},
+    {id:2, name:"Mary May", progress:1, gender:"female", rating:2, col:"blue", dob:"14/05/1982", car:true},
+    {id:3, name:"Christine Lobowski", progress:42, gender:"female", rating:0, col:"green", dob:"22/05/1982", car:"true"},
+    {id:4, name:"Brendon Philips", progress:100, gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
+    {id:5, name:"Margret Marmajuke", progress:16, gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
+    {id:6, name:"Frank Harbours", progress:38, gender:"male", rating:4, col:"red", dob:"12/05/1966", car:1},
+];
+
+var table = new Tabulator("#main-table", {
+    data:{{ campaign|safe }},           //load row data from array
+    layout:"fitdata",      //fit columns to width of table
+    responsiveLayout:false,  //hide columns that don't fit on the table
+    addRowPos:"top",          //when adding a new row, add it to the top of the table
+    history:true,             //allow undo and redo actions on the table
+    pagination:"local",       //paginate the data
+    paginationSize:7,         //allow 7 rows per page of data
+    paginationCounter:"rows", //display count of paginated rows in footer
+    rowFormatter:function(row){
+    var data = row.getData();
+    row.getElement().style.backgroundColor = "#fff";
+    row.getElement().style.border = "thin solid #aaa";},
+    movableColumns:true, 
+    // initialSort:[ {column:"CAMPAIGN", dir:"asc"},],
+    columnDefaults:{tooltip:true,},
+    initialSort:[ {column:"spends", dir:"des"},],
+    columns:[  
+
+        {formatter:"rowSelection", titleFormatter:"rowSelection", titleFormatterParams:{
+          rowRange:"active" //only toggle the values of the active filtered rows
+          }, hozAlign:"left",  frozen:true, headerSort:false, width: 50,
+        },
+        { title:"CAMPAIGN", field:"campaign_name", width:200, frozen: true,  hozAlign:"left"},
+        // , cellMouseEnter:function(e, cell){
+        //     var oldname = cell.getRow().getData()['campaign_name']
+        //     cell._cell.element.children[0].children[1].addEventListener('click', ()=>{
+        //         cell._cell.element.children[0].classList.add('disable');
+        //         cell._cell.element.children[2].classList.remove('disable');
+        //         })
+        //     }, 
+        //     cellMouseOut:function(e, cell){
+        //         var oldname = cell.getRow().getData()['campaign_name']
+        //         popup = cell._cell.element.children[2]
+        //         popup.children[2].addEventListener('click',()=>{ 
+        //         cell._cell.element.children[0].classList.remove('disable');
+        //         cell._cell.element.children[2].classList.add('disable');
+        //         // console.log(cell._cell.element.children[0])
+        //         });
+        //         popup.children[1].addEventListener('click',()=>{ 
+        //         const forms = document.querySelector('#post_data');
+        //         var rowd = cell.getRow().getData();
+        //         forms[0].value = popup.children[0].value;
+        //         forms[1].value = rowd['campaign_id'];
+        //         forms[3].value = rowd['type'];
+        //         forms[4].click();
+                
+        //         });
+
+        //       },
+        
+        //   },
+
+
+         
+        // cellClick:function(e, cell){
+        // //     var father =  document.querySelectorAll(".centric");
+        //     console.log(father)
+        //     // var checker =  document.querySelector(".editable");
+        //     // var fild = document.querySelector(".start");
+        //     // checker.addEventListener('click', () =>{
+        //     //     if(checker.checked){
+        //     //         fild.disabled = checker.checked;
+        //     //     }
+        //     //     else{
+        //     //         fild.disabled = checker.checked;
+        //     //     }
+        //     // }); 
+        // }},
+
+        // {field:"Cost", hozAlign:"center", vertAlign:"center", editor:true, editorParams:{mask:"99999.99"}},
+        {title:"BUDGET", field:"campaign_budget",  formatter:datefield, hozAlign:"center", width:140, frozen: true, vertAlign:"center"},
+        { formatter:optizens, hozAlign:"center", frozen: true, vertAlign:"center", editable:false},
+//         cellMouseEnter:function(e, cell){
+//             const forms = document.querySelector('#post_data');
+//             var this_row_data = cell.getRow().getData();
+//             var this_cell_container =  cell._cell.element.children[0].children[0].children;
+//             console.log(this_row_data, this_cell_container);
+//             this_cell_container[1].addEventListener('click',()=>{
+//                 forms[1].value = this_row_data['campaign_id'];
+//                 forms[2].value = this_cell_container[0].value;
+//                 forms[3].value = this_row_data['type'];
+//                 forms[4].click();
+//             });
+
+//             this_cell_container[2].addEventListener('click',()=>{
+//                 this_cell_container[0].value = 0
+//             });
+// } 
+//         },
+
+//         { formatter:optizens, hozAlign:"center", frozen: true, vertAlign:"center", cellMouseEnter:function(e, cell){
+//             const forms = document.querySelector('#post_data');
+//             var this_row_data = cell.getRow().getData();
+//             var this_cell_container =  cell._cell.element.children[0].children[0].children;
+//             console.log(this_row_data, this_cell_container);
+//             this_cell_container[1].addEventListener('click',()=>{
+//                 forms[1].value = this_row_data['campaign_id'];
+//                 forms[2].value = this_cell_container[0].value;
+//                 forms[3].value = this_row_data['type'];
+//                 forms[4].click();
+//             });
+
+//             this_cell_container[2].addEventListener('click',()=>{
+//                 this_cell_container[0].value = 0
+//             });
+// } 
+//         },
+        
+        {title:"STATUS", field:"campaign_status", formatter:statusfield, hozAlign:"center", vertAlign:"center", width:100, frozen:true},
+        // ,  cellClick:function(e, cell){  
+        //     const check = document.querySelector('.toggle-switch');
+        //     const forms = document.querySelector('#post_data');
+        //     var rowd = cell.getRow().getData();
+        //     print("Row d is ",rowd);
+        //     // var action = rowd['cpstatus']=="PAUSED" ? "ENABLED": "PAUSED";
+        //     // // action = rowd['type'] == 'SD' ? action.toLowerCase(): action;
+        //     // // console.log("action value is",action)
+        //     // forms[0].value = rowd['campaign_id']
+        //     // forms[1].value = rowd['type']
+        //     // forms[2].value = action
+        //     // forms[3].value = rowd['campaign_name']
+        //     // forms[4].value = rowd['budget'];  // for budget
+        //     // forms[5].click();
+        //     // forms.reset();
+        //     // console.log(e, returndata, check, forms)
+        // }},
+
+        {title:"TYPE", field:"type", width:150, hozAlign:"left", frozen: true, editor:false},
+        
+        { title: "SPENDS", field:"spends", sorter:"number",formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "spends", column2: "spends_change" }, align: "center" },
+
+        { title: "SALES", field:"sales", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "sales", column2: "sales_change" }, align: "center" },
+
+        { title: "TOTAL AD SALES", field:"total_ad_sales", formatter: mergeColumnsFormatter, width: 160, formatterParams: { column1: "total_ad_sales", column2: "total_ad_sales_change" }, align: "center" },
+        
+        { title: "TROAS", field:"troas", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "troas", column2: "troas_change" }, align: "center" },
+        
+        { title: "<span style='white-space: normal;'>IMPRESSIONS</span>", field:"impressions", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "impressions", column2: "impressions_change" }, align: "center" },
+        
+        { title: "DIRECT ATC", field:"direct_atc", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "direct_atc", column2: "direct_atc_change" }, align: "center" },
+        
+        { title: "ORDERS", field:"orders", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "orders", column2: "orders_change" }, align: "center" },
+
+        { title: "CPM", field:"cpm", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "cpm", column2: "cpm_change" }, align: "center" },
+        
+        { title: "ROAS", field:"roas", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "roas", column2: "roas_change" }, align: "center" },
+
+        // { title: "<span style='white-space: normal;'>PERCENT UTILIZATION</span>", field:"ctr", formatter: mergeColumnsFormatter, width: 145, formatterParams: { column1: "ctr", column2: "ctr_change" }, align: "center" },
+
+        // {title:"<span style='white-space: normal;'>CAMPAIGN TAGS</span>", field:"campaign_tags", align: "center", width: 160},
+
+        {title:"<span style='white-space: normal;'>CAMPAIGN ID</span>", field:"campaign_id", align: "center", width: 140},
+
+        // {title:"<span style='white-space: normal;'>MARKET PLACE</span>", field:"market_place", align: "center", width: 140},
+
+
+    ],
+
+});
+
+
+
+
+</script>
+{% endblock %}
+

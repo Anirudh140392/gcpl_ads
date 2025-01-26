@@ -1,0 +1,453 @@
+{% extends 'index.html' %}
+
+{% block page_heading %} Product Analysis {% endblock %}
+
+{% block report_7_days %}
+  {% include 'report7days.html' %}
+{% endblock %}
+
+{% block filter %}
+  {% include 'filter.html' %}
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+  #editor {
+    padding: 5px 5px;
+    margin: 2px;
+    background-color: transparent;
+    border: solid;
+    border-color: #ccc;
+    border-width: .3px;
+  }
+
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .toggle-switch {
+    display: inline-block;
+    background: #ccc;
+    border-radius: 16px;
+    width: 38px;
+    height: 16px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+  }
+
+  .toggle-switch:before,
+  .toggle-switch:after {
+    content: "";
+  }
+
+  .toggle-switch:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s;
+  }
+
+  .toggle:hover .toggle-switch:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: #56c080;
+  }
+
+  .toggle-checkbox:checked+.toggle-switch:before {
+    left: 25px;
+  }
+
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .toggle-label {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
+
+
+
+  .centeric {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brothers {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    background: transparent;
+    border-color: #ccc;
+    border-width: .3px;
+    margin: 5px;
+
+  }
+
+  .brothers>svg {
+    padding-bottom: 4px;
+  }
+
+  .disable {
+    display: none !important;
+  }
+
+  /* --------------------------------------01---------------------------------------------- */
+
+  main {
+    font-family: "Open Sans", Arial, sans-serif;
+  }
+
+  #main-table {
+    width: 100%;
+    background-color: transparent;
+    width: 100%;
+  }
+
+
+  #main-table .tabulator-col,
+  #main-table > div.tabulator-header > div > div.tabulator-calcs-holder > div {
+    padding: 0.5% 0% 0.5% 0%;
+    background-color:  rgb(218, 225, 243, 1.0);
+    width: fit-content;
+    color: black;
+    font-size: small ;
+    font-weight: 1000 !important;
+    border-top: 1px solid rgb(224, 224, 224);
+  }
+
+  #main-table > div.tabulator-header > div > div.tabulator-headers > div >div{
+    padding-right: 3%;
+  }
+
+  /* #main-table>div.tabulator-tableholder>div>div>div:nth-child(11),
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(11) {
+    border-right: 1px solid rgb(224, 224, 224);
+  } */
+
+
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left{
+    border-right: thin solid gray;
+  }
+  
+
+
+
+  #centric>div:nth-child(1)>input[type="date"]:active {
+    border: 1.2px solid rgba(52, 133, 253, 255) !important;
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+  }
+
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    border: none;
+  }
+
+  .tabulator,
+  /* .tabulator .tabulator-header, */
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div>div {
+    background-color: rgb(241, 241, 241);
+    border: none !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div:nth-child(1)>div:nth-child(1)>a {
+    color: rgba(52, 133, 253, 255);
+  }
+
+  .tabulator .tabulator-header {
+    border-bottom: 1.5px solid rgb(183, 183, 183) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    background-color: #efefef;
+    
+  }
+
+  /* ! remove all border of the table */
+  #main-table>div.tabulator-tableholder>div>div {
+    border: none !important;
+  }
+
+  #main-table > div.tabulator-tableholder > div > div{
+    /* padding-top: 0.3% !important; */
+  }
+  /* add thin line on between the column  date and com... id */
+  #main-table>div.tabulator-tableholder>div>div {
+    border-bottom: 1px solid rgb(222, 222, 222) !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(even) {
+    background-color: rgba(252, 252, 252, 255) !important;
+
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:hover {
+    background-color: rgba(232, 244, 254, 255) !important;
+
+
+  }
+
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: rgba(52, 133, 253, 255);
+  }
+
+  #centric>div {
+    text-align: left;
+    justify-content: left;
+  }
+
+
+  #centric>div:nth-child(1)>input.start {
+    border-radius: 6px;
+    border: 0.1px solid rgb(199, 199, 199);
+
+    height: 28px;
+  }
+
+  #centric>div:nth-child(2)>span {
+    font-size: 0.7rem !important;
+  }
+
+
+  #centric>div:nth-child(1)>input[type=number] {
+    border: 1px solid rgba(52, 133, 253, 255);
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+    border-radius: 2px;
+    height: 28px;
+
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    text-overflow: ellipsis;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    border: 1px solid rgba(32,121,253,255) !important;
+    /* Firefox */
+  }
+
+  
+
+  /* #main-table>div.tabulator-tableholder>div>div>div.tabulator-cell.tabulator-editable {
+    text-align: left !important;
+    display: inline-flex !important;
+    justify-content: left !important;
+    width: 161px;
+    height: 59px;
+    align-items: center !important;
+    color: rgba(52, 133, 253, 255);
+    font-weight: 400;
+  } */
+
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(7)>div>div>div.tabulator-col-sorter>div,
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(3)>div>div>div.tabulator-col-sorter>div {
+    visibility: hidden;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(2),
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(3) {
+    margin: 0px 0px 0px 10px;
+  }
+/* 
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(1) {
+    width: 300px !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(3) {
+    justify-content: left;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(5) {
+    width: 225px !important;
+   
+  } */
+
+  .del-add-btn{
+    display: inline-flex;
+    background-color: rgba(248,249,250,255);
+  }
+
+  .del-add-btn > span:nth-child(1){
+    
+  }
+
+  #centric>div:nth-child(1)>button>svg {}
+
+
+  #main-table > div.tabulator-tableholder > div > div{
+    height: auto !important;;
+  }
+  
+
+  /* for adding hover effect on the tabs */
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left>a:hover{
+    border-bottom: 2px solid blue;
+    transition: ease-in;
+    color: blue;
+    background-color: red;
+  }
+
+  .tabulator-table{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* .tabulator-col-title {
+    font-size: 0.8rem !important;
+  } */
+  
+
+</style>
+
+
+
+
+
+<main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh">
+  <div class="container-xl mx-5">
+    <form action="." method="POST" id="post_data" hidden>
+
+      <input type="text" name="para1">
+      <input type="text" name="para2">
+      <input type="text" name="para3">
+      <input type="text" name="para4">
+      <input type="submit" name="sending_data">
+
+      {% csrf_token %}
+    </form>
+    <div class="row row-cols-1 row-cols-sm-1 g-3">
+      <div id="main-table">
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+
+
+<script type="text/javascript">
+  console.log({{ productanalysis|safe }});
+
+var product_page_icon = function (cell, formatterParams, onRendered) { //plain text value
+    return '<div class="product_page_icon"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></svg>  </div>';
+};
+
+var action_icon = function (cell, formatterParams, onRendered) { //plain text value
+    return '<div class="action_icon"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16"> <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/> </svg> </div>';
+};
+
+var total_text = function (cell, formatterParams, onRendered){
+  return 'Total';
+};
+
+function mergeColumnsFormatter(cell, formatterParams, onRendered) {
+  var value1 = cell.getRow().getData()[formatterParams.column1];
+  var value2 = cell.getRow().getData()[formatterParams.column2];
+
+  var roundedValue1 = Math.floor(value1 * 10) / 10;
+  var roundedValue2 = Math.floor(value2 * 10) / 10;
+
+  var mergedColumnWidth = cell.getColumn().getWidth() - 20; // Adjust the value as needed
+
+  var isPercentageColumn1 = formatterParams.column1.includes('ctr');
+  var isPercentageColumn2 = formatterParams.column2.includes('ctr');
+
+  var formattedValue1 = isPercentageColumn1 ? roundedValue1 + '%' : roundedValue1;
+  var formattedValue2 = isPercentageColumn2 ? roundedValue2 + '%' : roundedValue2;
+
+  if (roundedValue2 < 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 5px;">' + formattedValue1 + '<span style="color: red; font-size:.6rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></div>';
+  } else if (roundedValue2 > 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 5px;">' + formattedValue1 + '<span style="color: green; font-size:.6rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-caret-up-fill" viewBox="0 0 16 16"><path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/></svg></span></div>';
+  } else {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 5px;">' + formattedValue1 + '</div>';
+  }
+
+  return mergedValue;
+}
+
+
+
+
+var tabledata = [
+  {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0},{product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0},{product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0},{product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0},{product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0}, {product_name:"asdff", spends:0.0, spends_change:0.0, sales:0.0, sales_change:0.0, cpm:0.0, cpm_change:0.0, total_ad_sales:0.0, total_ad_sales_change:0.0,troas:0.0,troas_change:0.0, roas:0.0, roas_change:0.0},  
+];
+
+var table = new Tabulator("#main-table", {
+    data: {{ productanalysis|safe }},          //load row data from array
+    layout:"fitData",      //fit columns to width of table
+    rowHeight:45,           //set rows to 40px height
+    responsiveLayout:false,  //hide columns that don't fit on the table
+    addRowPos:"top",          //when adding a new row, add it to the top of the table
+    history:true,             //allow undo and redo actions on the table
+    pagination:"local",       //paginate the data
+    paginationSize:9,         //allow 7 rows per page of data
+    paginationCounter:"rows", //display count of paginated rows in footer
+    rowFormatter:function(row){
+    var data = row.getData();
+    row.getElement().style.backgroundColor = "#fff";
+    row.getElement().style.border = "thin solid #aaa";
+    // row.getElement().style.height = "2.4rem";
+
+  },
+    movableColumns:true, 
+    initialSort:[ {column:"PRODUCT", dir:"asc"},],
+    columnDefaults:{tooltip:true,},
+    columns:[
+    {formatter:"rowSelection", titleFormatter:"rowSelection", titleFormatterParams:{
+      rowRange:"active" //only toggle the values of the active filtered rows
+      }, hozAlign:"left",  frozen:true, headerSort:false, width: 50
+    },
+    {title:"PRODUCT", field:"product_name", frozen:true, width: 280, }, 
+
+    // {title:"<span style='white-space: normal;'>PRODUCT PAGE</span>", formatter: product_page_icon, frozen:true, width: 110, hozAlign: "center"},
+
+    { title: "SPENDS", field:"spends", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "spends", column2: "spends_change" }, align: "center" },
+
+    { title: "SALES", field:"sales", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "sales", column2: "sales_change" }, align: "center" },
+
+    { title: "<span style='white-space: normal;'>TOTAL AD SALES</span>", field:"total_ad_sales", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "total_ad_sales", column2: "total_ad_sales_change" }, align: "center" },
+
+    { title: "CPM", field:"cpm", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "cpm", column2: "cpm_change" }, align: "center" },
+
+    { title: "TROAS", field:"troas", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "troas", column2: "troas_change" }, align: "center" },
+    
+    { title: "ROAS", field:"roas", formatter: mergeColumnsFormatter, width: 155, formatterParams: { column1: "roas", column2: "roas_change" }, align: "center" },
+
+    ],
+
+    
+});
+
+
+
+
+</script>
+
+
+{% endblock %}

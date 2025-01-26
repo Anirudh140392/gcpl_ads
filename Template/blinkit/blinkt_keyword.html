@@ -1,0 +1,879 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block page_heading %} Performance Overview {% endblock %}
+
+{% block report_7_days %}
+  {% include 'report7days.html' %}
+{% endblock %}
+
+{% block components %}
+  {% include 'components.html' %}
+{% endblock %}
+
+{% block filter %}
+  {% include 'filter.html' %}
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+  #editor {
+    padding: 5px 5px;
+    margin: 2px;
+    background-color: transparent;
+    border: solid;
+    border-color: #ccc;
+    border-width: .3px;
+  }
+
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .toggle-switch {
+    display: inline-block;
+    background: #ccc;
+    border-radius: 16px;
+    width: 38px;
+    height: 16px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+  }
+
+  .toggle-switch:before,
+  .toggle-switch:after {
+    content: "";
+  }
+
+  .toggle-switch:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s;
+  }
+
+  .toggle:hover .toggle-switch:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: #56c080;
+  }
+
+  .toggle-checkbox:checked+.toggle-switch:before {
+    left: 25px;
+  }
+
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .toggle-label {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
+
+
+
+  .centeric {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brothers {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    background: transparent;
+    border-color: #ccc;
+    border-width: .3px;
+    margin: 5px;
+
+  }
+
+  .brothers>svg {
+    padding-bottom: 4px;
+  }
+
+  .disable {
+    display: none !important;
+  }
+
+  /* --------------------------------------01---------------------------------------------- */
+
+  main {
+    font-family: "Open Sans", Arial, sans-serif;
+  }
+
+  #main-table {
+    width: 100%;
+    background-color: transparent;
+    width: 100%;
+  }
+
+
+  #main-table .tabulator-col,
+  #main-table > div.tabulator-header > div > div.tabulator-calcs-holder > div {
+    background-color:  rgb(218, 225, 243, 1.0);
+    width: fit-content;
+    color: black;
+    font-size: small ;
+    font-weight: 1000 !important;
+    border-top: 1px solid rgb(224, 224, 224);
+  }
+
+  #main-table > div.tabulator-header > div > div.tabulator-headers > div >div{
+    padding-right: 3%;
+  }
+
+  /* #main-table>div.tabulator-tableholder>div>div>div:nth-child(11),
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(11) {
+    border-right: 1px solid rgb(224, 224, 224);
+  } */
+
+
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left{
+    border-right: thin solid gray;
+  }
+  
+
+
+
+  #centric>div:nth-child(1)>input[type="date"]:active {
+    border: 1.2px solid rgba(52, 133, 253, 255) !important;
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+  }
+
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    border: none;
+  }
+
+  .tabulator,
+  /* .tabulator .tabulator-header, */
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder,
+  #main-table>div.tabulator-header>div>div.tabulator-calcs-holder>div>div {
+    background-color: rgb(241, 241, 241);
+    border: none !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div:nth-child(1)>div:nth-child(1)>a {
+    color: rgba(52, 133, 253, 255);
+  }
+
+  .tabulator .tabulator-header {
+    border-bottom: 1.5px solid rgb(183, 183, 183) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    background-color: #efefef;
+    
+  }
+
+  /* ! remove all border of the table */
+  #main-table>div.tabulator-tableholder>div>div {
+    border: none !important;
+  }
+
+  /*#main-table > div.tabulator-tableholder > div > div{
+  }
+  */
+
+  /* add thin line on between the column  date and com... id */
+  #main-table>div.tabulator-tableholder>div>div {
+    border-bottom: 1px solid rgb(222, 222, 222) !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(even) {
+    background-color: rgba(252, 252, 252, 255) !important;
+
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:hover {
+    background-color: rgba(232, 244, 254, 255) !important;
+
+
+  }
+
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: rgba(52, 133, 253, 255);
+  }
+
+  #centric>div {
+    text-align: left;
+    justify-content: left;
+  }
+
+
+  #centric>div:nth-child(1)>input.start {
+    border-radius: 6px;
+    border: 0.1px solid rgb(199, 199, 199);
+
+    height: 28px;
+  }
+
+  #centric>div:nth-child(2)>span {
+    font-size: 0.7rem !important;
+  }
+
+
+  #centric>div:nth-child(1)>input[type=number] {
+    border: 1px solid rgba(52, 133, 253, 255);
+    box-shadow: 0.1px 0.1px 2px rgba(52, 133, 253, 255);
+    border-radius: 2px;
+    height: 28px;
+
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    text-overflow: ellipsis;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    border: 1px solid rgba(32,121,253,255) !important;
+    /* Firefox */
+  }
+
+  
+
+  /* #main-table>div.tabulator-tableholder>div>div>div.tabulator-cell.tabulator-editable {
+    text-align: left !important;
+    display: inline-flex !important;
+    justify-content: left !important;
+    width: 161px;
+    height: 59px;
+    align-items: center !important;
+    color: rgba(52, 133, 253, 255);
+    font-weight: 400;
+  } */
+
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(7)>div>div>div.tabulator-col-sorter>div,
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(3)>div>div>div.tabulator-col-sorter>div {
+    visibility: hidden;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(2),
+  #main-table>div.tabulator-tableholder>div>div>div>div>button:nth-child(3) {
+    margin: 0px 0px 0px 10px;
+  }
+/* 
+  #main-table>div.tabulator-header>div>div.tabulator-headers>div:nth-child(1) {
+    width: 300px !important;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(3) {
+    justify-content: left;
+  }
+
+  #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(5) {
+    width: 225px !important;
+   
+  } */
+
+  .del-add-btn{
+    display: inline-flex;
+    background-color: rgba(248,249,250,255);
+  }
+
+  .del-add-btn > span:nth-child(1){
+    
+  }
+
+  #centric>div:nth-child(1)>button>svg {}
+
+
+  #main-table > div.tabulator-tableholder > div > div{
+    height: auto !important;;
+  }
+  
+
+  /* for adding hover effect on the tabs */
+  .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left>{
+    border: 2px solid blue;
+    transition: ease-in;
+    color: blue;
+    background-color: red;
+  }
+
+  .tabulator-table{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* .tabulator-col-title {
+	font-size: 0.8rem !important;
+} */
+  
+/* -----------------Popups--------------*/
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none; /* Initially hidden */
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Style for the container of the switch */
+.switch-input {
+    display: none; /* Hide the default checkbox */
+}
+
+/* The slider itself */
+.switch-slider {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+}
+
+/* The round part of the slider */
+.switch-slider:before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+    transition: transform 0.3s;
+}
+
+/* When the checkbox is checked */
+.switch-input:checked + .switch-slider {
+    background-color: #4CAF50; /* Green when active */
+}
+
+/* Move the slider round part to the right when checked */
+.switch-input:checked + .switch-slider:before {
+    transform: translateX(14px);
+}
+
+
+</style>
+
+
+
+
+
+<main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh">
+  <div class="container-xl mx-5">
+    <form action="." method="POST" id="post_data" hidden>
+
+      <input type="text" name="para1">
+      <input type="text" name="para2">
+      <input type="text" name="para3">
+      <input type="text" name="para4">
+      
+      <input type="submit" name="sending_data">
+
+      {% csrf_token %}
+    </form>
+    <div class="row row-cols-1 row-cols-sm-1 g-3">
+      <div id="main-table">
+    </div>
+
+    </div>
+  </div>
+
+</main>
+
+
+
+<script type="text/javascript">
+  console.log({{ keyword|safe }});
+
+// Hide the form when clicked outside of it
+document.addEventListener("click", function(event) {
+    const popupForm = document.getElementById("popupForm");
+    const form = document.getElementById("popupFormId");
+
+    // Check if the click was outside the form
+    if (popupForm.style.display === "block" && !popupForm.contains(event.target) && event.target !== form) {
+        popupForm.style.display = "none";  // Hide the form
+    }
+});
+
+var selectfield =function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    return  data.Placement_Type ;
+
+};
+
+var statusfield =function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    if(data.campaign_status == "ENABLED" || data.campaign_status == "enabled" || data.campaign_status=='ACTIVE'){
+    return '<label class="toggle"><input class="toggle-checkbox" type="checkbox" checked><div class="toggle-switch"></div></label>';
+    }
+    else{
+        return '<label class="toggle"><input class="toggle-checkbox" type="checkbox"><div class="toggle-switch"></div></label>';
+    }
+};
+
+
+var optizens =function(cell, formatterParams, onRendered){ 
+    var data = cell.getRow().getData();
+    console.log(data);
+
+    if(data.cpm_smart != 0){
+      var smartBid = "<span style='font-size:0.85rem;'> Smart: ₹"+data.cpm_smart+"</span>"
+    }
+    else{
+      var smartBid = "<span></span>"
+    }
+
+    return '<div id="centric" ><div><span class = "del-add-btn" style="height:3.1vh;"><input  type="number" min=1 max=99999 style="width: 5rem; " value='+data.Absolute_Cost+' placeholder="00000.00" /><button class="brothers" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"><g fill-opacity="0" fill="#4a3b3b" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,256v-256h256v256z" id="bgRectangle"></path></g><g fill="#0d6efd" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(8.53333,8.53333)"><path d="M26.98047,5.99023c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-15.29297,15.29297l-6.29297,-6.29297c-0.25082,-0.26124 -0.62327,-0.36647 -0.97371,-0.27511c-0.35044,0.09136 -0.62411,0.36503 -0.71547,0.71547c-0.09136,0.35044 0.01388,0.72289 0.27511,0.97371l7,7c0.39053,0.39037 1.02353,0.39037 1.41406,0l16,-16c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988z"></path></g></g></svg></button><button class="brothers" ><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"><g fill="black" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M10,2l-1,1h-4c-0.6,0 -1,0.4 -1,1c0,0.6 0.4,1 1,1h2h10h2c0.6,0 1,-0.4 1,-1c0,-0.6 -0.4,-1 -1,-1h-4l-1,-1zM5,7v13c0,1.1 0.9,2 2,2h10c1.1,0 2,-0.9 2,-2v-13zM9,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1zM15,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1z"></path></g></g></svg></button></span></div></div>' + smartBid;
+
+};
+
+
+ var Editbut = function (cell, formatterParams, onRendered) { //plain text value
+    var data = cell.getRow().getData();
+    // console.log(data);
+    
+    var weirdo = '<div class=" disable" style="display:flex;"><input id="" name="name-change-input" style="font-size: 0.875rem; width: 184.5px;" class="ant-input css-1jr9qlj border border-primary" type="text" value="' + data.Placement_Type + '"></div>'
+
+    if(data.campaign_status === 'ACTIVE'){
+      var liveText = '<span style="border: 1.5px solid green; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Live</span>'
+    }
+    else if(data.campaign_status === 'COMPLETED'){
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Total Budget Met</span>'
+    }
+    else if(data.campaign_status === 'STOPPED'){
+      var liveText = '<span style="border: 1.5px solid red; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Paused</span>'
+    }
+    else{
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Archived</span>'
+    }
+
+
+    return "<div class='' style='display:flex; justify-content: space-between; position: relative; width:270px' ><a href='https://www.google.com/' style=' text-decoration:none; width:200px;  overflow:hidden;  text-overflow: ellipsis;'>" + data.Placement_Type + "</a></div> <div style= ></div>" + weirdo + liveText;
+  };
+
+  var campaigns = function (cell, formatterParams, onRendered){
+    var data = cell.getRow().getData();
+    var campaignName = data.campaign_name.length > 20 ? data.campaign_name.substring(0, 20) + '...' : data.campaign_name;
+
+    var weirdo = '<div class=" disable" style="display:flex;"><input id="" name="name-change-input" style="font-size: 0.875rem; width: 320px;" class="ant-input css-1jr9qlj border border-primary" type="text" value="'+ data.campaign_name+ '"><button id="" class="btn-sm btn-light p-2" style="padding: 4px 8px; border: 1px solid rgb(178, 178, 178); border-radius: 6px; display: flex; align-items: center; background:#fff;"><svg stroke="currentColor" fill="#00f" stroke-width="0" viewBox="0 0 512 512" class="text-primary" style="font-size: 15px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg></button><button class="btn-sm btn-light p-2" style="padding: 4px 9px; border: 1px solid rgb(178, 178, 178); border-radius: 6px; display: flex; align-items: center; background:#fff;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 352 512" style="font-size: 15px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></button></div>'
+
+    if(data.campaign_status === 'ACTIVE'){
+      var liveText = '<span style="border: 1.5px solid green; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Live</span>'
+    }
+    else if(data.campaign_status === 'COMPLETED'){
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Total Budget Met</span>'
+    }
+    else if(data.campaign_status === 'STOPPED'){
+      var liveText = '<span style="border: 1.5px solid red; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Paused</span>'
+    }
+    else{
+      var liveText = '<span style="border: 1.5px solid orange; padding: 1px 10px; border-radius: 0.2rem; font-size:0.85rem; box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);">Archived</span>'
+    }
+
+    return "<div class='' style='display:flex; justify-content: space-between; height:3vh' ><a style=' width:100px;'>"+campaignName+"</a> </div> <div style= ></div>" + weirdo + liveText;
+  }
+
+  // to round the total value of diffrent columns
+  var roundSum = function customTopCalc(values, data, calcParams) {
+      let sum = 0;
+      values.forEach(value => {
+          sum += value;
+      });
+      // Round sum to two decimal places 
+      sum = Math.round(sum * 100) / 100;
+      return sum+'%';
+    };
+
+
+function mergeColumnsFormatter(cell, formatterParams, onRendered) {
+  var value1 = cell.getRow().getData()[formatterParams.column1];
+  var value2 = cell.getRow().getData()[formatterParams.column2];
+
+  var roundedValue1 = Math.floor(value1 * 10) / 10;
+  var roundedValue2 = Math.floor(value2 * 10) / 10;
+
+  var mergedColumnWidth = cell.getColumn().getWidth() - 20; // Adjust the value as needed
+
+  var percentageKeywords=['spends','sales','cpm','total_ad_sales','troas','roas'];
+  var isPercentageColumn1 = formatterParams.column1.includes('ctr');
+  var isPercentageColumn2 = percentageKeywords.some(keyword=>formatterParams.column2.includes(keyword));
+  
+  var formattedValue1 = isPercentageColumn1 ? roundedValue1 + '%' : roundedValue1;
+  var formattedValue2 = isPercentageColumn2 ? roundedValue2 + '%' : roundedValue2;
+
+  if (roundedValue2 < 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 2px;">' + formattedValue1 + '<span style="color: red; font-size:.75rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></div>';
+  } else if (roundedValue2 > 0) {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 2px;">' + formattedValue1 + '<span style="color: green; font-size:.75rem; text-align: left; width: 40%;">' + formattedValue2 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-caret-up-fill" viewBox="0 0 16 16"><path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/></svg></span></div>';
+  } else {
+    var mergedValue = '<div style="display: flex; justify-content: space-between; margin-left: 5px; margin-right: 2px;">' + formattedValue1 + '</div>';
+  }
+
+  return mergedValue;
+}
+
+// Function to open the popup
+function openPopup(rowData, cellValue) {
+    // Create or select the popup element
+    let popup = document.getElementById("popup");
+    if (!popup) {
+        popup = document.createElement("div");
+        popup.id = "popup";
+        popup.classList.add("popup");
+        popup.innerHTML = `
+            <div class="popup-content">
+              <div class="popup-inner" style="padding: 18px; border-radius: 0.5rem;">
+                <div class="popup-inner-content">
+                  <div class="text-secondary" style="width: 16rem; font-size: 13px;">
+                    <div>
+                      <label class="fw-bold mb-1" for="exact-update-field">Exact Match CPM Bid</label> 
+                      <div class="d-flex justify-content-between">
+                      <input type="text" name="bid-input" style="width: 5rem; font-size: 12px; padding: 2px 3px; margin-right: 5px;">
+                      </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center my-3">
+                      <label class="fw-bold">Smart Match</label>
+                      <button type="button" role="switch" area  
+                    </div>
+                <span id="close-popup" class="popup-close">&times;</span>
+                <h6>Popup Data</h6>
+                <div id="popup-body"></div>
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        // Add close functionality
+        document.getElementById("close-popup").addEventListener("click", () => {
+            popup.style.display = "none";
+        });
+        console.log("Function called successfully");
+    }
+
+    // Populate popup content dynamically
+    const popupBody = document.getElementById("popup-body");
+    popupBody.innerHTML = `
+        <p><strong>Placement Type:</strong> ${rowData.Placement_Type}</p>
+        <p><strong>Cell Value:</strong> ${cellValue}</p>
+        <p><strong>Campaign ID:</strong> ${rowData.campaign_id}</p>
+        <p><strong>Target Type:</strong> ${rowData.target_type}</p>
+    `;
+
+    // Show the popup
+    popup.style.display = "block";
+}
+
+let popupDiv;
+function openPopupNew(rowData,bidValue,cellRect){
+  //  // Populate the form fields with data (if available)
+  //  document.getElementById("bidValue").value = bidValue; // Pre-fill bid value
+  //   document.getElementById("smartBidValue").value = rowData.smartBidValue || ""; // Pre-fill smart bid value
+  //   document.getElementById("switchToggle").checked = rowData.smartMatch || false; // Pre-fill smart match toggle
+
+  //   // Display the popup
+  //   document.getElementById("popupForm").style.display = "block";
+
+   // Remove existing popup if any
+   let existingPopup = document.getElementById("popupForm");
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+
+    // Create the popup form dynamically
+    let popupDiv = document.createElement("div");
+    popupDiv.id = "popupForm";
+    popupDiv.style.position = "absolute";
+    var cellCenterX = cellRect.left + (cellRect.width / 2); // Center of the cell horizontally
+    popupDiv.style.left = `${cellCenterX + 10}px`; // 10px gap to the right of the center
+    popupDiv.style.top = `${cellRect.top + (cellRect.height / 2) - 50}px`; // Vertically center with the cell and adjust a little
+    // popupDiv.style.top = `${cellRect.top}px`; // Position above the cell (adjust height as needed)
+    // popupDiv.style.left = `${cellRect.right + 10}px`; // Align with the right edge of the cell (adjust width as needed)
+    popupDiv.style.width = "300px"; // Fixed width for desktop view
+    popupDiv.style.maxWidth = "90%"; // Ensure it doesn't exceed the screen width
+    popupDiv.style.padding = "15px";
+    popupDiv.style.backgroundColor = "white";
+    popupDiv.style.border = "1px solid #ccc";
+    popupDiv.style.borderRadius = "8px";
+    popupDiv.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.1)";
+    popupDiv.style.zIndex = "1000";
+
+    // Form content
+    popupDiv.innerHTML = `
+        <form id="popupFormId" method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="bidValue">Exact Bid Match Value:</label>
+            <input type="number" min='0.01' step='0.01' id="bidValue" name="bidValue" value="${bidValue}" required style="padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="smartBidValue">Smart Bid Match Value:</label>
+            <input type="number" min='0.01' step='0.01' id="smartBidValue" name="smartBidValue" value="${rowData.smartBidValue || ''}" style="padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="switchToggle" style="display: flex; align-items: center; gap: 10px;">
+                <span>Smart Match On</span>
+                <input type="checkbox" id="switchToggle" class="switch-input" name="smartMatch" ${rowData.smartMatch ? 'checked' : ''}>
+                <span class="switch-slider"></span>
+            </label>
+
+            <div style="margin-top: auto; display: flex; justify-content: flex-end; ">
+                <button type="button" onclick="submitForm()" style="padding: 5px 10px; font-size:12px;background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                
+            </div>
+        </form>
+    `;
+
+     // Append the popup to the body
+     document.body.appendChild(popupDiv);
+
+      // Close and clear form when clicking outside the popup
+      // document.addEventListener("click", function (event) {
+      //       if (!popupDiv.contains(event.target)) {
+      //           closePopupAndClearForm();
+      //       }
+      //   });
+
+  // Ensure the popup is within the viewport
+  adjustPopupPosition(popupDiv);
+}
+
+// Close the popup if clicked outside
+document.addEventListener("click", function(event) {
+    const popupForm = document.getElementById("popupForm");
+    const tableElement = document.getElementById("main-table"); 
+    // Check if the click is outside the form and table
+     // Check if the click is outside the form and table
+     if (popupForm && tableElement) {
+     if (!popupForm.contains(event.target) && !tableElement.contains(event.target)) {
+        popupForm.style.display = "none"; // Hide the form
+    }}
+});
+
+function closePopupAndClearForm() {
+        // Close the popup
+        let popupDiv = document.getElementById("popupForm");
+        if (popupDiv) {
+            popupDiv.remove();
+        }
+
+        // // Clear the form values (optional)
+        // document.getElementById("bidValue").value = '';
+        // document.getElementById("smartBidValue").value = '';
+        // document.getElementById("switchToggle").checked = false;
+    }
+
+
+// function closePopup() {
+//     let popup = document.getElementById("popupForm");
+//     if (popup) {
+//         popup.remove();
+//     }
+// }
+function submitForm() {
+        // Submit form logic (can send data to the backend)
+        const popupFormData=document.querySelector("#post_data")
+
+        let bidValue = document.getElementById("bidValue").value;
+        let smartBidValue = document.getElementById("smartBidValue").value;
+        let smartMatch = document.getElementById("switchToggle").checked;
+
+        // Example of sending data to the backend (can be replaced with AJAX)
+        console.log("Form Submitted:", { bidValue, smartBidValue, smartMatch });
+
+
+
+        // Close and clear form after submission
+        // closePopupAndClearForm();
+         // Hide the form after submission
+        let popupForm = document.getElementById("popupForm");
+        popupForm.style.display = "none";
+    }
+    
+function adjustPopupPosition(popup) {
+    const popupRect = popup.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Adjust horizontally if overflow
+    if (popupRect.right > viewportWidth) {
+        popup.style.left = `${viewportWidth - popupRect.width - 10}px`;
+    }
+
+    // Adjust vertically if overflow
+    if (popupRect.top < 0) {
+        popup.style.top = `10px`;
+    }
+}
+ 
+// function hidePopup() {
+//     var popupForm = document.getElementById("popupForm");
+//     popupForm.style.display = "none"; // Hide the popup
+// }
+
+
+// window.onload = function() {
+//     let popupForm = document.getElementById("popupForm");
+//     popupForm.style.display = "none";  // Hide the form when the page is refreshed
+// };
+
+  var tabledata = [
+    {id:1, name:"Oli Bob", progress:12, gender:"male", rating:1, col:"red", dob:"19/02/1984", car:1},
+    {id:2, name:"Mary May", progress:1, gender:"female", rating:2, col:"blue", dob:"14/05/1982", car:true},
+    {id:3, name:"Christine Lobowski", progress:42, gender:"female", rating:0, col:"green", dob:"22/05/1982", car:"true"},
+    {id:4, name:"Brendon Philips", progress:100, gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
+    {id:5, name:"Margret Marmajuke", progress:16, gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
+    {id:6, name:"Frank Harbours", progress:38, gender:"male", rating:4, col:"red", dob:"12/05/1966", car:1},
+];
+
+var table = new Tabulator("#main-table", {
+    data:{{ keyword|safe }},           //load row data from array
+    layout:"fitdata",      //fit columns to width of table
+    rowHeight: 50,
+    responsiveLayout:false,  //hide columns that don't fit on the table
+    addRowPos:"top",          //when adding a new row, add it to the top of the table
+    history:true,             //allow undo and redo actions on the table
+    pagination:"local",       //paginate the data
+    paginationSize:8,         //allow 8 rows per page of data
+    paginationCounter:"rows", //display count of paginated rows in footer
+    rowFormatter:function(row){
+    var data = row.getData();
+    row.getElement().style.backgroundColor = "#fff";
+    row.getElement().style.border = "thin solid #aaa";
+    // row.getElement().style.height = "2.4rem";
+
+  },
+    movableColumns:true, 
+    initialSort:[ {column:"spends", dir:"des"},],
+    columnDefaults:{tooltip:true},
+    columns:[  
+        {formatter:"rowSelection", titleFormatter:"rowSelection", titleFormatterParams:{
+          rowRange:"active" //only toggle the values of the active filtered rows
+          }, hozAlign:"left",  frozen:true, headerSort:false, width: 50
+        },
+        {title:"TARGET", field:'Placement_Type',  formatter:Editbut, width:150, hozAlign:"left",editor:false, frozen:true, }, 
+
+        {title:"BID", field:'Absolute_Cost',   formatter:optizens,  width:150, hozAlign:"left", editor:false, frozen:true}, 
+        // cellClick:function(e,cell){
+        //   var this_row_data = cell.getRow().getData();
+        //   var this_cell_container =  cell._cell.element.children[0].children[0].children[0].children;
+        //   var bidValue=this_cell_container[0].value
+        //   var cellRect = cell.getElement().getBoundingClientRect();
+
+        //   console.log("children data is ",bidValue)
+        //   openPopupNew(this_row_data, bidValue,cellRect);
+        // },
+
+        // cellMouseEnter:function(e, cell){
+        //     const forms = document.querySelector('#post_data');
+        //     var this_row_data = cell.getRow().getData();
+        //     var this_cell_container =  cell._cell.element.children[0].children[0].children[0].children;
+            
+        //     this_cell_container[1].addEventListener('click',()=>{
+              
+        //         forms[1].value = this_row_data.Placement_Type;
+        //         forms[2].value = this_cell_container[0].value;
+        //         forms[3].value = this_row_data.campaign_id
+        //         forms[0].value= this_row_data.target_type;
+        //         forms[4].click();
+        //     });
+
+            // this_cell_container[2].addEventListener('click',()=>{
+            //     this_cell_container[0].value = 0
+            // });
+            // }
+
+        // },
+        {title:"STATUS", field:"campaign_status", formatter:statusfield, hozAlign:"center", vertAlign:"center", width:100, frozen:true},
+
+        {title:"KEYWORD TYPE", field:"keyword_type", width:165, hozAlign:"left", editor:false },
+
+        { title: "SPENDS", field:"spends",sorter:"number", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "spends", column2: "spends_change" }, align: "center" },
+
+        { title: "SALES", field:"sales", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "sales", column2: "sales_change" }, align: "center" },
+
+        { title: "CPM", field:"cpm", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "cpm", column2: "cpm_change" }, align: "center" },
+
+        { title: "<span style='white-space: normal;'>TOTAL AD SALES</span>", field:"total_ad_sales", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "total_ad_sales", column2: "total_ad_sales_change" }, align: "center" },
+
+        { title: "TROAS", field:"troas", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "troas", column2: "troas_change" }, align: "center" },
+
+        { title: "ROAS", field:"roas", formatter: mergeColumnsFormatter, width: 150, formatterParams: { column1: "roas", column2: "roas_change" }, align: "center" },
+        
+        {title:"<span style='white-space: normal;'>KEYWORD CLASS</span>", field:"keyword_class", width:150, hozAlign:"left", editor:false},
+
+        {title:"<span style='white-space: normal;'>AD TYPE</span>", field:"type", width:150, hozAlign:"left", editor:false},
+
+        {title:"CAMPAIGN", field:"campaign_name", width:180, hozAlign:"left", editor:false, formatter:campaigns},
+
+        {title:"<span style='white-space: normal;'>CAMPAIGN TAGS</span>", field:"campaign_tags", align: "center", width: 160},
+
+        // {title:"<span style='white-space: normal;'>CAMPAIGN ID</span>", field:"campaign_id", align: "center", width: 140}
+
+        // {title:"<span style='white-space: normal;'>MARKET PLACE</span>", field:"market_place", align: "center", width: 140},
+      ],
+  
+  pageLoaded: function(pageNumber) {
+        hidePopup();  // Hide popup when the page is changed
+    }
+});
+function hidePopup() {
+    var popupForm = document.getElementById("popupForm");
+    if (popupForm) {
+        popupForm.style.display = "none"; // Hide the form
+}
+}
+// 
+
+console.log( "Spend <" + "{{ 'filt1' }} " + "ACOS  >"  + "{{ 'filt2' }}");
+
+
+
+</script>
+
+
+{% endblock %}
