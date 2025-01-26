@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-z1wri_d()^^2(i659^ktly=$%0b=2xxfs&n7#9esg7ka(i^5s7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['media-automation-p5yn.onrender.com', 'localhost', 'gcpl-ads.com', 'gcpl-ads.onrender.com', '127.0.0.1']
 
 
 # Application definition
