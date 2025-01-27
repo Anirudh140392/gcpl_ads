@@ -3,7 +3,7 @@
 
 {% block content %}
 <style>
-  /* Internal CSS styles */
+
 
   #example-table,
   #example-table-2,
@@ -90,15 +90,6 @@
     background-color: rgba(113, 113, 113, 0.1);
     box-shadow: none;
   }
-
-
-
-
-
-
-
-
-
 
   /* 
   .tabulator-row{
@@ -254,6 +245,7 @@
                 <?xml version="1.0" encoding="UTF-8"?>
             <svg class="svg-container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height='500' width='400'  viewBox="300 700 2096 2096">
     
+                <!--Impressions-->
                 <g id="impression_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
 
                     <path fill-rule="nonzero" fill="rgb(184, 172, 212)" fill-opacity="1" d="M 724.320312 334.949219 L 859.058594 696.359375 L 859.066406 696.359375 C 859.066406 723.578125 1100.359375 745.648438 1398 745.648438 C 1695.648438 745.648438 1936.941406 723.578125 1936.941406 696.359375 L 2071.679688 334.949219 L 724.320312 334.949219 "/>
@@ -266,18 +258,18 @@
                     </text>
                 </g>
 
-
+                <!-- ATC-->
                 <g id="click_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
                     <path fill-rule="nonzero" fill="rgb(209, 206, 237)" fill-opacity="1" d="M 1128.53125 1725.480469 L 1263.269531 2086.878906 C 1263.269531 2093.691406 1323.589844 2099.210938 1398 2099.210938 C 1472.410156 2099.210938 1532.738281 2093.691406 1532.738281 2086.878906 L 1667.480469 1725.480469 L 1128.53125 1725.480469 "/>
                     <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1667.480469 1725.480469 C 1667.480469 1739.089844 1546.828125 1750.121094 1398 1750.121094 C 1249.179688 1750.121094 1128.53125 1739.089844 1128.53125 1725.480469 C 1128.53125 1711.859375 1249.179688 1700.828125 1398 1700.828125 C 1546.828125 1700.828125 1667.480469 1711.859375 1667.480469 1725.480469 "/>
                     <text text-anchor="middle" x="1400" y="1830" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">
-                    Clicks
+                    ATC
                     </text>
                     <text text-anchor="middle" x="1400" y="1930" fill="#222" font-size="70" font-family="Noto Sans, sans-serif">{{ data.totals.0 }}
                 </text>
                 </g>
 
-
+                <!-- Spends-->
                 <g id="spend_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
                     <path fill-rule="nonzero" fill="rgb(217, 213, 246)" fill-opacity="1" d="M 993.792969 1286.609375 L 1128.53125 1648.019531 C 1128.53125 1661.628906 1249.179688 1672.660156 1398 1672.660156 C 1546.828125 1672.660156 1667.480469 1661.628906 1667.480469 1648.019531 L 1802.210938 1286.609375 L 993.792969 1286.609375 "/>
                     <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1802.210938 1286.609375 C 1802.210938 1307.03125 1621.238281 1323.578125 1398 1323.578125 C 1174.769531 1323.578125 993.800781 1307.03125 993.800781 1286.609375 C 993.800781 1266.191406 1174.769531 1249.640625 1398 1249.640625 C 1621.238281 1249.640625 1802.210938 1266.191406 1802.210938 1286.609375 "/>
@@ -288,7 +280,7 @@
                 </text>
                 </g>
 
-
+                <!-- Sales-->
                 <g id="sale_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
                     <path fill-rule="nonzero" fill="rgb(225, 222, 253)" fill-opacity="1" d="M 859.058594 823.109375 L 993.792969 1184.511719 L 993.800781 1184.511719 C 993.800781 1204.921875 1174.769531 1221.46875 1398 1221.46875 C 1621.238281 1221.46875 1802.210938 1204.921875 1802.210938 1184.511719 L 1936.941406 823.109375 L 859.058594 823.109375 "/>
                     <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1936.941406 823.109375 C 1936.941406 850.328125 1695.648438 872.390625 1398 872.390625 C 1100.359375 872.390625 859.066406 850.328125 859.066406 823.109375 C 859.066406 795.878906 1100.359375 773.820312 1398 773.820312 C 1695.648438 773.820312 1936.941406 795.878906 1936.941406 823.109375 "/>
@@ -299,7 +291,7 @@
                 </text>
                 </g>
     
-    
+                <!-- Orders-->
                 <g id="order_group" data-name="Group Impression" transform="translate(44.514 218.216)" class="clickable active anim" data-group="impression" style="cursor: pointer;">
                     <path fill-rule="nonzero" fill="rgb(237, 234, 255)" fill-opacity="1" d="M 1532.738281 2139.699219 L 1398 2501.101562 L 1263.269531 2139.699219 Z M 1532.738281 2139.699219 "/>
                     <path fill-rule="nonzero" fill="rgb(55, 28, 75)" fill-opacity="1" d="M 1532.738281 2139.699219 C 1532.738281 2146.5 1472.410156 2152.019531 1398 2152.019531 C 1323.589844 2152.019531 1263.269531 2146.5 1263.269531 2139.699219 C 1263.269531 2132.890625 1323.589844 2127.371094 1398 2127.371094 C 1472.410156 2127.371094 1532.738281 2132.890625 1532.738281 2139.699219 "/>
@@ -329,11 +321,11 @@
                     </article>
                 </a>
             
-                <a href="#" id="cvr_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                <a href="#" id="cpm_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
                     <article class="card-s special-grade">
                     <span class="">
-                    <h8> Conversion Rate</h8>
-                    <h6 style="color:rgb(54, 61, 65, 1.0); margin:10px; font-weight: 600; font-size:1.1rem;">{{data.totals.10}}%</h6>
+                    <h8> CPM</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0); margin:10px; font-weight: 600; font-size:1.1rem;">{{data.totals.11}}</h6>
                     </span>
                     <span class="">
                     <h8 style="color: rgba(255, 158, 37, 1);"> Units</h8>
@@ -343,6 +335,15 @@
                     </article>
                 </a>
             
+                
+                <!-- <a href="#" id="cpm_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                  <article class="card-s special-grade">
+                  <span class="">
+                  <h8> CPM</h8>
+                  <h6 style="color:rgb(54, 61, 65, 1.0); margin:10px; font-weight: 600; font-size:1.1rem;">{{data.totals.11}}%</h6>
+                  </article>
+              </a>
+           -->
                 <a href="#" id="acos_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
                     <article class="card-s special-grade">
                     <span class="">
@@ -582,7 +583,8 @@ columns: [                 //define the table columns
 // { title: "Spends",width:140, formatter: num_st, formatterParams: { column1: "Spends"}, field: "Spends", hozAlign: "left",  scope: 'col',},
 // { title: "Sales", field: "Sales", width: 110, formatter: num_st, formatterParams: { column1: "Sales"}, hozAlign:"left", scope: 'col',},
 { title: "Sales", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
-{ title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
+// { title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
+{ title: "CPM", field: "CPM", width:110, hozAlign: "left", scope: 'col',},
 { title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
 { title: "ROAS", field: "ROAS", width: 100, hozAlign: "left", scope: 'col',  },
 

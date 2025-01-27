@@ -78,6 +78,8 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
     # CTR(CLicks/Impressions)
     # CPM(Spends/Impressions)
     df1['Total_Sales'] = df1['Direct_Sales'] + df1['Indirect_Sales']
+    df1['Total_ATC']=df1['Direct_ATC']+df1['Indirect_ATC']
+
     df1['Clicks']= df1['Direct_ATC']+df1['Indirect_ATC']
     df1['CPM'] = (df1['Estimated_Budget_Consumed'] / df1['Impressions']) * 1000
     df1['CTR'] = ((df1['Direct_ATC'] + df1['Indirect_ATC']) / df1['Impressions']) * 100
@@ -121,6 +123,9 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
 
     df2 = df2[columns]
     df2['Total_Sales'] = df2['Direct_Sales'] + df2['Indirect_Sales']
+    
+    df2['Total_ATC']= df2['Direct_ATC']+df2['Indirect_ATC']
+
     df2['Clicks']= df2['Direct_ATC']+df2['Indirect_ATC']
     df2['CPM'] = (df2['Estimated_Budget_Consumed'] / df2['Impressions']) * 1000
     df2['CTR'] = ((df2['Direct_ATC'] + df2['Indirect_ATC']) / df2['Impressions']) * 100
@@ -211,6 +216,7 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
     total_impressions = int(merged_df['Impressions_x'].sum())
     total_direct_clicks = int(merged_df['Direct_ATC_x'].sum())
     total_indirect_clicks = int(merged_df['Indirect_ATC_x'].sum())
+    total_atc=total_direct_clicks + total_indirect_clicks
     total_clicks = total_direct_clicks + total_indirect_clicks 
     total_direct_quantities_sold = int(merged_df['Direct_Quantities_Sold_x'].sum())
     total_indirect_quantities_sold = int(merged_df['Indirect_Quantities_Sold_x'].sum())
@@ -227,7 +233,8 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
     # avg_ROI = float((merged_df['ROAS_x'].mean() ).round(2))  ## 
     
     result = {
-        'clicks': total_clicks,
+
+        'atc': total_atc, # 0
         'spends': total_spends, # ?? correct...?
         'views': total_impressions,
         'orders': total_orders, # orders
@@ -238,15 +245,16 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
         'aov': avg_AOV,
         'ctr': avg_CTR,
         'cvr': avg_CVR, # conversion_rate
+        'cpm':avg_CPM,
         # 'cicu': avg_AOV, # aov
         # 'cdcr': total_sales, # sum(direct revenue)
         # 'cicr': avg_CPC, # cpc
         
     }
-    print(result)
+    # print(result)
     # exit()
     result = [human_format(i) for i in result.values()]   
     # print(result)
     return result
     
-# blnkt_overview_funnel_data()
+# blnkt_overview_funnel_data('2025-01-21','2025-01-26')

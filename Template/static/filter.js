@@ -50,6 +50,7 @@ const field_mapping = {
 	'Placement Type':'placement_type',
 	'ROI':'roi',
 	'CVR':'cvr',
+	'Total_ATC':'atc'
 	
 	// 'Target Type':'target_type',
 	// Numeric Filters

@@ -78,8 +78,13 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     # ATC is clicks
     # CTR(CLicks/Impressions)
     # CPM(Spends/Impressions)
+    
     df1['Total_Sales'] = df1['Direct_Sales'] + df1['Indirect_Sales']
+
+    df1['Total_ATC']=df1['Direct_ATC']+df1['Indirect_ATC']
+
     df1['Clicks']= df1['Direct_ATC']+df1['Indirect_ATC']
+
     df1['CPM'] = (df1['Estimated_Budget_Consumed'] / df1['Impressions']) * 1000
     df1['CTR'] = ((df1['Direct_ATC'] + df1['Indirect_ATC']) / df1['Impressions']) * 100
     df1['CVR'] = ((df1['Direct_Quantities_Sold'] + df1['Indirect_Quantities_Sold']) / (df1['Direct_ATC'] + df1['Indirect_ATC']) ) * 100
@@ -123,10 +128,16 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df2 = df2[columns]
     df2['Total_Sales'] = df2['Direct_Sales'] + df2['Indirect_Sales']
     df2['Clicks']= df2['Direct_ATC']+df2['Indirect_ATC']
+    
+    df2['Total_ATC']=df2['Direct_ATC']+df2['Indirect_ATC']
+    
     df2['CPM'] = (df2['Estimated_Budget_Consumed'] / df2['Impressions']) * 1000
+    
     df2['CTR'] = ((df2['Direct_ATC'] + df2['Indirect_ATC']) / df2['Impressions']) * 100
     df2['CVR'] = ((df2['Direct_Quantities_Sold'] + df2['Indirect_Quantities_Sold']) / (df2['Direct_ATC'] + df2['Indirect_ATC']) ) * 100
+    
     df2['CPC'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_ATC'])
+    
     df2['AOV'] = ((df2['Direct_Sales'] + df1['Indirect_Sales']) / df2['Direct_Quantities_Sold'])
     df2['ACOS'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_Sales'])
     
@@ -222,10 +233,13 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
 
         return df
 
-    df = graph_data("2025-01-21", "2025-01-22")
+    df = graph_data(start_date, end_date)
 
     df['Total_Sales'] = df['Direct_Sales'] + df['Indirect_Sales']
     df['Total_Clicks'] = df['Direct_ATC'] + df['Indirect_ATC']
+
+    df['Total_ATC'] = df['Direct_ATC'] + df['Indirect_ATC']
+    
     df['Total_Orders'] = df['Direct_Quantities_Sold'] + df['Indirect_Quantities_Sold']
     df['CPM'] = (df['Estimated_Budget_Consumed'] / df['Impressions']) * 1000
     df['CTR'] = ((df['Direct_ATC'] + df1['Indirect_ATC']) / df['Impressions']) * 100
@@ -249,6 +263,7 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
         'Indirect_Sales': 'sum',
         'Total_Sales': 'sum',
         'Total_Clicks': 'sum',
+        'Total_ATC':'sum',
         'Total_Orders': 'sum',
         'Direct_ATC': 'sum',
         'Indirect_ATC': 'sum',
@@ -279,10 +294,13 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     final_data['ads_pend'] = df['Estimated_Budget_Consumed'].values.tolist()
     final_data['impressions'] = df['Impressions'].values.tolist()
     final_data['clicks'] = df['Total_Clicks'].values.tolist()
+
+    final_data['atc']=df['Total_ATC'].values.tolist()
     final_data['ctr'] = df['CTR'].values.tolist()
     final_data['cdcu'] = df['Total_Orders'].values.tolist()
     final_data['cicu'] = df['AOV'].values.tolist()
     final_data['cvr'] = df['CVR'].values.tolist()
+    final_data['cpm']=df['CPM'].values.tolist()
     final_data['cdcr'] = df['Total_Sales'].values.tolist()
     final_data['cicr'] = df['CPC'].values.tolist()
     final_data['roi'] = df['ROAS'].values.tolist()
@@ -290,8 +308,8 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     for key in final_data:
         final_data[key] = [float(value) if isinstance(value, Decimal) else value for value in final_data[key]]
 
-    print(final_data)
+    # print(final_data)
 
     return final_data
 
-# blnkt_ov_data()
+# blnkt_ov_data('2025-01-22','2025-01-26')

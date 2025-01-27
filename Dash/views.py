@@ -140,17 +140,17 @@ def blnkt_home(request):
 			start_date, end_date = tuple(inpu_date.split('/'))
 			print(start_date, end_date)
 
-		blnktData = {'date': ['2024-05-01', '2024-05-02', '2024-05-03', '2024-05-04', '2024-05-05', '2024-05-06', '2024-05-07'], 
-				'ads_pend': ['149395.8700', '212355.3500', '184596.5800', '171908.3500', '159957.8100', '152096.4000', '120481.5300'], 
-				'impressions': ['576953', '914770', '905676', '754497', '663202', '718199', '651973'], 
-				'clicks': ['13983', '21807', '19992', '18028', '17182', '16393', '14606'], 
-				'ctr': ['0.0242', '0.0238', '0.0221', '0.0239', '0.0259', '0.0228', '0.0224'], 
-				'cdcu': ['1779', '3969', '2993', '2477', '2331', '2182', '1513'], 
-				'cicu': ['590', '1433', '889', '826', '676', '739', '508'], 
-				'cvr': ['0.1694', '0.2477', '0.1942', '0.1832', '0.1750', '0.1782', '0.1384'], 
-				'cdcr': ['582549.0000', '1186230.0000', '851869.0000', '696546.0000', '657842.0000', '613704.0000', '436903.0000'], 
-				'cicr': ['181154.0000', '429206.0000', '262953.0000', '235166.0000', '190096.0000', '209814.0000', '143184.0000'], 
-				'roi': ['1.2126', '2.0212', '1.4245', '1.3680', '1.1884', '1.3795', '1.1884']}
+		# blnktData = {'date': ['2024-05-01', '2024-05-02', '2024-05-03', '2024-05-04', '2024-05-05', '2024-05-06', '2024-05-07'], 
+		# 		'ads_pend': ['149395.8700', '212355.3500', '184596.5800', '171908.3500', '159957.8100', '152096.4000', '120481.5300'], 
+		# 		'impressions': ['576953', '914770', '905676', '754497', '663202', '718199', '651973'], 
+		# 		'clicks': ['13983', '21807', '19992', '18028', '17182', '16393', '14606'], 
+		# 		'ctr': ['0.0242', '0.0238', '0.0221', '0.0239', '0.0259', '0.0228', '0.0224'], 
+		# 		'cdcu': ['1779', '3969', '2993', '2477', '2331', '2182', '1513'], 
+		# 		'cicu': ['590', '1433', '889', '826', '676', '739', '508'], 
+		# 		'cvr': ['0.1694', '0.2477', '0.1942', '0.1832', '0.1750', '0.1782', '0.1384'], 
+		# 		'cdcr': ['582549.0000', '1186230.0000', '851869.0000', '696546.0000', '657842.0000', '613704.0000', '436903.0000'], 
+		# 		'cicr': ['181154.0000', '429206.0000', '262953.0000', '235166.0000', '190096.0000', '209814.0000', '143184.0000'], 
+		# 		'roi': ['1.2126', '2.0212', '1.4245', '1.3680', '1.1884', '1.3795', '1.1884']}
 		
 		start_date='2025-01-21'
 		end_date='2025-01-22'
@@ -196,7 +196,8 @@ def Campagins(request):
                   }
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
 
-	platf = request.session['platform']
+	# platf = request.session['platform']
+	platf='Blinkit'
 	global row_counts
 
 	if platf == 'Blinkit' :
@@ -265,8 +266,10 @@ def keywords(request):
                     'metrics_filter': ['Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS', 'ROAS'],
                   }
 
-	platf = request.session['platform']
-	bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
+	platf='Blinkit'
+	bal='N/A'
 	q1 , q2 = "", ""
 	pre_filt = None
 	global row_counts
@@ -340,9 +343,11 @@ def Rule(request):
 	filter_list = { 'string_filter' : ['portfolio' ],
                     'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
                   }
-	platf = request.session['platform']
-	bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
 	
+	platf='Blinkit'
+	bal='N/A'
 	if platf =='Blinkit':
 			# blnkt_rule = blnkt_rules()
 			# limit_type = [rule.get('limit_type', '') for rule in blnkt_rule]
@@ -370,20 +375,20 @@ def keywordAnalytics(request):
 											'metrics_filter': ['Is Exact','Impressions', 'Spends', 'CPATC', 'Sales', 'CPM', 'Total AD Sales', 'TROAS', 'Program Type', 'ROAS'],
 										}
 			
-			kw_anlytics_data = [{'search_term': 'nivea', 'campaign_count': 50.0, 'is_exact': 1.0, 'impressions': 206402.0, 'impressions_change': 26.94, 'spends': 123903.1, 'spends_change': 27.0, 'sales': 331499.0, 'sales_change': 21.97, 'cpatc': 5.23, 'cpatc_change': -7.76, 'cpm': 587.5, 'cpm_change': 1.47, 'total_ad_sales': 915267.0, 'total_ad_sales_change': 22.82, 'troas': 6.82, 'troas_change': 7.91, 'roas': 2.5, 'roas_change': 0.81, 'program_type': 'Performance', 'acos': 16.5, 'acos_change': -13.57, 'orders': 19971.0, 'orders_change': 23.84, }, 
-			{'search_term': 'body wash', 'campaign_count': 42.0, 'is_exact': 1.0, 'impressions': 19311.0, 'impressions_change': 15.96, 'spends': 9402.5, 'spends_change': 16.9, 'sales': 36663.0, 'sales_change': 8.85, 'cpatc': 8.3, 'cpatc_change': -3.4, 'cpm': 478.88, 'cpm_change': 1.35, 'total_ad_sales': 124243.0, 'total_ad_sales_change': 12.66, 'troas': 12.41, 'troas_change': 2.73, 'roas': 4.13, 'roas_change': -15.37, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 2729.0, 'orders_change': 12.49, }, 
-			{'search_term': 'roll on', 'campaign_count': 22.0, 'is_exact': 1.0, 'impressions': 18492.0, 'impressions_change': 38.18, 'spends': 9053.5, 'spends_change': 39.18, 'sales': 25391.0, 'sales_change': 26.42, 'cpatc': 3.97, 'cpatc_change': 0.25, 'cpm': 491.64, 'cpm_change': 1.89, 'total_ad_sales': 90393.0, 'total_ad_sales_change': 29.46, 'troas': 10.12, 'troas_change': -1.17, 'roas': 2.86, 'roas_change': -0.69, 'program_type': 'Performance', 'acos': 11.16, 'acos_change': -2.19, 'orders': 1817.0, 'orders_change': 30.72, }, 
-			{'search_term': 'body lotion', 'campaign_count': 17.0, 'is_exact': 1.0, 'impressions': 10658.0, 'impressions_change': 12.38, 'spends': 7509.8, 'spends_change': 13.14, 'sales': 18345.0, 'sales_change': -2.08, 'cpatc': 9.58, 'cpatc_change': 27.06, 'cpm': 680.18, 'cpm_change': 1.77, 'total_ad_sales': 42558.0, 'total_ad_sales_change': 5.08, 'troas': 4.95, 'troas_change': -21.8, 'roas': 1.83, 'roas_change': -25.31, 'program_type': 'Performance', 'acos': 23.45, 'acos_change': 38.02, 'orders': 700.0, 'orders_change': 5.74, }, 
-			{'search_term': 'men deodorant', 'campaign_count': 42.0, 'is_exact': 1.0, 'impressions': 15548.0, 'impressions_change': 22.08, 'spends': 6760.6, 'spends_change': 22.16, 'sales': 26597.0, 'sales_change': 7.43, 'cpatc': 4.12, 'cpatc_change': 0.0, 'cpm': 422.21, 'cpm_change': 1.13, 'total_ad_sales': 87503.0, 'total_ad_sales_change': 6.78, 'troas': 11.59, 'troas_change': -11.59, 'roas': 4.01, 'roas_change': -21.83, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 1952.0, 'orders_change': 7.19, }, 
-			{'search_term': 'women deodorant', 'campaign_count': 22.0, 'is_exact': 1.0, 'impressions': 11107.0, 'impressions_change': 10.57, 'spends': 6082.8, 'spends_change': 10.78, 'sales': 89500.0, 'sales_change': 11.1, 'cpatc': 2.44, 'cpatc_change': -29.48, 'cpm': 546.14, 'cpm_change': 2.08, 'total_ad_sales': 114493.0, 'total_ad_sales_change': 14.96, 'troas': 18.43, 'troas_change': 23.03, 'roas': 13.99, 'roas_change': 24.47, 'program_type': 'Performance', 'acos': 6.43, 'acos_change': -26.93, 'orders': 2108.0, 'orders_change': 14.57, }, 
-			{'search_term': 'Others', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 9426.0, 'impressions_change': -20.46, 'spends': 2827.8, 'spends_change': -20.46, 'sales': 14670.0, 'sales_change': -30.64, 'cpatc': 3.7, 'cpatc_change': 23.75, 'cpm': 300.0, 'cpm_change': 0.0, 'total_ad_sales': 18725.0, 'total_ad_sales_change': -31.66, 'troas': 6.61, 'troas_change': -13.71, 'roas': 5.13, 'roas_change': -13.05, 'program_type': 'Performance', 'acos': 15.24, 'acos_change': 13.82, 'orders': 419.0, 'orders_change': -31.98, }, 
-			{'search_term': 'body', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 3902.0, 'impressions_change': -21.96, 'spends': 1916.2, 'spends_change': -21.95, 'sales': 29680.0, 'sales_change': -17.65, 'cpatc': 1.53, 'cpatc_change': 0.66, 'cpm': 491.0, 'cpm_change': 0.0, 'total_ad_sales': 31991.0, 'total_ad_sales_change': -16.1, 'troas': 16.34, 'troas_change': 7.36, 'roas': 15.21, 'roas_change': 5.48, 'program_type': 'Performance', 'acos': 6.2, 'acos_change': -6.91, 'orders': 795.0, 'orders_change': -16.32, }, 
-			{'search_term': 'cream', 'campaign_count': 17.0, 'is_exact': 1.0, 'impressions': 3967.0, 'impressions_change': 54.42, 'spends': 1802.1, 'spends_change': 55.73, 'sales': 27788.0, 'sales_change': 58.73, 'cpatc': 1.69, 'cpatc_change': -6.11, 'cpm': 439.35, 'cpm_change': -0.15, 'total_ad_sales': 35139.0, 'total_ad_sales_change': 58.12, 'troas': 18.33, 'troas_change': 2.8, 'roas': 12.46, 'roas_change': 1.71, 'program_type': 'Performance', 'acos': 5.95, 'acos_change': -6.15, 'orders': 853.0, 'orders_change': 57.67, }, 
-			{'search_term': 'nivea body lotion', 'campaign_count': 31.0, 'is_exact': 1.0, 'impressions': 2497.0, 'impressions_change': 26.75, 'spends': 1406.7, 'spends_change': 29.55, 'sales': 3710.0, 'sales_change': -6.67, 'cpatc': 0.30, 'cpatc_change': 0.0, 'cpm': 540.87, 'cpm_change': 2.7, 'total_ad_sales': 4985.0, 'total_ad_sales_change': -19.75, 'troas': 2.48, 'troas_change': -54.58, 'roas': 1.5, 'roas_change': -50.0, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 111.0, 'orders_change': -18.98, }, 
-			{'search_term': 'nivea body wash', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 3555.0, 'impressions_change': -19.11, 'spends': 1066.5, 'spends_change': -19.11, 'sales': 27040.0, 'sales_change': -19.81, 'cpatc': 0.98, 'cpatc_change': 6.52, 'cpm': 300.0, 'cpm_change': 1.0, 'total_ad_sales': 28809.0, 'total_ad_sales_change': -20.71, 'troas': 26.49, 'troas_change': 0.49, 'roas': 24.81, 'roas_change': 1.39, 'program_type': 'Performance', 'acos': 3.82, 'acos_change': -3.54, 'orders': 717.0, 'orders_change': -20.51, }, 
-			{'search_term': 'men perfume', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 2459.0, 'impressions_change': -17.51, 'spends': 983.6, 'spends_change': -17.51, 'sales': 24200.0, 'sales_change': -5.91, 'cpatc': 1.06, 'cpatc_change': -2.75, 'cpm': 400.0, 'cpm_change': 40.3, 'total_ad_sales': 26219.0, 'total_ad_sales_change': -5.54, 'troas': 27.2, 'troas_change': 17.49, 'roas': 24.98, 'roas_change': 15.76, 'program_type': 'Performance', 'acos': 3.81, 'acos_change': -14.19, 'orders': 651.0, 'orders_change': -5.52, }, 
-			{'search_term': 'nivea cream', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 2830.0, 'impressions_change': 673.22, 'spends': 849.0, 'spends_change': 673.22, 'sales': 6320.0, 'sales_change': 887.5, 'cpatc': 2.44, 'cpatc_change': 0.0, 'cpm': 300.0, 'cpm_change': 0.0, 'total_ad_sales': 8708.0, 'total_ad_sales_change': 838.36, 'troas': 11.05, 'troas_change': 13.8, 'roas': 7.89, 'roas_change': 7.93, 'program_type': 'Performance', 'acos': 9.26, 'acos_change': 0.0, 'orders': 211.0, 'orders_change': 859.09, }, 
-			{'search_term': 'lip gloss', 'campaign_count': 1.0, 'is_exact': 1.0, 'impressions': 2117.0, 'impressions_change': -10.0, 'spends': 794.0, 'spends_change': 31.0, 'sales': 315.0, 'sales_change': 11.0, 'cpatc': 22.69, 'cpatc_change': 0.0, 'cpm': 375.0, 'cpm_change': 0.0, 'total_ad_sales': 1048.0, 'total_ad_sales_change': 0.0, 'troas': 1.32, 'troas_change': 0.0, 'roas': 0.4, 'roas_change': 0.0, 'program_type': 'Performance', 'acos': 75.76, 'acos_change': 0.0, 'orders': 24.0, 'orders_change': 0.0, }]
+			# kw_anlytics_data = [{'search_term': 'nivea', 'campaign_count': 50.0, 'is_exact': 1.0, 'impressions': 206402.0, 'impressions_change': 26.94, 'spends': 123903.1, 'spends_change': 27.0, 'sales': 331499.0, 'sales_change': 21.97, 'cpatc': 5.23, 'cpatc_change': -7.76, 'cpm': 587.5, 'cpm_change': 1.47, 'total_ad_sales': 915267.0, 'total_ad_sales_change': 22.82, 'troas': 6.82, 'troas_change': 7.91, 'roas': 2.5, 'roas_change': 0.81, 'program_type': 'Performance', 'acos': 16.5, 'acos_change': -13.57, 'orders': 19971.0, 'orders_change': 23.84, }, 
+			# {'search_term': 'body wash', 'campaign_count': 42.0, 'is_exact': 1.0, 'impressions': 19311.0, 'impressions_change': 15.96, 'spends': 9402.5, 'spends_change': 16.9, 'sales': 36663.0, 'sales_change': 8.85, 'cpatc': 8.3, 'cpatc_change': -3.4, 'cpm': 478.88, 'cpm_change': 1.35, 'total_ad_sales': 124243.0, 'total_ad_sales_change': 12.66, 'troas': 12.41, 'troas_change': 2.73, 'roas': 4.13, 'roas_change': -15.37, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 2729.0, 'orders_change': 12.49, }, 
+			# {'search_term': 'roll on', 'campaign_count': 22.0, 'is_exact': 1.0, 'impressions': 18492.0, 'impressions_change': 38.18, 'spends': 9053.5, 'spends_change': 39.18, 'sales': 25391.0, 'sales_change': 26.42, 'cpatc': 3.97, 'cpatc_change': 0.25, 'cpm': 491.64, 'cpm_change': 1.89, 'total_ad_sales': 90393.0, 'total_ad_sales_change': 29.46, 'troas': 10.12, 'troas_change': -1.17, 'roas': 2.86, 'roas_change': -0.69, 'program_type': 'Performance', 'acos': 11.16, 'acos_change': -2.19, 'orders': 1817.0, 'orders_change': 30.72, }, 
+			# {'search_term': 'body lotion', 'campaign_count': 17.0, 'is_exact': 1.0, 'impressions': 10658.0, 'impressions_change': 12.38, 'spends': 7509.8, 'spends_change': 13.14, 'sales': 18345.0, 'sales_change': -2.08, 'cpatc': 9.58, 'cpatc_change': 27.06, 'cpm': 680.18, 'cpm_change': 1.77, 'total_ad_sales': 42558.0, 'total_ad_sales_change': 5.08, 'troas': 4.95, 'troas_change': -21.8, 'roas': 1.83, 'roas_change': -25.31, 'program_type': 'Performance', 'acos': 23.45, 'acos_change': 38.02, 'orders': 700.0, 'orders_change': 5.74, }, 
+			# {'search_term': 'men deodorant', 'campaign_count': 42.0, 'is_exact': 1.0, 'impressions': 15548.0, 'impressions_change': 22.08, 'spends': 6760.6, 'spends_change': 22.16, 'sales': 26597.0, 'sales_change': 7.43, 'cpatc': 4.12, 'cpatc_change': 0.0, 'cpm': 422.21, 'cpm_change': 1.13, 'total_ad_sales': 87503.0, 'total_ad_sales_change': 6.78, 'troas': 11.59, 'troas_change': -11.59, 'roas': 4.01, 'roas_change': -21.83, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 1952.0, 'orders_change': 7.19, }, 
+			# {'search_term': 'women deodorant', 'campaign_count': 22.0, 'is_exact': 1.0, 'impressions': 11107.0, 'impressions_change': 10.57, 'spends': 6082.8, 'spends_change': 10.78, 'sales': 89500.0, 'sales_change': 11.1, 'cpatc': 2.44, 'cpatc_change': -29.48, 'cpm': 546.14, 'cpm_change': 2.08, 'total_ad_sales': 114493.0, 'total_ad_sales_change': 14.96, 'troas': 18.43, 'troas_change': 23.03, 'roas': 13.99, 'roas_change': 24.47, 'program_type': 'Performance', 'acos': 6.43, 'acos_change': -26.93, 'orders': 2108.0, 'orders_change': 14.57, }, 
+			# {'search_term': 'Others', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 9426.0, 'impressions_change': -20.46, 'spends': 2827.8, 'spends_change': -20.46, 'sales': 14670.0, 'sales_change': -30.64, 'cpatc': 3.7, 'cpatc_change': 23.75, 'cpm': 300.0, 'cpm_change': 0.0, 'total_ad_sales': 18725.0, 'total_ad_sales_change': -31.66, 'troas': 6.61, 'troas_change': -13.71, 'roas': 5.13, 'roas_change': -13.05, 'program_type': 'Performance', 'acos': 15.24, 'acos_change': 13.82, 'orders': 419.0, 'orders_change': -31.98, }, 
+			# {'search_term': 'body', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 3902.0, 'impressions_change': -21.96, 'spends': 1916.2, 'spends_change': -21.95, 'sales': 29680.0, 'sales_change': -17.65, 'cpatc': 1.53, 'cpatc_change': 0.66, 'cpm': 491.0, 'cpm_change': 0.0, 'total_ad_sales': 31991.0, 'total_ad_sales_change': -16.1, 'troas': 16.34, 'troas_change': 7.36, 'roas': 15.21, 'roas_change': 5.48, 'program_type': 'Performance', 'acos': 6.2, 'acos_change': -6.91, 'orders': 795.0, 'orders_change': -16.32, }, 
+			# {'search_term': 'cream', 'campaign_count': 17.0, 'is_exact': 1.0, 'impressions': 3967.0, 'impressions_change': 54.42, 'spends': 1802.1, 'spends_change': 55.73, 'sales': 27788.0, 'sales_change': 58.73, 'cpatc': 1.69, 'cpatc_change': -6.11, 'cpm': 439.35, 'cpm_change': -0.15, 'total_ad_sales': 35139.0, 'total_ad_sales_change': 58.12, 'troas': 18.33, 'troas_change': 2.8, 'roas': 12.46, 'roas_change': 1.71, 'program_type': 'Performance', 'acos': 5.95, 'acos_change': -6.15, 'orders': 853.0, 'orders_change': 57.67, }, 
+			# {'search_term': 'nivea body lotion', 'campaign_count': 31.0, 'is_exact': 1.0, 'impressions': 2497.0, 'impressions_change': 26.75, 'spends': 1406.7, 'spends_change': 29.55, 'sales': 3710.0, 'sales_change': -6.67, 'cpatc': 0.30, 'cpatc_change': 0.0, 'cpm': 540.87, 'cpm_change': 2.7, 'total_ad_sales': 4985.0, 'total_ad_sales_change': -19.75, 'troas': 2.48, 'troas_change': -54.58, 'roas': 1.5, 'roas_change': -50.0, 'program_type': 'Performance', 'acos': 0.0, 'acos_change': 0.0, 'orders': 111.0, 'orders_change': -18.98, }, 
+			# {'search_term': 'nivea body wash', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 3555.0, 'impressions_change': -19.11, 'spends': 1066.5, 'spends_change': -19.11, 'sales': 27040.0, 'sales_change': -19.81, 'cpatc': 0.98, 'cpatc_change': 6.52, 'cpm': 300.0, 'cpm_change': 1.0, 'total_ad_sales': 28809.0, 'total_ad_sales_change': -20.71, 'troas': 26.49, 'troas_change': 0.49, 'roas': 24.81, 'roas_change': 1.39, 'program_type': 'Performance', 'acos': 3.82, 'acos_change': -3.54, 'orders': 717.0, 'orders_change': -20.51, }, 
+			# {'search_term': 'men perfume', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 2459.0, 'impressions_change': -17.51, 'spends': 983.6, 'spends_change': -17.51, 'sales': 24200.0, 'sales_change': -5.91, 'cpatc': 1.06, 'cpatc_change': -2.75, 'cpm': 400.0, 'cpm_change': 40.3, 'total_ad_sales': 26219.0, 'total_ad_sales_change': -5.54, 'troas': 27.2, 'troas_change': 17.49, 'roas': 24.98, 'roas_change': 15.76, 'program_type': 'Performance', 'acos': 3.81, 'acos_change': -14.19, 'orders': 651.0, 'orders_change': -5.52, }, 
+			# {'search_term': 'nivea cream', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 2830.0, 'impressions_change': 673.22, 'spends': 849.0, 'spends_change': 673.22, 'sales': 6320.0, 'sales_change': 887.5, 'cpatc': 2.44, 'cpatc_change': 0.0, 'cpm': 300.0, 'cpm_change': 0.0, 'total_ad_sales': 8708.0, 'total_ad_sales_change': 838.36, 'troas': 11.05, 'troas_change': 13.8, 'roas': 7.89, 'roas_change': 7.93, 'program_type': 'Performance', 'acos': 9.26, 'acos_change': 0.0, 'orders': 211.0, 'orders_change': 859.09, }, 
+			# {'search_term': 'lip gloss', 'campaign_count': 1.0, 'is_exact': 1.0, 'impressions': 2117.0, 'impressions_change': -10.0, 'spends': 794.0, 'spends_change': 31.0, 'sales': 315.0, 'sales_change': 11.0, 'cpatc': 22.69, 'cpatc_change': 0.0, 'cpm': 375.0, 'cpm_change': 0.0, 'total_ad_sales': 1048.0, 'total_ad_sales_change': 0.0, 'troas': 1.32, 'troas_change': 0.0, 'roas': 0.4, 'roas_change': 0.0, 'program_type': 'Performance', 'acos': 75.76, 'acos_change': 0.0, 'orders': 24.0, 'orders_change': 0.0, }]
 			
 			start_date='2025-01-25'
 			end_date='2025-01-25'
@@ -414,8 +419,12 @@ def productAnalytics(request):
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
 	# if 'Dates' not in request.session:
 	# 	request.session['Dates'] = (str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1)))
-	bal = request.session["wallet_balance"]
-	platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
+
+	bal='N/A'
+	platf='Blinkit'
+
 	filter_list = { 'string_filter' : ['portfolio' ],
 										'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
 									}
@@ -480,8 +489,12 @@ def negativeKeyword(request):
 	filter_list = { 'string_filter' : ['Search Term', 'Ad Group', 'Campaign' ],
                     'metrics_filter': ['Impressions','Clicks', 'Spends', 'Sales', 'CTR', 'ROAS', 'Orders'],
                   }
-	bal = request.session["wallet_balance"]
-	platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
+
+	bal='N/A'
+	platf='Blinkit'
+
 	global row_counts
 	
 	if platf == 'Blinkit':
@@ -553,8 +566,12 @@ def recommendation(request):
                     'metrics_filter': ['Impressions', 'Clicks', 'Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS'],
                   }
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
-	bal = request.session["wallet_balance"]
-	platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
+
+	bal='N/A'
+	platf='Blinkit'
+
 	if platf == 'Blinkit' :
 		# recom= [
 		# 	{'user_name': 'nivea', 'date': '2024-05-15', 'time': '0 days 12:30:29', 'campaign_name': 'HM_SM_PCAi_Roll On_M_Auto__High CVR_6 Mar 24', 'placement_type': 'SEARCH_PAGE_TOP_SLOT', 'keyword': 'keyword', 'suggestion': 'Decrease the Bid it is Out Of Range', 'type': 'PCA'}, 
@@ -583,9 +600,12 @@ def History(request):
 	filter_list = { 'string_filter' : ['portfolio' ],
                     'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
                   }
-	bal = request.session["wallet_balance"]
-	platf = request.session['platform']
+	# bal = request.session["wallet_balance"]
+	# platf = request.session['platform']
 	
+	bal='N/A'
+	platf='Blinkit'
+
 	if platf == 'Blinkit':
 		# history = [
 		# 	{'date': '2024-08-03', 'time': '02:32', 'revert': 'Not Possible', 'module': 'Keywords', 'type': 'bid change_rule', 'property': 'bid', 'from': 21.11, 'to': 20.48, 'source': 'System', 'campaign_name': 'HM_SM_PLA_FW_M_Brand_KT_Broad', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'platform': 'GROCERY', 'nature': 'Auto', 'source_name': 'System', 'camp_type': 'PLA', 't_camp': 61.0, 'u_camp': 60.0}, 

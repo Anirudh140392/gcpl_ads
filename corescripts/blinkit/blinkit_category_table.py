@@ -81,7 +81,11 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     # CTR(CLicks/Impressions)
     # CPM(Spends/Impressions)
     df1['Total_Sales'] = df1['Direct_Sales'] + df1['Indirect_Sales']
+
+    df1['Total_ATC']=df1['Direct_ATC']+df1['Indirect_ATC']
+
     df1['Clicks']= df1['Direct_ATC']+df1['Indirect_ATC']
+
     df1['CPM'] = (df1['Estimated_Budget_Consumed'] / df1['Impressions']) * 1000
     df1['CTR'] = ((df1['Direct_ATC'] + df1['Indirect_ATC']) / df1['Impressions']) * 100
     df1['CVR'] = ((df1['Direct_Quantities_Sold'] + df1['Indirect_Quantities_Sold']) / (df1['Direct_ATC'] + df1['Indirect_ATC']) ) * 100
@@ -124,11 +128,16 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
 
     df2 = df2[columns]
     df2['Total_Sales'] = df2['Direct_Sales'] + df2['Indirect_Sales']
+
+    df2['Total_ATC']=df2['Direct_ATC']+df2['Indirect_ATC']
+        
     df2['Clicks']= df2['Direct_ATC']+df2['Indirect_ATC']
     df2['CPM'] = (df2['Estimated_Budget_Consumed'] / df2['Impressions']) * 1000
+
     df2['CTR'] = ((df2['Direct_ATC'] + df2['Indirect_ATC']) / df2['Impressions']) * 100
     df2['CVR'] = ((df2['Direct_Quantities_Sold'] + df2['Indirect_Quantities_Sold']) / (df2['Direct_ATC'] + df2['Indirect_ATC']) ) * 100
     df2['CPC'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_ATC'])
+    
     df2['AOV'] = ((df2['Direct_Sales'] + df1['Indirect_Sales']) / df2['Direct_Quantities_Sold'])
     df2['ACOS'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_Sales'])
     
@@ -200,6 +209,7 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
         # 'Estimated_Budget_Consumed_x':'sum',
         # 'Total Sales_x':'sum',
         'CVR_x': 'mean',
+        'CPM_x':'mean',
         'CPC_x': 'mean',
         'ROAS_x': 'mean', ##
     })
@@ -216,6 +226,7 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     merged_data['Spends'] = grouped_df['Estimated_Budget_Consumed_x'].values.tolist()
     merged_data['Sales'] = grouped_df['Total_Sales_x'].values.tolist()
     merged_data['CVR'] = grouped_df['CVR_x'].values.tolist()
+    merged_data['CPM']=grouped_df['CPM_x'].values.tolist()
     merged_data['CPC'] = grouped_df['CPC_x'].values.tolist()
     merged_data['ROAS'] = grouped_df['ROAS_x'].values.tolist() ##
 
@@ -225,9 +236,9 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
 
     # new_list = [human_format(i) if isinstance(i, float) else i for i in new_list]
 
-    print('==============\n', new_list)
+    # print('==============\n', new_list)
 
     # print(len(new_list))
     return new_list
 
-# blnkt_cat_data()
+# blnkt_cat_data('2025-01-21','2025-01-26')
