@@ -351,7 +351,7 @@ def productAnalytics(request):
 										'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
 									}
 	
-	if platf == 'Binkit':
+	if platf == 'Blinkit':
 		filter_list = { 'string_filter' : ['portfolio' ],
 										'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
 									}
