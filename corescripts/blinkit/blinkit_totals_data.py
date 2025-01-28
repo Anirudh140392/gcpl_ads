@@ -37,6 +37,7 @@ def blnkt_overview_funnel_data(start_date='2025-01-22',end_date='2025-01-22'):
     previous_end_date = previous_end_date.strftime("%Y-%m-%d")
     previous_start_date = previous_start_date.strftime("%Y-%m-%d")
 
+    print("TOtals details are")
     print(start_date,end_date,previous_start_date,previous_end_date)
     connection = pymysql.connect(host = DB_HOST,
                                 user = DB_USER,

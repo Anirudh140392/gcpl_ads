@@ -35,10 +35,10 @@ urlpatterns = [
     path('Rules/', Rule, name='rules'), 
     path('keywrd/', keywords, name='key'), 
     path('keywrd_analytics/', keywordAnalytics, name='keywrd_analytics'),  
-    path('product_analytics/', productAnalytics, name='product_analytics'),  
+    # path('product_analytics/', productAnalytics, name='product_analytics'),  
     path('negative_keyword/', negativeKeyword, name='negative_keyword'),  
-    path('History/', History, name='historia'),   
-    path('insights/', insights, name='insight'),
+    # path('History/', History, name='historia'),   
+    # path('insights/', insights, name='insight'),
     # path('recommend/', recommendation, name='recomm'),          
     path('failed/', page_404, name='404')
 

@@ -374,9 +374,10 @@ function mergeColumnsFormatter(cell, formatterParams, onRendered) {
 
   var mergedColumnWidth = cell.getColumn().getWidth() - 20; // Adjust the value as needed
 
+  var percentageKeywords=['ctr','impressions','spends','cpatc','sales','orders','roas','cpm','total_ad_sales','troas','roas',''];
   var isPercentageColumn1 = formatterParams.column1.includes('ctr');
-  var isPercentageColumn2 = formatterParams.column2.includes('ctr');
-
+  var isPercentageColumn2 = percentageKeywords.some(keyword=>formatterParams.column2.includes(keyword));
+  
   var formattedValue1 = isPercentageColumn1 ? roundedValue1 + '%' : roundedValue1;
   var formattedValue2 = isPercentageColumn2 ? roundedValue2 + '%' : roundedValue2;
 

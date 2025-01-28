@@ -71,6 +71,8 @@ def blinkit_godrej_keywords(start_date='2025-01-22',end_date='2025-01-24'):
     df1=report(previous_start_date,previous_end_date)
     df2=report(start_date,end_date)
 
+    cursor.close()
+    connection.close()
     # df1 = report("2025-01-21", "2025-01-21")
     # df2 = report("2025-01-22", "2025-01-22")
 
@@ -236,8 +238,7 @@ def blinkit_godrej_keywords(start_date='2025-01-22',end_date='2025-01-24'):
 
     # print('==============', new_list)
     # print(len(new_list))
-    cursor.close()
-    connection.close()
+    
     
     # df = pd.DataFrame(new_list)
 

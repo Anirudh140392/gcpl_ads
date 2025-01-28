@@ -125,7 +125,7 @@ def blnkt_home(request):
 	timeout = 60 * 30
 	packet = cache.get(cache_key)
 	if not packet:
-		start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+		start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 		
 		request.session["platform"] = "Blinkit"
 		request.session["wallet_balance"] = "N/A"
@@ -152,8 +152,8 @@ def blnkt_home(request):
 		# 		'cicr': ['181154.0000', '429206.0000', '262953.0000', '235166.0000', '190096.0000', '209814.0000', '143184.0000'], 
 		# 		'roi': ['1.2126', '2.0212', '1.4245', '1.3680', '1.1884', '1.3795', '1.1884']}
 		
-		start_date='2025-01-21'
-		end_date='2025-01-22'
+		# start_date='2025-01-23'
+		# end_date='2025-01-22'
 
 		blnktData = blnkt_ov_data(start_date, end_date)
 
@@ -194,7 +194,7 @@ def Campagins(request):
 	filter_list = { 'string_filter' : ['Campaign', 'Campaign Type', 'Campaign Tags', 'Market Place', 'Campaign ID'],
                     'metrics_filter': ['Impressions', 'Clicks', 'Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS', 'Orders', 'ROAS'],
                   }
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 
 	# platf = request.session['platform']
 	platf='Blinkit'
@@ -214,8 +214,8 @@ def Campagins(request):
 											'metrics_filter': ['Impressions', 'Spends', 'Sales', 'Total Ad Sales', 'TROAS', 'Direct ATC', 'Orders', 'CPM', 'ROAS'],
 						}
 			
-			start_date='2025-01-22'
-			end_date='2025-01-22'
+			# start_date='2025-01-22'
+			# end_date='2025-01-22'
 
 			if request.POST:
 				inpu_date = request.POST.get('dates', None)
@@ -258,9 +258,9 @@ def Campagins(request):
 def keywords(request):
 	# if 'Dates' not in request.session:
 	# 	request.session['Dates'] = (str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1)))
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
-	start_date='2024-11-15'
-	end_date='2024-11-21'
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
+	# start_date='2024-11-15'
+	# end_date='2024-11-21'
 
 	filter_list = { 'string_filter' : ['Target', 'Ad Group', 'Campaign', 'Campaign Type', 'Campaign Tags', 'Market Place', 'Campaign ID'],
                     'metrics_filter': ['Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS', 'ROAS'],
@@ -280,7 +280,7 @@ def keywords(request):
 		timeout = 60 * 30
 		packet = cache.get(cache_key)
 		if not packet:
-			start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+			start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 
 			filter_list = { 'string_filter' : ['Target', 'Campaign', 'Campaign Type'],
 						'metrics_filter': ['Spends', 'Sales', 'Total Ad Sales', 'TROAS', 'ROAS'],
@@ -312,8 +312,8 @@ def keywords(request):
 					# print( "Tanuj vales are ",placement_type,bid_value_tabuj,bid_campaign_id,bid_target_type )
 				start_date, end_date = tuple(inpu_date.split('/'))	
 
-			start_date='2025-01-22'
-			end_date='2025-01-24'
+			# start_date='2025-01-22'
+			# end_date='2025-01-24'
 			keyword = blinkit_godrej_keywords(start_date, end_date)
 		
 
@@ -361,7 +361,7 @@ def keywordAnalytics(request):
 	filter_list = { 'string_filter' : ['Campaign', 'Campaign Type'],
                     'metrics_filter': ['Impressions', 'Clicks', 'Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS'],
                   }
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 	platf = request.session['platform']
 	global row_counts
 	
@@ -390,8 +390,8 @@ def keywordAnalytics(request):
 			# {'search_term': 'nivea cream', 'campaign_count': 5.0, 'is_exact': 1.0, 'impressions': 2830.0, 'impressions_change': 673.22, 'spends': 849.0, 'spends_change': 673.22, 'sales': 6320.0, 'sales_change': 887.5, 'cpatc': 2.44, 'cpatc_change': 0.0, 'cpm': 300.0, 'cpm_change': 0.0, 'total_ad_sales': 8708.0, 'total_ad_sales_change': 838.36, 'troas': 11.05, 'troas_change': 13.8, 'roas': 7.89, 'roas_change': 7.93, 'program_type': 'Performance', 'acos': 9.26, 'acos_change': 0.0, 'orders': 211.0, 'orders_change': 859.09, }, 
 			# {'search_term': 'lip gloss', 'campaign_count': 1.0, 'is_exact': 1.0, 'impressions': 2117.0, 'impressions_change': -10.0, 'spends': 794.0, 'spends_change': 31.0, 'sales': 315.0, 'sales_change': 11.0, 'cpatc': 22.69, 'cpatc_change': 0.0, 'cpm': 375.0, 'cpm_change': 0.0, 'total_ad_sales': 1048.0, 'total_ad_sales_change': 0.0, 'troas': 1.32, 'troas_change': 0.0, 'roas': 0.4, 'roas_change': 0.0, 'program_type': 'Performance', 'acos': 75.76, 'acos_change': 0.0, 'orders': 24.0, 'orders_change': 0.0, }]
 			
-			start_date='2025-01-25'
-			end_date='2025-01-25'
+			# start_date='2025-01-25'
+			# end_date='2025-01-25'
 			kw_anlytics_data=blnkt_kw_anlys(start_date,end_date)
 			o_s = DT.datetime.strptime(start_date, '%Y-%m-%d')
 			o_e = DT.datetime.strptime(end_date, '%Y-%m-%d')
@@ -416,7 +416,7 @@ def keywordAnalytics(request):
 
 @login_required(login_url="/")
 def productAnalytics(request):
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 	# if 'Dates' not in request.session:
 	# 	request.session['Dates'] = (str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1)))
 	# bal = request.session["wallet_balance"]
@@ -437,7 +437,7 @@ def productAnalytics(request):
 			filter_list = { 'string_filter' : ['portfolio' ],
 											'metrics_filter': ['Impressions','Clicks', 'Spends', 'orders', 'Sales', 'CTR', 'ACoS'],
 										}
-			start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+			start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 			
 			prdAnalytics=[]
 			o_s = DT.datetime.strptime(start_date, '%Y-%m-%d')
@@ -484,7 +484,7 @@ def negativeKeyword(request):
 	# if 'Dates' not in request.session:
 	# 	request.session['Dates'] = (str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1)))
 
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
  
 	filter_list = { 'string_filter' : ['Search Term', 'Ad Group', 'Campaign' ],
                     'metrics_filter': ['Impressions','Clicks', 'Spends', 'Sales', 'CTR', 'ROAS', 'Orders'],
@@ -505,7 +505,7 @@ def negativeKeyword(request):
 			filter_list = { 'string_filter' : ['Search Term', 'Campaign'],
 						'metrics_filter': ['Impressions','Spends', 'Sales', 'ACOS', 'Direct ATC'],
 					}
-			start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+			start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 			bal = request.session["wallet_balance"]
 
 			ngt_kwrd_data= [
@@ -536,8 +536,8 @@ def negativeKeyword(request):
 					
 				start_date, end_date = tuple(inpu_date.split('/'))	
 
-			start_date='2025-01-22'
-			end_date='2025-01-22'
+			# start_date='2025-01-22'
+			# end_date='2025-01-24'
 			ngt_kwrd_data = blnkt_neg_kw(start_date, end_date)
 			row_counts['negative_keyword_c'] = len(ngt_kwrd_data)
 
@@ -565,7 +565,7 @@ def recommendation(request):
 	filter_list = { 'string_filter' : ['Campaign', 'Campaign Type'],
                     'metrics_filter': ['Impressions', 'Clicks', 'Spends', 'Sales', 'CTR', 'Total Ad Sales', 'TROAS'],
                   }
-	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today() - DT.timedelta(days=1))
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 	# bal = request.session["wallet_balance"]
 	# platf = request.session['platform']
 
@@ -602,7 +602,7 @@ def History(request):
                   }
 	# bal = request.session["wallet_balance"]
 	# platf = request.session['platform']
-	
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
 	bal='N/A'
 	platf='Blinkit'
 
@@ -626,7 +626,7 @@ def History(request):
 		# 		{'date': '2024-08-03', 'time': '02:32', 'revert': 'Not Possible', 'module': 'Keywords', 'type': 'bid change_rule', 'property': 'bid', 'from': 18.58, 'to': 18.02, 'source': 'System', 'campaign_name': 'HM_SM_PLA_Deo_M_Generic_14 Mar 24_Combo', 'placement_type': 'SEARCH_PAGE', 'platform': 'GROCERY', 'nature': 'Auto', 'source_name': 'System', 'camp_type': 'PLA', 't_camp': 61.0, 'u_camp': 60.0}, 
 		# 		 ]
 		history=[]
-		return render(request, 'blinkit/blinkit_history.html',  {'balance': bal, 'pf_op':platf, 'username':request.user, 'filters':filter_list, 'hst_data': history } )
+		return render(request, 'blinkit/blinkit_history.html',  {'balance': bal, 'pf_op':platf, 'username':request.user, 'filters':filter_list, 'hst_data': history,'DATE':(start_date, end_date) } )
 
 
 @login_required(login_url="/")

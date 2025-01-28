@@ -313,10 +313,10 @@
 
             <div class="wrapper" style="margin-left: -160px;">
             
-                <a href="#" id="ctr_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
+                <a href="#" id="impression_group" class="card-link" style="text-decoration: none; color: rgb(0, 194, 249);">
                     <article class="card-s">
-                    <h8 style="text-align: left;"> CTR</h8>
-                    <h6 style="color:rgb(54, 61, 65, 1.0); margin: 10px; font-weight:600; font-size: 1.1rem; ">{{ data.totals.9 }}%</h6>
+                    <h8 style="text-align: left;">Impression</h8>
+                    <h6 style="color:rgb(54, 61, 65, 1.0); margin: 10px; font-weight:600; font-size: 1.1rem; ">{{ data.totals.2 }}</h6>
 
                     </article>
                 </a>
@@ -562,15 +562,15 @@ var Categorydata = [
 
 var table = new Tabulator("#category_table", {
 data: {{ cat_data|safe}},           //load row data from array
-layout: "fitDatatable",      //fit columns to width of table
+layout: "fitColumns",      //fit columns to width of table
 minHeight: 250,
 // responsiveLayout: "scroll",  //hide columns that don't fit on the table
 addRowPos: "top",          //when adding a new row, add it to the top of the table
 history: true,             //allow undo and redo actions on the table
-pagination: "local",       //paginate the data
-paginationSize: 9,         //allow 7 rows per page of data
-paginationCounter: "rows", //display count of paginated rows in footer
-movableColumns: true,      //allow column order to be changed
+  pagination: "local",       //paginate the data
+  paginationSize: 9,         //allow 7 rows per page of data
+  paginationCounter: "rows", //display count of paginated rows in footer
+  movableColumns: true,      //allow column order to be changed
 initialSort: [             //set the initial sort order of the data
 { column: "name", dir: "asc" },
 ],
@@ -578,14 +578,22 @@ columnDefaults: {
 tooltip: true,         //show tool tips on cells
 },
 columns: [                 //define the table columns
-{ title: "Sub Category", field: "category",width: 160, scope: 'col', },
-{ title: "Spends",width:140, field: "Spends", hozAlign: "left",  scope: 'col',},
+{ title: "Sub Category", field: "category",width: 140, scope: 'col', },
+{ title: "IMPRESSIONS", field: "Impressions", width: 150, hozAlign:"left", scope: 'col',},
+
+{ title: "CPM", field: "CPM", width:110, hozAlign: "left", scope: 'col',},
+{ title: "SPENDS",width:120, field: "Spends", hozAlign: "left",  scope: 'col',},
+// { title: "ATC", field: "Total_ATC", width: 110, editor: "input", scope: 'col', },
+
+
+
 // { title: "Spends",width:140, formatter: num_st, formatterParams: { column1: "Spends"}, field: "Spends", hozAlign: "left",  scope: 'col',},
 // { title: "Sales", field: "Sales", width: 110, formatter: num_st, formatterParams: { column1: "Sales"}, hozAlign:"left", scope: 'col',},
-{ title: "Sales", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
+{ title: "SALES", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
+
 // { title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
-{ title: "CPM", field: "CPM", width:110, hozAlign: "left", scope: 'col',},
-{ title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
+// { title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
+
 { title: "ROAS", field: "ROAS", width: 100, hozAlign: "left", scope: 'col',  },
 
 ],

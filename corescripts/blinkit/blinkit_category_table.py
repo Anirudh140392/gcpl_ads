@@ -40,6 +40,7 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     previous_end_date = previous_end_date.strftime("%Y-%m-%d")
     previous_start_date = previous_start_date.strftime("%Y-%m-%d")
 
+    print("Category table details are")
     print(start_date,end_date,previous_start_date,previous_end_date)
     connection = pymysql.connect(host = DB_HOST,
                                 user = DB_USER,
@@ -89,12 +90,14 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     df1['CPM'] = (df1['Estimated_Budget_Consumed'] / df1['Impressions']) * 1000
     df1['CTR'] = ((df1['Direct_ATC'] + df1['Indirect_ATC']) / df1['Impressions']) * 100
     df1['CVR'] = ((df1['Direct_Quantities_Sold'] + df1['Indirect_Quantities_Sold']) / (df1['Direct_ATC'] + df1['Indirect_ATC']) ) * 100
+    
     df1['CPC'] = (df1['Estimated_Budget_Consumed'] / df1['Direct_ATC'])
+    
     df1['AOV'] = ((df1['Direct_Sales'] + df1['Indirect_Sales']) / df1['Direct_Quantities_Sold'])
-    df1['ACOS'] = (df1['Estimated_Budget_Consumed'] / df1['Direct_Sales'])
+    df1['ACOS'] = (df1['Estimated_Budget_Consumed'] / df1['Total_Sales'])
    
     try:
-        df1['ROAS'] = df1['Direct_Sales'] / df1['Estimated_Budget_Consumed']
+        df1['ROAS'] = df1['Total_Sales'] / df1['Estimated_Budget_Consumed']
     except ZeroDivisionError:
         df1['ROAS'] = 0
     
@@ -111,6 +114,7 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
         'Total_Sales': 'sum',
         'Direct_ATC': 'sum',
         'Indirect_ATC': 'sum',
+        'Total_ATC':'sum',
         'Direct_Quantities_Sold': 'sum',
         'Indirect_Quantities_Sold': 'sum',
         'CPM': 'mean',
@@ -136,13 +140,13 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
 
     df2['CTR'] = ((df2['Direct_ATC'] + df2['Indirect_ATC']) / df2['Impressions']) * 100
     df2['CVR'] = ((df2['Direct_Quantities_Sold'] + df2['Indirect_Quantities_Sold']) / (df2['Direct_ATC'] + df2['Indirect_ATC']) ) * 100
-    df2['CPC'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_ATC'])
+    df2['CPC'] = (df2['Estimated_Budget_Consumed'] / df2['Total_ATC'])
     
     df2['AOV'] = ((df2['Direct_Sales'] + df1['Indirect_Sales']) / df2['Direct_Quantities_Sold'])
-    df2['ACOS'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_Sales'])
+    df2['ACOS'] = (df2['Estimated_Budget_Consumed'] / df2['Total_Sales'])
     
     try:
-        df2['ROAS'] = df2['Direct_Sales'] / df2['Estimated_Budget_Consumed']
+        df2['ROAS'] = df2['Total_Sales'] / df2['Estimated_Budget_Consumed']
     except ZeroDivisionError:
         df2['ROAS'] = 0
     
@@ -159,6 +163,7 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
         'Total_Sales': 'sum',
         'Direct_ATC': 'sum',
         'Indirect_ATC': 'sum',
+        'Total_ATC':'sum',
         'Direct_Quantities_Sold': 'sum',
         'Indirect_Quantities_Sold': 'sum',
         'CPM': 'mean',
@@ -180,19 +185,19 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     merged_df.replace(np.inf, 0, inplace=True)
     merged_df.replace(np.nan, 0, inplace=True)
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_liquids|pa liquids', case=False), 'Campaign_Tags'] = 'PA Liquids'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_deos|pa_deo|pa deos|pa deo', case=False), 'Campaign_Tags'] = 'PA Deos'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_edps|pa edps', case=False), 'Campaign_Tags'] = 'PA EDPs'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_gift_sets|pa gift sets|pa_edp_gift_set|pa edp gift set', case=False), 'Campaign_Tags'] = 'PA Gift Sets'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Liquid|pa_liquids|pa liquids', case=False), 'Campaign_Tags'] = 'PA Liquids'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Deos|pa_deos|pa_deo|pa deos|pa deo', case=False), 'Campaign_Tags'] = 'PA Deos'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_EDPS|PA_EDP|pa_edps|pa edps', case=False), 'Campaign_Tags'] = 'PA EDPs'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Signature_Gift|PA_GIFT|pa_gift_sets|pa gift sets|pa_edp_gift_set|pa edp gift set', case=False), 'Campaign_Tags'] = 'PA Gift Sets'
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_aerosol|aer aerosol', case=False), 'Campaign_Tags'] = 'Aer Aerosol'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_pocket|aer pocket', case=False), 'Campaign_Tags'] = 'Aer Pocket'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_matic|aer matic', case=False), 'Campaign_Tags'] = 'Aer Matic'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_car|aer car', case=False), 'Campaign_Tags'] = 'Aer Car'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Aerosol|aer_aerosol|aer aerosol', case=False), 'Campaign_Tags'] = 'Aer Aerosol'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Pocket|aer_pocket|aer pocket', case=False), 'Campaign_Tags'] = 'Aer Pocket'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Matic|aer_matic|aer matic', case=False), 'Campaign_Tags'] = 'Aer Matic'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Car|aer_car|aer car', case=False), 'Campaign_Tags'] = 'Aer Car'
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('genteel', case=False), 'Campaign_Tags'] = 'Genteel'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('ezee', case=False), 'Campaign_Tags'] = 'Ezee'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('fab', case=False), 'Campaign_Tags'] = 'Fab'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Genteel|genteel', case=False), 'Campaign_Tags'] = 'Genteel'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Ezee|ezee', case=False), 'Campaign_Tags'] = 'Ezee'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Fab|fab', case=False), 'Campaign_Tags'] = 'Fab'
 
     # Default 'Others'
     merged_df.loc[~merged_df['Campaign_Name'].str.contains(
@@ -204,19 +209,43 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     # print(merged_df.columns)
     # exit()
     grouped_df = merged_df.groupby('Campaign_Tags').agg({
-        'Estimated_Budget_Consumed_x': lambda x: f"{x.sum() / 1e6:.2f} M" if x.sum() >= 1e6 else (f"{x.sum() / 1e5:.2f} L" if x.sum() >= 1e5 else f"{x.sum() / 1e3:.2f} K"),
-        'Total_Sales_x': lambda x: f"{x.sum() / 1e6:.2f} M" if x.sum() >= 1e6 else (f"{x.sum() / 1e5:.2f} L" if x.sum() >= 1e5 else f"{x.sum() / 1e3:.2f} K"),
-        # 'Estimated_Budget_Consumed_x':'sum',
-        # 'Total Sales_x':'sum',
+        # 'Estimated_Budget_Consumed_x': lambda x: f"{x.sum() / 1e6:.2f} M" if x.sum() >= 1e6 else (f"{x.sum() / 1e5:.2f} L" if x.sum() >= 1e5 else f"{x.sum() / 1e3:.2f} K"),
+        # 'Total_Sales_x': lambda x: f"{x.sum() / 1e6:.2f} M" if x.sum() >= 1e6 else (f"{x.sum() / 1e5:.2f} L" if x.sum() >= 1e5 else f"{x.sum() / 1e3:.2f} K"),
+        'Estimated_Budget_Consumed_x':'sum',
+        'Total_Sales_x':'sum',
+
+        'Impressions_x':'sum',
+        'Total_ATC_x':'sum',
         'CVR_x': 'mean',
         'CPM_x':'mean',
         'CPC_x': 'mean',
         'ROAS_x': 'mean', ##
-    })
 
+    })
+    grouped_df['ROAS_x']=grouped_df['Total_Sales_x']/grouped_df['Estimated_Budget_Consumed_x']
+    grouped_df['CPM_x']=(grouped_df['Estimated_Budget_Consumed_x']/grouped_df['Impressions_x'])*1000
+
+    def human_format(value):
+        if value >= 1e6:
+            return f"{value / 1e6:.2f} M"
+        elif value >= 1e5:
+            return f"{value / 1e5:.2f} L"
+        elif value >= 1e3:
+            return f"{value / 1e3:.2f} K"
+        else:
+            return f"{value:.2f}"
+        
+    # Apply human-readable format to specific columns
+    columns_to_format = ['Estimated_Budget_Consumed_x', 'Total_Sales_x','Impressions_x']
+
+    for col in columns_to_format:
+        grouped_df[col] = grouped_df[col].apply(human_format)
+
+    # print(grouped_df)
     grouped_df = grouped_df.round(2)
     grouped_df.reset_index(inplace = True)
-
+    
+    
     grouped_df = grouped_df.drop(0)
     grouped_df = grouped_df.reset_index(drop=True)
     # print(grouped_df)
@@ -227,11 +256,14 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     merged_data['Sales'] = grouped_df['Total_Sales_x'].values.tolist()
     merged_data['CVR'] = grouped_df['CVR_x'].values.tolist()
     merged_data['CPM']=grouped_df['CPM_x'].values.tolist()
-    merged_data['CPC'] = grouped_df['CPC_x'].values.tolist()
+    # merged_data['CPC'] = grouped_df['CPC_x'].values.tolist()
     merged_data['ROAS'] = grouped_df['ROAS_x'].values.tolist() ##
+    merged_data['Impressions']=grouped_df['Impressions_x'].values.tolist()
+    merged_data['Total_ATC']=grouped_df['Total_ATC_x'].values.tolist()
 
+    # print(merged_data['category'])
     new_list = []
-    for data in range(len(merged_data['Sales'])):
+    for data in range(len(merged_data['Spends'])):
         new_list.append({ i:merged_data[i][data] for i in merged_data.keys()})
 
     # new_list = [human_format(i) if isinstance(i, float) else i for i in new_list]
@@ -241,4 +273,4 @@ def blnkt_cat_data(start_date='2025/01/22',end_date='2025/01/22'):
     # print(len(new_list))
     return new_list
 
-# blnkt_cat_data('2025-01-21','2025-01-26')
+# blnkt_cat_data('2025-01-24','2025-01-27')

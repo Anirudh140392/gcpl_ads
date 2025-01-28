@@ -66,9 +66,11 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     # df1 = report("2025-01-21", "2025-01-21")
     # df2 = report("2025-01-22", "2025-01-22")
 
+    print("overview page details are ",previous_start_date,previous_end_date,start_date,end_date)
     df1=report(previous_start_date,previous_end_date)
     df2=report(start_date,end_date)
 
+    
     columns = ['Date', 'Campaign_Name', 'Targeting_Type', 'Targeting_Value', 'Impressions', 'Direct_ATC', 'Indirect_ATC',
             'Direct_Quantities_Sold', 'Indirect_Quantities_Sold', 'Direct_Sales', 'Indirect_Sales', 
             'Estimated_Budget_Consumed']
@@ -93,7 +95,7 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df1['ACOS'] = (df1['Estimated_Budget_Consumed'] / df1['Direct_Sales'])
    
     try:
-        df1['ROAS'] = df1['Direct_Sales'] / df1['Estimated_Budget_Consumed']
+        df1['ROAS'] = df1['Total_Sales'] / df1['Estimated_Budget_Consumed']
     except ZeroDivisionError:
         df1['ROAS'] = 0
     
@@ -142,7 +144,7 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df2['ACOS'] = (df2['Estimated_Budget_Consumed'] / df2['Direct_Sales'])
     
     try:
-        df2['ROAS'] = df2['Direct_Sales'] / df2['Estimated_Budget_Consumed']
+        df2['ROAS'] = df2['Total_Sales'] / df2['Estimated_Budget_Consumed']
     except ZeroDivisionError:
         df2['ROAS'] = 0
     
@@ -180,6 +182,8 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     merged_df.replace(np.inf, 0, inplace=True)
     merged_df.replace(np.nan, 0, inplace=True)
 
+    merged_df.to_excel('sjsjsj.xlsx')
+
     # print(merged_df)
     # exit()
     columns_list = ['Estimated_Budget_Consumed', 'Impressions', 'Direct_Sales', 'Indirect_Sales', 'Total_Sales', 
@@ -195,19 +199,19 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     merged_df.replace(np.inf, 0, inplace = True)
     merged_df.replace(np.nan, 0, inplace = True)
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_liquids|pa liquids', case=False), 'Campaign_Tags'] = 'PA Liquids'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_deos|pa_deo|pa deos|pa deo', case=False), 'Campaign_Tags'] = 'PA Deos'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_edps|pa edps', case=False), 'Campaign_Tags'] = 'PA EDPs'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('pa_gift_sets|pa gift sets|pa_edp_gift_set|pa edp gift set', case=False), 'Campaign_Tags'] = 'PA Gift Sets'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Liquid|pa_liquids|pa liquids', case=False), 'Campaign_Tags'] = 'PA Liquids'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Deos|pa_deos|pa_deo|pa deos|pa deo', case=False), 'Campaign_Tags'] = 'PA Deos'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_EDPS|PA_EDP|pa_edps|pa edps', case=False), 'Campaign_Tags'] = 'PA EDPs'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('PA_Signature_Gift|PA_GIFT|pa_gift_sets|pa gift sets|pa_edp_gift_set|pa edp gift set', case=False), 'Campaign_Tags'] = 'PA Gift Sets'
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_aerosol|aer aerosol', case=False), 'Campaign_Tags'] = 'Aer Aerosol'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_pocket|aer pocket', case=False), 'Campaign_Tags'] = 'Aer Pocket'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_matic|aer matic', case=False), 'Campaign_Tags'] = 'Aer Matic'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('aer_car|aer car', case=False), 'Campaign_Tags'] = 'Aer Car'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Aerosol|aer_aerosol|aer aerosol', case=False), 'Campaign_Tags'] = 'Aer Aerosol'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Pocket|aer_pocket|aer pocket', case=False), 'Campaign_Tags'] = 'Aer Pocket'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Matic|aer_matic|aer matic', case=False), 'Campaign_Tags'] = 'Aer Matic'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Aer_Car|aer_car|aer car', case=False), 'Campaign_Tags'] = 'Aer Car'
 
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('genteel', case=False), 'Campaign_Tags'] = 'Genteel'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('ezee', case=False), 'Campaign_Tags'] = 'Ezee'
-    merged_df.loc[merged_df['Campaign_Name'].str.contains('fab', case=False), 'Campaign_Tags'] = 'Fab'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Genteel|genteel', case=False), 'Campaign_Tags'] = 'Genteel'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Ezee|ezee', case=False), 'Campaign_Tags'] = 'Ezee'
+    merged_df.loc[merged_df['Campaign_Name'].str.contains('Fab|fab', case=False), 'Campaign_Tags'] = 'Fab'
 
     # Default 'Others'
     merged_df.loc[~merged_df['Campaign_Name'].str.contains(
@@ -236,6 +240,7 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df = graph_data(start_date, end_date)
 
     df['Total_Sales'] = df['Direct_Sales'] + df['Indirect_Sales']
+
     df['Total_Clicks'] = df['Direct_ATC'] + df['Indirect_ATC']
 
     df['Total_ATC'] = df['Direct_ATC'] + df['Indirect_ATC']
@@ -248,9 +253,10 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df['AOV'] = ((df['Direct_Sales'] + df['Indirect_Sales']) / df['Direct_Quantities_Sold'])
     df['ACOS'] = (df['Estimated_Budget_Consumed'] / df['Direct_Sales'])
     try:
-        df['ROAS'] = df['Direct_Sales'] / df['Estimated_Budget_Consumed']
+        df['ROAS'] = df['Total_Sales'] / df['Estimated_Budget_Consumed']
     except ZeroDivisionError:
         df['ROAS'] = 0
+
     try:
         df['TROAS'] = df['Total_Sales'] / df['Estimated_Budget_Consumed']
     except ZeroDivisionError:
@@ -282,7 +288,7 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
     df.reset_index(inplace = True)
     df.replace(np.inf, 0, inplace = True)
     df.replace(np.nan, 0, inplace = True)
-    print(df)
+    # print(df)
 
     df['Date'] = pd.to_datetime(df['Date'])
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
@@ -312,4 +318,4 @@ def blnkt_ov_data(start_date='2025-01-22',end_date='2025-01-22'):
 
     return final_data
 
-# blnkt_ov_data('2025-01-22','2025-01-26')
+# blnkt_ov_data('2025-01-24','2025-01-27')

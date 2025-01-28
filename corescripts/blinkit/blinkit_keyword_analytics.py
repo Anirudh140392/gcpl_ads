@@ -56,10 +56,11 @@ def blnkt_kw_anlys(start_date='2025-01-26', end_date='2025-01-26'):
         # print(df.dtypes)
         return df
 
-    df1 = report("2025-01-25", "2025-01-25")
-    df2 = report("2025-01-25", "2025-01-25")
-    # df1 = report(previous_start_date, previous_end_date)
-    # df2 = report(start_date, end_date)
+    # df1 = report("2025-01-25", "2025-01-25")
+    # df2 = report("2025-01-25", "2025-01-25")
+
+    df1 = report(previous_start_date, previous_end_date)
+    df2 = report(start_date, end_date)
 
     # print(df1)
     # print(df2)

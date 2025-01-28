@@ -70,12 +70,11 @@ def blnkt_neg_kw(start_date='2025-01-22',end_date='2025-01-22'):
         return df
 
     df1 = report(previous_start_date, previous_end_date)
-    df2 = report(end_date, start_date)
+    df2 = report(start_date, end_date)
     # df1 = report("2025-01-21", "2025-01-21")
     # df2 = report("2025-01-22", "2025-01-22")
 
-    # print(df1)
-    # print(df2)
+
 
     columns = ['Campaign_ID', 'Campaign_Name', 'Targeting_Value', 'Impressions', 'Orders', 'Direct_ATC', 'Estimated_Budget_Consumed', 'Direct_Sales', 'Direct_RoAS', 'ACoS', 'CPATC', 'CR', 'CPA']
 
@@ -115,6 +114,9 @@ def blnkt_neg_kw(start_date='2025-01-22',end_date='2025-01-22'):
     df2 = df2.round(2)
     df2.reset_index(inplace = True)
 
+    # print(df1)
+    # print(df2)
+    
     merged_df = pd.merge(df2, df1, on = ['Campaign_ID', 'Campaign_Name', 'Targeting_Value'], how = 'left')
     merged_df.replace('null', np.nan, inplace = True)
 
@@ -170,7 +172,7 @@ def blnkt_neg_kw(start_date='2025-01-22',end_date='2025-01-22'):
     return new_list
     
 
-# blnkt_neg_kw()
+# blnkt_neg_kw('2025-01-24','2025-01-27')
 
 
 
