@@ -43,10 +43,10 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
     previous_start_date = previous_start_date.strftime("%Y-%m-%d")
 
 
-    # today_date = datetime.today().strftime('%Y-%m-%d')
+    today_date = datetime.today().strftime('%Y-%m-%d')
 
-    def report(end_date):
-        sql = f"SELECT * FROM blinkit_campaigns_data_gcpl WHERE (Date = '{end_date}' OR Date = DATE_SUB('{end_date}', INTERVAL 1 DAY)) AND Brand_Name = 'GCPL';"
+    def report(today_date):
+        sql = f"SELECT * FROM blinkit_campaigns_data_gcpl WHERE Date = '{today_date}'  AND Brand_Name = 'GCPL';"
         cursor.execute(sql)
         data = cursor.fetchall()
         columns = [i[0] for i in cursor.description]
@@ -54,25 +54,26 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
         df['Campaign_Budget'] = df['Campaign_Budget'].astype(float)
         df['CPM_Exact'] = df['CPM_Exact'].astype(float)
         df['CPM_Smart'] = df['CPM_Smart'].astype(float)
+        
         df = df.groupby('Campaign_ID').agg({
-            'Campaign_Name': 'first', 
-            'Campaign_Status': 'first',
-            'Campaign_Start_Date': 'first', 
-            'Campaign_End_Date': 'first', 
-            'Campaign_Type': 'first',
-            'Match_Type': 'first', 
-            'Type': 'first',
-            'Campaign_Title': 'first',
-            'Brand_Name': 'first',
-            'Campaign_Objective_Type': 'first',    
-            'Campaign_Budget': 'sum',
-            'CPM_Exact': 'sum',
-            'CPM_Smart': 'sum'
-        }).reset_index()
+    'Campaign_Name': 'first', 
+    'Campaign_Status': 'first',
+    'Campaign_Start_Date': 'first', 
+    'Campaign_End_Date': 'first', 
+    'Campaign_Type': 'first',
+    'Match_Type': 'first', 
+    'Type': 'first',
+    'Campaign_Title': 'first',
+    'Brand_Name': 'first',
+    'Campaign_Objective_Type': 'first',    
+    'Campaign_Budget': 'mean',
+    'CPM_Exact': 'sum',
+    'CPM_Smart': 'sum'
+    }).reset_index()
             
         return df
 
-    df = report(end_date)
+    df = report(today_date)
     # print(df)
 
     def report(date1, date2):
@@ -99,17 +100,8 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
 
     df1 = df1[columns]
     df1 = df1.replace('', np.nan)
-    df1['Total_Sales'] = df1['Direct_Sales'] + df1['Indirect_Sales']
-    df1['CPM'] = (df1['Impressions'] / df1['Estimated_Budget_Consumed']) * 1000
-    try:
-        df1['ROAS'] = df1['Total_Sales'] / df1['Estimated_Budget_Consumed']
-    except ZeroDivisionError:
-        df1['ROAS'] = 0
-    try:
-        df1['TROAS'] = df1['Total_Sales'] / df1['Estimated_Budget_Consumed']
-    except ZeroDivisionError:
-        df1['TROAS'] = 0
 
+    
     df1 = df1.groupby('Campaign_Name').agg({
         'Impressions': 'sum',
         'Direct_ATC': 'sum',
@@ -118,27 +110,24 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
         'Indirect_Quantities_Sold':'sum',
         'Direct_Sales' : 'sum',
         'Indirect_Sales': 'sum',
-        'Total_Sales': 'sum',
         'Estimated_Budget_Consumed': 'sum',
-        'CPM': 'mean',
-        'ROAS': 'mean',
-        'TROAS': 'mean'
     }).reset_index()
 
+    df1['Total_Sales'] = df1['Direct_Sales'] + df1['Indirect_Sales']
+    df1['CPM'] = (df1['Estimated_Budget_Consumed'] / df1['Impressions']) * 1000
+    try:
+        df1['ROAS'] = df1['Direct_Sales'] / df1['Estimated_Budget_Consumed']
+    except ZeroDivisionError:
+        df1['ROAS'] = 0
+    try:
+        df1['TROAS'] = df1['Total_Sales'] / df1['Estimated_Budget_Consumed']
+    except ZeroDivisionError:
+        df1['TROAS'] = 0
+
+    
     df2 = df2[columns]
     df2 = df2.replace('', np.nan)
-    df2['Total_Sales'] = df2['Direct_Sales'] + df2['Indirect_Sales']
-    df2['CPM'] = (df2['Impressions'] / df2['Estimated_Budget_Consumed']) * 1000
-    try:
-        df2['ROAS'] = df2['Total_Sales'] / df2['Estimated_Budget_Consumed']
-    except ZeroDivisionError:
-        df2['ROAS'] = 0
-   
-    try:
-        df2['TROAS'] = df2['Total_Sales'] / df2['Estimated_Budget_Consumed']
-    except ZeroDivisionError:
-        df2['TROAS'] = 0
-
+    
     df2 = df2.groupby('Campaign_Name').agg({
         'Impressions': 'sum',
         'Direct_ATC': 'sum',
@@ -147,12 +136,23 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
         'Indirect_Quantities_Sold':'sum',
         'Direct_Sales' : 'sum',
         'Indirect_Sales': 'sum',
-        'Total_Sales': 'sum',
         'Estimated_Budget_Consumed': 'sum',
-        'CPM': 'mean',
-        'ROAS': 'mean',
-        'TROAS': 'mean'
     }).reset_index()
+
+
+    df2['Total_Sales'] = df2['Direct_Sales'] + df2['Indirect_Sales']
+    
+    df2['CPM'] = (df2['Estimated_Budget_Consumed'] / df2['Impressions']) * 1000
+
+    try:
+        df2['ROAS'] = df2['Direct_Sales'] / df2['Estimated_Budget_Consumed']
+    except ZeroDivisionError:
+        df2['ROAS'] = 0
+   
+    try:
+        df2['TROAS'] = df2['Total_Sales'] / df2['Estimated_Budget_Consumed']
+    except ZeroDivisionError:
+        df2['TROAS'] = 0
 
     merged_df = pd.merge(df2, df1, on ='Campaign_Name', how = 'left')
     merged_df.replace('null', np.nan, inplace = True)
@@ -172,7 +172,7 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
     combined_df.replace(np.nan, 0, inplace = True)
 
     # print(combined_df)
-    # combined_df.to_excel('jfjsj.xlsx')
+    # combined_df.to_excel('25_28.xlsx')
 
     status_mapping = {'ACTIVE': 1, 'STOPPED': 0, 'ON_HOLD': 0, 'COMPLETED': 1}
     combined_df['status'] =  combined_df['Campaign_Status'].map(status_mapping)
@@ -235,7 +235,7 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
 
     return new_list
 
-# blinkit_campaign('2025-01-22','2025-01-22')
+# blinkit_campaign('2025-01-25','2025-01-28')
 
 
 
