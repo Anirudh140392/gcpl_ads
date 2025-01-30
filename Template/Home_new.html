@@ -5,165 +5,166 @@
 <style>
 
 
-  #example-table,
-  #example-table-2,
-  #category_table  {
-    width: 100%;
-    border-radius: 25px;
-    background-color: transparent;
-    width: 100%;
-    padding: 1%;
-  }
+#example-table,
+#example-table-2,
+#category_table  {
+  width: 100%;
+  border-radius: 25px;
+  background-color: transparent;
+  width: 100%;
+  padding: 1%;
+}
 
-  #example-table .tabulator-paginator>button,
-  #example-table-2 .tabulator-paginator>button,
-  #category_table .tabulator-paginator>button{
-    opacity: 1;
-    width: 50px;
-  }
+#example-table .tabulator-paginator>button,
+#example-table-2 .tabulator-paginator>button,
+#category_table .tabulator-paginator>button{
+  opacity: 1;
+  width: 50px;
+}
+
 .tabulator-tableholder{
   overflow: scroll;
 }
-  .tabulator-table{
-    width: 100%;
-    background-color: transparent;
-  }
+.tabulator-table{
+  width: 100%;
+  background-color: transparent;
+}
 
-  /* .tabulator .tabulator-footer .tabulator {
-     padding-top: 3%;
-  } */
-  /* .tabulator .tabulator-footer .tabulator-page.active:hover{
-    border: 2px solid black;
-  } */
-  #example-table .tabulator-header,
-  #example-table-2 .tabulator-header,
-  #category_table .tabulator-header{
-    color: black;
-    background-color: rgb(218, 225, 243, 1.0);;
+/* .tabulator .tabulator-footer .tabulator {
+    padding-top: 3%;
+} */
+/* .tabulator .tabulator-footer .tabulator-page.active:hover{
+  border: 2px solid black;
+} */
+#example-table .tabulator-header,
+#example-table-2 .tabulator-header,
+#category_table .tabulator-header{
+  color: black;
+  background-color: rgb(218, 225, 243, 1.0);;
 
-  }
+}
 
 
-  #example-table .tabulator-col,
-  #example-table-2 .tabulator-col, 
-  #category_table  .tabulator-col{
-    margin-top: 0%;
-    margin-bottom: 3%;
-    background-color: rgb(218, 225, 243, 1.0);
-    width:fit-content;
-  }
+#example-table .tabulator-col,
+#example-table-2 .tabulator-col, 
+#category_table  .tabulator-col{
+  margin-top: 0%;
+  margin-bottom: 3%;
+  background-color: rgb(218, 225, 243, 1.0);
+  width:fit-content;
+}
 
-  #example-table .tabulator-tableholder .tabulator-row:nth-child(odd),
-  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(odd),
-  #category_table .tabulator-tableholder .tabulator-row:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 1);
+#example-table .tabulator-tableholder .tabulator-row:nth-child(odd),
+#example-table-2 .tabulator-tableholder .tabulator-row:nth-child(odd),
+#category_table .tabulator-tableholder .tabulator-row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 1);
+
+}
+
+
+#example-table .tabulator-tableholder .tabulator-row:nth-child(even),
+#example-table-2 .tabulator-tableholder .tabulator-row:nth-child(even),
+#category_table .tabulator-tableholder .tabulator-row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 1);
   
-  }
 
+}
 
-  #example-table .tabulator-tableholder .tabulator-row:nth-child(even),
-  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(even),
-  #category_table .tabulator-tableholder .tabulator-row:nth-child(even) {
-    background-color: rgba(255, 255, 255, 1);
-    
+.tabulator-cell>div>div {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
-  }
+#example-table .tabulator-row,
+#example-table-2 .tabulator-row,
+#category_table .tabulator-row{
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(197, 197, 197);
+  /* padding: 1.5% 2% 1.5% 0%; */
+  font-weight: 500;
+  width: 100%;
+}
 
-  .tabulator-cell>div>div {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
+#example-table .tabulator-tableholder .tabulator-row:hover,
+#example-table-2 .tabulator-tableholder .tabulator-row:hover,
+#category_table .tabulator-tableholder .tabulator-row:hover {
+  background-color: rgba(113, 113, 113, 0.1);
+  box-shadow: none;
+}
 
-  #example-table .tabulator-row,
-  #example-table-2 .tabulator-row,
-  #category_table .tabulator-row{
-    background-color: rgb(255, 255, 255);
-    border-bottom: 1px solid rgb(197, 197, 197);
-    /* padding: 1.5% 2% 1.5% 0%; */
-    font-weight: 500;
-    width: 100%;
-  }
+/* 
+.tabulator-row{
+  
+} */
+.card {
+  border-radius: 20px;
+  box-shadow: 1px 1px 20px rgb(215, 215, 215);
+  padding: 1%;
+}
+.card h4{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  border-bottom: 1px solid rgb(197, 197, 197);
+  padding-left: 2%;
+  padding-top: 2%;
+  padding-bottom: 3%;
+}
 
-  #example-table .tabulator-tableholder .tabulator-row:hover,
-  #example-table-2 .tabulator-tableholder .tabulator-row:hover,
-  #category_table .tabulator-tableholder .tabulator-row:hover {
-    background-color: rgba(113, 113, 113, 0.1);
-    box-shadow: none;
-  }
-
-  /* 
-  .tabulator-row{
-    
-  } */
-  .card {
-    border-radius: 20px;
-    box-shadow: 1px 1px 20px rgb(215, 215, 215);
-    padding: 1%;
-  }
-  .card h4{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    border-bottom: 1px solid rgb(197, 197, 197);
-    padding-left: 2%;
-    padding-top: 2%;
-    padding-bottom: 3%;
-  }
-
-  /* .tabulator-header{
-    
-  } */
-  .tabulator-row .tabulator-cell,
-  .tabulator .tabulator-header .tabulator-col {
-    padding-left: 2%;
+/* .tabulator-header{
+  
+} */
+.tabulator-row .tabulator-cell,
+.tabulator .tabulator-header .tabulator-col {
+  padding-left: 2%;
 /*    border: none;*/
-  }
+}
 
-  /* .tabulator-col-sorter-element{
-    border: none;
-  } */
+/* .tabulator-col-sorter-element{
+  border: none;
+} */
 
-  .tabulator .tabulator-footer,
-  .tabulator .tabulator-header {
-    background-color: rgb(218, 225, 243, 1.0);
-    /* padding: 2% 0% 2% 0%; */
+.tabulator .tabulator-footer,
+.tabulator .tabulator-header {
+  background-color: rgb(218, 225, 243, 1.0);
+  /* padding: 2% 0% 2% 0%; */
 /*    border: none;*/
-  }
+}
 
-  /* .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
-    width:fit-content;
-  } */
+/* .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
+  width:fit-content;
+} */
 
-  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-sorter {
-    visibility: hidden;
-    margin: 0%;
-    padding: 0%;
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-sorter {
+  visibility: hidden;
+  margin: 0%;
+  padding: 0%;
 /*    background-color: rgb(218, 225, 243, 1.0);*/
 
-  }
+}
 
-  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title-holder{
-    background-color: inherit;
-    
-    position: relative;
-    width:100%;
-  }
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title-holder{
+  background-color: inherit;
+  
+  position: relative;
+  width:100%;
+}
 
-  .tabulator {
-    border-radius: 5%;
-    border: none;
-    background-color: rgb(218, 225, 243, 1.0);
+.tabulator {
+  border-radius: 5%;
+  border: none;
+  background-color: rgb(218, 225, 243, 1.0);
 
-  }
-  .tabulator-footer{
-    border: none;
-    background-color: rgb(218, 225, 243, 1.0);
-  }
+}
+.tabulator-footer{
+  border: none;
+  background-color: rgb(218, 225, 243, 1.0);
+}
 
-  .wrapper {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
-  padding: 16px;
+.wrapper {
+display: grid;
+grid-template-columns:
+  repeat(auto-fit, minmax(150px, 1fr));
+gap: 8px;
+padding: 16px;
 }
 .card-s {
   display: flex;
@@ -240,7 +241,7 @@
     <div class="container-fluid  p-2 mx-5 ">
 
         <div class="row row-cols-1 row-cols-sm-2 g-3 my-3" id="main-table" style="border:solid; border-color: ghostwhite;  border-radius: 20px; box-shadow: 1px 1px 20px rgb(215, 215, 215);">
-            <!-- Impression clicks spends value-->
+            <!-- Impression clicks spends value overview page-->
             <div>
                 <?xml version="1.0" encoding="UTF-8"?>
             <svg class="svg-container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height='500' width='400'  viewBox="300 700 2096 2096">
@@ -428,7 +429,7 @@ var value = Math.ceil(value1)
         newValue = shortValue+suffixes[suffixNum];
     } 
 
-return newValue;
+  return newValue;
 }
 
 
@@ -444,7 +445,7 @@ var tabledata = [
 
 var table = new Tabulator("#example-table", {
     data: [],           //load row data from array
-    layout: "fitCOlumns",      //fit columns to width of table
+    layout: "fitColumns",      //fit columns to width of table
     minHeight:200,
     rowHeight: 40,
     // responsiveLayout: "scroll",  //hide columns that don't fit on the table
@@ -511,9 +512,9 @@ paginationSize: 5,         //allow 7 rows per page of data
 paginationCounter: "rows", //display count of paginated rows in footer
 movableColumns: true,      //allow column order to be changed
 Columns: true,
-initialSort: [             //set the initial sort order of the data
-{ column: "Keyword", dir: "asc" },
-],
+// initialSort: [             //set the initial sort order of the data
+// { column: "Keyword", dir: "asc" },
+// ],
 columnDefaults: {
 tooltip: true,         //show tool tips on cells
 },
@@ -561,40 +562,40 @@ var Categorydata = [
 ];
 
 var table = new Tabulator("#category_table", {
-data: {{ cat_data|safe}},           //load row data from array
-layout: "fitColumns",      //fit columns to width of table
-minHeight: 250,
-// responsiveLayout: "scroll",  //hide columns that don't fit on the table
-addRowPos: "top",          //when adding a new row, add it to the top of the table
-history: true,             //allow undo and redo actions on the table
-  pagination: "local",       //paginate the data
-  paginationSize: 9,         //allow 7 rows per page of data
-  paginationCounter: "rows", //display count of paginated rows in footer
-  movableColumns: true,      //allow column order to be changed
-initialSort: [             //set the initial sort order of the data
-{ column: "name", dir: "asc" },
-],
-columnDefaults: {
-tooltip: true,         //show tool tips on cells
-},
-columns: [                 //define the table columns
-{ title: "Sub Category", field: "category",width: 140, scope: 'col', },
-{ title: "IMPRESSIONS", field: "Impressions", width: 150, hozAlign:"left", scope: 'col',},
+  data: {{ cat_data|safe}},           //load row data from array
+  layout: "fitColumns",      //fit columns to width of table
+  minHeight: 250,
+  // responsiveLayout: "scroll",  //hide columns that don't fit on the table
+  addRowPos: "top",          //when adding a new row, add it to the top of the table
+  history: true,             //allow undo and redo actions on the table
+    pagination: "local",       //paginate the data
+    paginationSize: 9,         //allow 7 rows per page of data
+    paginationCounter: "rows", //display count of paginated rows in footer
+    movableColumns: true,      //allow column order to be changed
+  initialSort: [             //set the initial sort order of the data
+  { column: "category", dir: "asc" },
+  ],
+  columnDefaults: {
+  tooltip: true,         //show tool tips on cells
+  },
+  columns: [                 //define the table columns
+    { title: "Sub Category", field: "category",width: 140, scope: 'col', },
+    { title: "IMPRESSIONS", field: "Impressions", width: 150, hozAlign:"left", scope: 'col',},
 
-{ title: "CPM", field: "CPM", width:110, hozAlign: "left", scope: 'col',},
-{ title: "SPENDS",width:120, field: "Spends", hozAlign: "left",  scope: 'col',},
-// { title: "ATC", field: "Total_ATC", width: 110, editor: "input", scope: 'col', },
+    { title: "CPM", field: "CPM", width:110, hozAlign: "left", scope: 'col',},
+    { title: "SPENDS",width:120, field: "Spends", hozAlign: "left",  scope: 'col',},
+    // { title: "ATC", field: "Total_ATC", width: 110, editor: "input", scope: 'col', },
 
 
 
-// { title: "Spends",width:140, formatter: num_st, formatterParams: { column1: "Spends"}, field: "Spends", hozAlign: "left",  scope: 'col',},
-// { title: "Sales", field: "Sales", width: 110, formatter: num_st, formatterParams: { column1: "Sales"}, hozAlign:"left", scope: 'col',},
-{ title: "SALES", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
+    // { title: "Spends",width:140, formatter: num_st, formatterParams: { column1: "Spends"}, field: "Spends", hozAlign: "left",  scope: 'col',},
+    // { title: "Sales", field: "Sales", width: 110, formatter: num_st, formatterParams: { column1: "Sales"}, hozAlign:"left", scope: 'col',},
+    { title: "SALES", field: "Sales", width: 110, hozAlign:"left", scope: 'col',},
 
-// { title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
-// { title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
+    // { title: "CVR", field: "CVR", width:110, hozAlign: "left", scope: 'col',},
+    // { title: "CPC", field: "CPC", width: 110, editor: "input", scope: 'col', },
 
-{ title: "ROAS", field: "ROAS", width: 100, hozAlign: "left", scope: 'col',  },
+    { title: "ROAS", field: "ROAS", width: 100, hozAlign: "left", scope: 'col',  },
 
 ],
 

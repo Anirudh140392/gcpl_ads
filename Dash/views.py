@@ -122,10 +122,18 @@ def enter(request):
 def blnkt_home(request):
 
 	cache_key = "blnkt_home"
-	timeout = 60 * 30
+	timeout = 60 * 0
 	packet = cache.get(cache_key)
 	if not packet:
-		start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))
+		# Fetch default start_date and end_date
+		start_date = str(DT.date.today() - DT.timedelta(days=4))
+		end_date = str(DT.date.today() - DT.timedelta(days=1))
+
+		# Load previous session data if available
+		if "start_date" in request.session and "end_date" in request.session:
+			start_date = request.session["start_date"]
+			end_date = request.session["end_date"]
+
 		
 		request.session["platform"] = "Blinkit"
 		request.session["wallet_balance"] = "N/A"
@@ -138,7 +146,9 @@ def blnkt_home(request):
 			print("form submitted")
 			inpu_date = request.POST.get('dates', None)
 			start_date, end_date = tuple(inpu_date.split('/'))
-			print(start_date, end_date)
+			request.session["start_date"] = start_date  # Store in session
+			request.session["end_date"] = end_date
+			print("Form start and end_date are ",start_date, end_date)
 
 		# blnktData = {'date': ['2024-05-01', '2024-05-02', '2024-05-03', '2024-05-04', '2024-05-05', '2024-05-06', '2024-05-07'], 
 		# 		'ads_pend': ['149395.8700', '212355.3500', '184596.5800', '171908.3500', '159957.8100', '152096.4000', '120481.5300'], 
@@ -202,7 +212,7 @@ def Campagins(request):
 
 	if platf == 'Blinkit' :
 		cache_key = "campaign"
-		timeout = 60 * 30
+		timeout = 60 * 0
 		packet = cache.get(cache_key)
 
 		if packet:
@@ -277,7 +287,7 @@ def keywords(request):
 	
 	if platf == 'Blinkit':
 		cache_key = "blinkit"
-		timeout = 60 * 30
+		timeout = 60 * 0
 		packet = cache.get(cache_key)
 		if not packet:
 			start_date, end_date = str(DT.date.today() - DT.timedelta(days=4)), str(DT.date.today() - DT.timedelta(days=1))

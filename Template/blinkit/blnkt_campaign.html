@@ -454,6 +454,7 @@ var table = new Tabulator("#main-table", {
           rowRange:"active" //only toggle the values of the active filtered rows
           }, hozAlign:"left",  frozen:true, headerSort:false, width: 50,
         },
+
         { title:"CAMPAIGN", field:"campaign_name", width:200, frozen: true,  hozAlign:"left"},
         // , cellMouseEnter:function(e, cell){
         //     var oldname = cell.getRow().getData()['campaign_name']
@@ -539,7 +540,23 @@ var table = new Tabulator("#main-table", {
 //             });
 // } 
 //         },
-        
+
+        {title:"STATUS", field:"campaign_status", formatter:statusfield, hozAlign:"center", vertAlign:"center", width:100, frozen:true,  cellClick:function(e, cell){  
+            const check = document.querySelector('.toggle-switch');
+            const forms = document.querySelector('#post_data');
+            var rowd = cell.getRow().getData()
+            var action = rowd['campaign_status']=="PAUSED" ? "ENABLED": "PAUSED";
+            // action = rowd['type'] == 'SD' ? action.toLowerCase(): action;
+            console.log(rowd)
+            forms[0].value = rowd['campaign_id']
+            forms[1].value = rowd['type']
+            forms[2].value = action
+            forms[3].value = rowd['campaign_name']
+            forms[4].value = rowd['budget'];  // for budget
+            forms[5].click();
+            // forms.reset();
+            // console.log(e, returndata, check, forms)
+        }},
         {title:"STATUS", field:"campaign_status", formatter:statusfield, hozAlign:"center", vertAlign:"center", width:100, frozen:true},
         // ,  cellClick:function(e, cell){  
         //     const check = document.querySelector('.toggle-switch');
