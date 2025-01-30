@@ -209,7 +209,7 @@ def Campagins(request):
 	# platf = request.session['platform']
 	platf='Blinkit'
 	global row_counts
-
+c
 	if platf == 'Blinkit' :
 		cache_key = "campaign"
 		timeout = 60 * 0
