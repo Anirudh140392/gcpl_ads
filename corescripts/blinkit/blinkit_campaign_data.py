@@ -44,9 +44,27 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
 
 
     today_date = datetime.today().strftime('%Y-%m-%d')
+    yesterday = (pd.to_datetime(today_date) - pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+    # print()
 
     def report(today_date):
-        sql = f"SELECT * FROM blinkit_campaigns_data_gcpl WHERE Date = '{today_date}'  AND Brand_Name = 'GCPL';"
+        # sql = f"SELECT * FROM blinkit_campaigns_data_gcpl WHERE Date = '{today_date}'  AND Brand_Name = 'GCPL';"
+        sql = f"""
+        WITH today_data AS (
+            SELECT * 
+            FROM blinkit_campaigns_data_gcpl 
+            WHERE Date = '{today_date}' AND Brand_Name = 'GCPL'
+        ),
+        yesterday_data AS (
+            SELECT * 
+            FROM blinkit_campaigns_data_gcpl 
+            WHERE Date = '{yesterday}' AND Brand_Name = 'GCPL'
+        )
+        SELECT * FROM today_data 
+        UNION ALL 
+        SELECT * FROM yesterday_data 
+        WHERE NOT EXISTS (SELECT 1 FROM today_data);
+        """
         cursor.execute(sql)
         data = cursor.fetchall()
         columns = [i[0] for i in cursor.description]
@@ -56,20 +74,20 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
         df['CPM_Smart'] = df['CPM_Smart'].astype(float)
         
         df = df.groupby('Campaign_ID').agg({
-    'Campaign_Name': 'first', 
-    'Campaign_Status': 'first',
-    'Campaign_Start_Date': 'first', 
-    'Campaign_End_Date': 'first', 
-    'Campaign_Type': 'first',
-    'Match_Type': 'first', 
-    'Type': 'first',
-    'Campaign_Title': 'first',
-    'Brand_Name': 'first',
-    'Campaign_Objective_Type': 'first',    
-    'Campaign_Budget': 'mean',
-    'CPM_Exact': 'sum',
-    'CPM_Smart': 'sum'
-    }).reset_index()
+        'Campaign_Name': 'first', 
+        'Campaign_Status': 'first',
+        'Campaign_Start_Date': 'first', 
+        'Campaign_End_Date': 'first', 
+        'Campaign_Type': 'first',
+        'Match_Type': 'first', 
+        'Type': 'first',
+        'Campaign_Title': 'first',
+        'Brand_Name': 'first',
+        'Campaign_Objective_Type': 'first',    
+        'Campaign_Budget': 'mean',
+        'CPM_Exact': 'sum',
+        'CPM_Smart': 'sum'
+        }).reset_index()
             
         return df
 
@@ -172,7 +190,7 @@ def blinkit_campaign(start_date='2025-01-21',end_date='2025-01-22'):
     combined_df.replace(np.nan, 0, inplace = True)
 
     # print(combined_df)
-    # combined_df.to_excel('25_28.xlsx')
+    combined_df.to_excel('25_289.xlsx')
 
     status_mapping = {'ACTIVE': 1, 'STOPPED': 0, 'ON_HOLD': 0, 'COMPLETED': 1}
     combined_df['status'] =  combined_df['Campaign_Status'].map(status_mapping)

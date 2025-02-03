@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <!-- Login form -->
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" autocomplete="off">
             <h1 style="text-align: center;"><span style="color: green;"><img src="{% static 'icon.png' %}" width="50%" alt="Trailytics AI"></span></h1>
  
             {% csrf_token %}  <!-- CSRF token for security -->
@@ -31,8 +31,8 @@
             <!-- Username input field -->
             <div class="form-group">
                 <label for="exampleInputEmail1">Username</label>
-                <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter username" required>
+                <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp" autocomplete="off"
+                    placeholder="Enter username" required >
             </div>
  
             <!-- Password input field -->
